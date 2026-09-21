@@ -954,29 +954,29 @@ public struct Calendar : Hashable, Equatable, ReferenceConvertible {
     /// The components a DateComponents value can set.
     internal static let _settableComponents: [Component] = [.era, .year, .month, .day, .hour, .minute, .second, .weekday, .weekdayOrdinal, .quarter, .weekOfMonth, .weekOfYear, .yearForWeekOfYear, .nanosecond]
 
-    internal static func _toCalendarUnit(_ units : Set<Component>) -> NSCalendarUnit {
+    internal static func _toCalendarUnit(_ units : Set<Component>) -> NSCalendar.Unit {
         var result: UInt = 0
         for u in units {
             switch u {
-            case .era: result |= NSCalendarUnitEra.rawValue
-            case .year: result |= NSCalendarUnitYear.rawValue
-            case .month: result |= NSCalendarUnitMonth.rawValue
-            case .day: result |= NSCalendarUnitDay.rawValue
-            case .hour: result |= NSCalendarUnitHour.rawValue
-            case .minute: result |= NSCalendarUnitMinute.rawValue
-            case .second: result |= NSCalendarUnitSecond.rawValue
-            case .weekday: result |= NSCalendarUnitWeekday.rawValue
-            case .weekdayOrdinal: result |= NSCalendarUnitWeekdayOrdinal.rawValue
-            case .quarter: result |= NSCalendarUnitQuarter.rawValue
-            case .weekOfMonth: result |= NSCalendarUnitWeekOfMonth.rawValue
-            case .weekOfYear: result |= NSCalendarUnitWeekOfYear.rawValue
-            case .yearForWeekOfYear: result |= NSCalendarUnitYearForWeekOfYear.rawValue
-            case .nanosecond: result |= NSCalendarUnitNanosecond.rawValue
-            case .calendar: result |= NSCalendarUnitCalendar.rawValue
-            case .timeZone: result |= NSCalendarUnitTimeZone.rawValue
+            case .era: result |= NSCalendar.Unit.era.rawValue
+            case .year: result |= NSCalendar.Unit.year.rawValue
+            case .month: result |= NSCalendar.Unit.month.rawValue
+            case .day: result |= NSCalendar.Unit.day.rawValue
+            case .hour: result |= NSCalendar.Unit.hour.rawValue
+            case .minute: result |= NSCalendar.Unit.minute.rawValue
+            case .second: result |= NSCalendar.Unit.second.rawValue
+            case .weekday: result |= NSCalendar.Unit.weekday.rawValue
+            case .weekdayOrdinal: result |= NSCalendar.Unit.weekdayOrdinal.rawValue
+            case .quarter: result |= NSCalendar.Unit.quarter.rawValue
+            case .weekOfMonth: result |= NSCalendar.Unit.weekOfMonth.rawValue
+            case .weekOfYear: result |= NSCalendar.Unit.weekOfYear.rawValue
+            case .yearForWeekOfYear: result |= NSCalendar.Unit.yearForWeekOfYear.rawValue
+            case .nanosecond: result |= NSCalendar.Unit.nanosecond.rawValue
+            case .calendar: result |= NSCalendar.Unit.calendar.rawValue
+            case .timeZone: result |= NSCalendar.Unit.timeZone.rawValue
             }
         }
-        return NSCalendarUnit(rawValue: result)
+        return NSCalendar.Unit(rawValue: result)
     }
 
     /// For each identifier: Apple's identifier string (used for coding), Darling's CoreFoundation identifier (if it has
