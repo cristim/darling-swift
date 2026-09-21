@@ -227,6 +227,86 @@ string rather than from a symbol collection, so unlike `Date.FormatStyle` it nee
 which is `package` in `FoundationEssentials` and is not currently fetched. Verbatim is deferred;
 this is recorded so it is not rediscovered.
 
+## `Date.FormatStyle`
+
+`Foundation/DateFormatStyle.swift` is vendored, adapted at six annotated sites, each marked
+`Darling N/6` in the source. `DateFieldSymbol.swift` and `DateFormatString.swift` are fetched
+verbatim alongside it: they are `extension Date.FormatStyle.Symbol` and its string DSL, so they
+cannot sit below the type they extend and there is no separate substrate to fetch on its own.
+
+See the adaptation with
+
+```
+diff -u "$src/Sources/FoundationInternationalization/Formatting/Date/DateFormatStyle.swift" \
+        overlays/Foundation/DateFormatStyle.swift
+```
+
+The file is **1123 lines at `dbacc67`**. An earlier note in this project put it at 1599; that
+figure was read off `main` rather than the pin, and is corrected here rather than quietly fixed.
+
+### The six sites
+
+1. `internal import _FoundationICU` becomes `internal import DarlingICU`.
+2. `FormatStyle.attributed` removed.
+3. `Date.AttributedStyle` removed, with its `FormatStyle` conformance.
+4. `Date.FormatStyle.Attributed` removed, with its symbol modifiers.
+5. `DiscreteFormatStyle` conformances and the `Calendar` bound helpers removed.
+6. `String._attributedStringFromPositions` and the ICU field-to-attribute map removed.
+
+plus `format(_:)`, `parse(_:)` and `consuming(_:startingAt:in:)`, which call
+`DarlingDateFormatter` instead of `ICUDateFormatter`.
+
+Sites 2, 3, 4 and 6 are the attributed paths. They route through `udat_formatForFields` and a
+field-position iterator, which this overlay does not supply, so they are removed and their use is
+a compile error rather than a silently unattributed string. Site 5 is removed because
+`Calendar.bound(for:isLower:updateSchedule:)` needs `Calendar.ComponentSet`, which is `package` in
+`FoundationEssentials` and absent from Darling's CF-backed `Calendar`; an approximated bound would
+make SwiftUI views refresh late or too often, which nobody traces back to a date formatter.
+
+### `Foundation/DarlingDateFormatter.swift`
+
+Darling-written, standing in for `ICUDateFormatter`. Supplying that type verbatim instead was
+measured and rejected: its closure is 3317 lines over six files, two of which (`ICUPatternGenerator`
+with `udatpg_getDefaultHourCycle`, `Calendar_ICU` with `UCAL_IS_REPEATED_DAY`) are past ICU 66 and
+would need adapting anyway, `Calendar_ICU` alone is 2331 lines colliding with Darling's `Calendar`,
+and a verbatim `DateFormatStyle.swift` would still have to compile the attributed call sites this
+stage defers.
+
+It also carries `Locale.hourCycle`, which upstream reads with `udatpg_getDefaultHourCycle` (ICU 67).
+That is not approximated: CLDR defines the skeleton character `j` as the locale's preferred hour
+field, which is the datum the ICU 67 call reports, so the cycle is read off the pattern `j`
+resolves to. Checked against ten locales whose conventions are known independently: en_US, ar_EG,
+zh_TW and ko_KR resolve 12-hour, en_GB, de_DE, fr_FR, ja_JP, es_ES and pt_BR resolve 24-hour. Only
+`zh_TW` actually changes `preferredHour`'s result, and it resolves 12-hour correctly.
+
+`CocoaError.Code.formatting` was added to `Foundation/CocoaError.swift`, value 2048, taken from
+Darling's own `FoundationErrors.h` rather than from memory.
+
+### Verified output
+
+Same ICU call sequence as the overlay takes, instant 2023-03-08T20:26:40Z, expectations registered
+before running:
+
+| skeleton | locale | pattern | output |
+|---|---|---|---|
+| `yMMMMd` | en_US | `MMMM d, y` | `March 8, 2023` |
+| `hhmm` | en_US | `hh:mm a` | `08:26 PM` |
+| `hmm` | en_US | `h:mm a` | `8:26 PM` |
+| `yMMMd` | ja_JP | `y年M月d日` | `2023年3月8日` |
+| `yMMMMd` | fr_FR, Europe/Paris | `d MMMM y` | `8 mars 2023` |
+| `yMMdd` | en_US islamic-civil | `MM/dd/y GGGGG` | `08/15/1444 AH` |
+| `yMMdd` | ar_EG | `dd‏/MM‏/y` | Arabic-Indic digits |
+
+The `hhmm` and `hmm` rows are the pair that must disagree: a CoreFoundation-based implementation
+produces `8:26 PM` for both. The Islamic date was derived independently from the 30-year cycle
+rather than read back from ICU.
+
+### Known divergence from current macOS
+
+ICU 66's CLDR puts a plain space before the day period, so en_US renders `08:26 PM`. CLDR 42 and
+later use U+202F, and macOS ships a newer ICU, so that one character differs. This is Darling's ICU
+version, not this overlay's formatting, and it will move when Darling's ICU does.
+
 ## How the fetched code is built
 
 - **swift-collections is built without library evolution and linked into `libswiftFoundation`.**

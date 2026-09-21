@@ -216,6 +216,8 @@ while IFS= read -r rel; do
 	printf '%s\n' "$foundation_src/Sources/FoundationInternationalization/$rel" >> "$out/foundation-upstream.list"
 done <<'UPSTREAM_INTL_FILES'
 Formatting/Date/Date+ComponentsFormatStyle+Stub.swift
+Formatting/Date/DateFormatString.swift
+Formatting/Date/DateFieldSymbol.swift
 UPSTREAM_INTL_FILES
 
 # Intentionally partial: String, Array, Dictionary and Set bridging, plus AttributedString and
