@@ -218,6 +218,7 @@ done <<'UPSTREAM_INTL_FILES'
 Formatting/Date/Date+ComponentsFormatStyle+Stub.swift
 Formatting/Date/DateFormatString.swift
 Formatting/Date/DateFieldSymbol.swift
+BinaryFloatingPoint.swift
 UPSTREAM_INTL_FILES
 
 # Intentionally partial: String, Array, Dictionary and Set bridging, plus AttributedString and

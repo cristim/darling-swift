@@ -14,3 +14,6 @@
 #include <unicode/utypes.h>   // UErrorCode, U_ZERO_ERROR, U_FAILURE: every call below
 #include <unicode/udatpg.h>   // udatpg_open/close/clone/getBestPatternWithOptions: pattern generation
 #include <unicode/udat.h>     // udat_open/close/format/applyPattern/setContext: the formatter itself
+#include <unicode/ureldatefmt.h>     // ureldatefmt_open/close/format/formatNumeric: relative dates
+#include <unicode/unum.h>            // unum_open: the number format a relative formatter takes over
+#include <unicode/udisplaycontext.h> // UDisplayContext: FormatStyleCapitalizationContext.icuContext
