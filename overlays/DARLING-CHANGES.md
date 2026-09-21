@@ -307,6 +307,52 @@ ICU 66's CLDR puts a plain space before the day period, so en_US renders `08:26 
 later use U+202F, and macOS ships a newer ICU, so that one character differs. This is Darling's ICU
 version, not this overlay's formatting, and it will move when Darling's ICU does.
 
+## The Relative date styles
+
+`Date.RelativeFormatStyle`, `Date.AnchoredRelativeFormatStyle` and `ICURelativeDateFormatter` are
+vendored, and **each diverges from the pin by exactly three lines**: the `internal import
+_FoundationICU` line becomes `internal import DarlingICU` plus a one-line comment. Nothing else is
+adapted and nothing is deferred; `AnchoredRelativeFormatStyle` keeps its `DiscreteFormatStyle`
+conformance, whose bound is self-contained and needs no `Calendar.ComponentSet`.
+
+```
+for f in Date+RelativeFormatStyle.swift Date+AnchoredRelativeFormatStyle.swift ICURelativeDateFormatter.swift; do
+  diff -u "$src/Sources/FoundationInternationalization/Formatting/Date/$f" "overlays/Foundation/$f"
+done
+```
+
+`shims/DarlingICU.h` gains three headers, each with a caller: `ureldatefmt.h`, `unum.h` (the number
+format a relative formatter takes ownership of) and `udisplaycontext.h`.
+`FormatStyleCapitalizationContext.icuContext` is **restored**: it was removed when that type landed
+because nothing used it, and these styles are the consumer.
+
+`Foundation/DarlingICUSupport.swift` carries the small declarations swift-foundation keeps in
+`ICU/ICU+Enums.swift`, `ICU/ICU+Foundation.swift`, `Date+ICU.swift` and `FormatterCache.swift`.
+Those four files are not fetched: between them they also carry the ICU 69/70 constants Darling's
+ICU 66 does not have, plus `Locale` and `Calendar` plumbing that collides with this overlay's own.
+Only what these styles use is reproduced, and every enum member is an alias for the ICU constant of
+the same meaning, copied from upstream. `BinaryFloatingPoint.swift` (21 lines, no imports) is
+fetched verbatim for `rounded(increment:rule:)`.
+
+### Verified output
+
+Relative formatting forks on presentation: `.named` calls `ureldatefmt_format` and `.numeric` calls
+`ureldatefmt_formatNumeric`, which is the difference between "yesterday" and "1 day ago". Both
+spellings were registered before running, including cases that must agree and cases that must not:
+
+| locale, offset | `.named` | `.numeric` | |
+|---|---|---|---|
+| en_US, -1 day | `yesterday` | `1 day ago` | must differ |
+| en_US, +1 day | `tomorrow` | `in 1 day` | must differ |
+| en_US, -3 days | `3 days ago` | `3 days ago` | must agree |
+| en_US, -1 hour | `1 hour ago` | `1 hour ago` | must agree, English has no named hour form |
+| fr_FR, -1 day | `hier` | `il y a 1 jour` | must differ |
+| ja_JP, -1 day | `昨日` | `1日前` | must differ |
+
+All six matched. The two "must agree" rows are the control: a formatter wired to the wrong ICU
+entry point would still pass the differing rows by accident if it always called `formatNumeric`,
+but it cannot produce `yesterday` for `.named` while also producing `3 days ago` for both.
+
 ## How the fetched code is built
 
 - **swift-collections is built without library evolution and linked into `libswiftFoundation`.**
