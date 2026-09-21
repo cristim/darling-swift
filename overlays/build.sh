@@ -206,6 +206,18 @@ LockedState.swift
 String/StringBlocks.swift
 UPSTREAM_FILES
 
+# Date.ComponentsFormatStyle is the one type here that lives in FoundationInternationalization
+# rather than FoundationEssentials. Off-Darwin upstream ships it as a shell with only the nested
+# `Field` type and no formatting members, so taking that file verbatim gives Darling exactly what
+# the reference implementation gives Linux: `.Field` resolves, and `.Style`, `.timeDuration` and
+# `calendar(_:)` stay compile errors rather than becoming Darling-only inventions.
+while IFS= read -r rel; do
+	[ -n "$rel" ] || continue
+	printf '%s\n' "$foundation_src/Sources/FoundationInternationalization/$rel" >> "$out/foundation-upstream.list"
+done <<'UPSTREAM_INTL_FILES'
+Formatting/Date/Date+ComponentsFormatStyle+Stub.swift
+UPSTREAM_INTL_FILES
+
 # Intentionally partial: String, Array, Dictionary and Set bridging, plus AttributedString and
 # the FormatStyle protocols (see README).
 foundation="$DARLING_ROOT/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation"

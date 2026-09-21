@@ -1,9 +1,9 @@
 # Darling changes to vendored upstream sources
 
 `build.sh` fetches [apple/swift-foundation](https://github.com/apple/swift-foundation) at a pinned
-commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 35 files
-from it in place. Those 35 are byte-identical to upstream, so they are not vendored here. Four of
-the 39 swift-foundation files this overlay uses are not taken from the checkout, because they
+commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 36 files
+from it in place. Those 36 are byte-identical to upstream, so they are not vendored here. Five of
+the 41 swift-foundation files this overlay uses are not taken from the checkout, because they
 diverge; those live in `Foundation/` and each one's reason is below, measured rather than assumed.
 [apple/swift-collections](https://github.com/apple/swift-collections) is fetched the same way, at
 `c11818f3cae0780656baa430b49e7f163f08dffd` (tag `1.1.6`), and nothing of it is vendored.
@@ -14,7 +14,7 @@ To see exactly how one of the three diverges, diff it against the checkout, for 
 `diff -u "$src/Sources/FoundationEssentials/AttributedString/AttributedStringProtocol.swift" overlays/Foundation/AttributedStringProtocol.swift`.
 
 Both projects are Apache License v2.0 with the Runtime Library Exception. Upstream file headers are
-preserved in the four files kept here, and swift-foundation's `LICENSE.md` and `NOTICE.txt` sit
+preserved in the five files kept here, and swift-foundation's `LICENSE.md` and `NOTICE.txt` sit
 beside them.
 
 `Foundation/Locale+Language.swift` was vendored by the Locale work and is byte-identical to
@@ -34,7 +34,7 @@ The other files in `Foundation/` come from the Swift 5.4 Darwin overlay and pred
 
 ## Which files are swift-foundation's, and how to check
 
-The count of 39 is a provenance claim, and provenance cannot be settled by diffing against
+The count of 41 is a provenance claim, and provenance cannot be settled by diffing against
 swift-foundation alone: this overlay's other lineage is the Swift 5.4 Darwin overlay, and both
 descend from the same original code, so a file being close to swift-foundation proves nothing.
 Diffing against **both** lineages does settle it. Against
@@ -46,13 +46,13 @@ counting changed lines:
   swift-foundation by 2, 7, 11 and 38 lines. They look like near-pristine swift-foundation files and
   are not; they are 5.4's.
 - `Codable.swift` is closer to 5.4 (52 changed lines against 66).
-- The four files kept here have **no 5.4 counterpart at all**, which is what fixes their lineage.
+- The five files kept here have **no 5.4 counterpart at all**, which is what fixes their lineage.
 
 One file is genuinely undetermined and is flagged rather than assumed: `DateInterval.swift` is
 closer to swift-foundation (57 changed lines) than to 5.4 (87), while `README.md` attributes it to
 the 5.4 overlay. It is identical to neither, so it is adapted, and this file does not claim to know
 from which. Anyone recounting should run the two-way diff rather than a one-way one, and should
-expect to reach 39 only if they use the same provenance list.
+expect to reach 41 only if they use the same provenance list.
 
 ## The swift-foundation files that are not taken from the checkout
 
@@ -156,6 +156,37 @@ point at a shared or read-only tree.
 - **`Locale.Language.script` and `Locale.Language.region` are not provided.** They are the other two
   members of the same upstream ICU file. Nothing in the app corpus binds them, and adding them would
   be more Darling reimplementation for no measured demand.
+
+## The FormatStyle configuration types
+
+Two files were added for the format-style configuration types OpenSwiftUI references. Neither
+carries formatting behaviour, so neither can produce a wrong string.
+
+`Date+ComponentsFormatStyle+Stub.swift` is **fetched verbatim** and is the one file taken from
+`FoundationInternationalization` rather than `FoundationEssentials`. Upstream ships it off-Darwin as
+a shell whose only member is the nested `Field` type, marked `// stub` in upstream's own source;
+taking it unchanged gives Darling exactly what the reference implementation gives Linux. `.Field`
+resolves, and `.Style`, `.timeDuration` and `calendar(_:)` stay compile errors here because they are
+absent upstream too. Inventing them would put this overlay ahead of the reference in a way nobody
+could check against it.
+
+`Foundation/FormatStyleCapitalizationContext.swift` is kept rather than fetched. Upstream declares
+that type in
+`FoundationInternationalization/Formatting/Number/NumberFormatStyleConfiguration.swift`, and that
+file cannot be compiled here: its other types need `Decimal`, `String._trimmingWhitespace` and
+`RangeExpression.clampedLowerAndUpperBounds`, none of which this overlay carries, plus two members
+typed `UNumberFormatStyle`. The struct is reproduced with its public API byte-identical to upstream
+and one internal accessor removed, `icuContext`, which maps the option onto ICU's `UDisplayContext`
+and has no consumer until the ICU-backed number and date styles land. Check it with
+
+```
+diff -u <(sed -n '19,89p' "$src/Sources/FoundationInternationalization/Formatting/Number/NumberFormatStyleConfiguration.swift") \
+        <(sed -n '21,76p' overlays/Foundation/FormatStyleCapitalizationContext.swift)
+```
+
+`NumberFormatStyleConfiguration` itself is therefore still absent, and the three OpenSwiftUI
+references to `NumberFormatStyleConfiguration.SignDisplayStrategy` remain compile errors. It belongs
+with the ICU-backed number styles, not here.
 
 ## How the fetched code is built
 
