@@ -188,6 +188,45 @@ diff -u <(sed -n '19,89p' "$src/Sources/FoundationInternationalization/Formattin
 references to `NumberFormatStyleConfiguration.SignDisplayStrategy` remain compile errors. It belongs
 with the ICU-backed number styles, not here.
 
+## The `DarlingICU` module
+
+swift-foundation reaches ICU through `_FoundationICU`, which vendors ICU 72 or newer as a 123 MB C
+repository plus its data. Darling does not need that: `usr/include/unicode` ships 190 ICU 66.1
+headers and `libicucore.A.dylib` exports the public entry points unsuffixed, with `icudt66l.dat`
+alongside. `shims/DarlingICU.h` admits three of those headers, chosen because the overlay calls
+them: `utypes.h` for `UErrorCode`, `udatpg.h` for pattern generation, `udat.h` for the formatter.
+Add a header there only with a caller to name.
+
+**Why not CoreFoundation.** `CFDateFormatterCreateDateFormatFromTemplate` looks like the same thing
+and is not. It takes an `options` argument and discards it: `CFDateFormatter.c` calls
+`__cficu_udatpg_getBestPattern`, the variant with no options, so
+`UDATPG_MATCH_ALL_FIELDS_LENGTH` never reaches ICU. Measured under Darling, en_US skeleton `hhmm`:
+
+```
+CFDateFormatterCreateDateFormatFromTemplate   no options "h:mm a"   ALL_FIELDS_LENGTH "h:mm a"
+udatpg_getBestPatternWithOptions              no options "h:mm a"   ALL_FIELDS_LENGTH "hh:mm a"
+```
+
+`DateFieldCollection.formatterTemplate` builds its skeleton out of raw symbol widths, so
+`.hour(.twoDigits)` emits `hh` and depends on field-length matching to keep it. Through CF that
+silently degrades to the locale's default width: a plausible, wrong time string. Upstream
+Foundation does not use CF for this either; `ICUDateFormatter` calls `udatpg` directly. Teaching
+Darling's CF to honour the argument was rejected on purpose, because macOS documents it as
+reserved, so acting on it would make Darling's CF diverge from the thing it imitates, invisibly to
+every non-Swift caller.
+
+**ICU 66 is a hard boundary.** swift-foundation also calls `udatpg_getDefaultHourCycle` (ICU 67),
+`UDAT_HOUR_CYCLE_*` (67), `ucal_getTimeZoneOffsetFromLocal` (69) and `UDAT_*NARROW_QUARTERS` (70).
+None exist in 66, and none is substituted: those paths are compile errors naming the version they
+need. A pattern generator that silently picks a different hour cycle is the same class of defect as
+the width degradation above.
+
+**Known follow-up.** `Date.VerbatimFormatStyle`'s `UpdateSchedule` is derived from its raw pattern
+string rather than from a symbol collection, so unlike `Date.FormatStyle` it needs
+`udat_patternCharToDateFormatField` and `udat_toCalendarDateField`, and also `Calendar.ComponentSet`,
+which is `package` in `FoundationEssentials` and is not currently fetched. Verbatim is deferred;
+this is recorded so it is not rediscovered.
+
 ## How the fetched code is built
 
 - **swift-collections is built without library evolution and linked into `libswiftFoundation`.**
