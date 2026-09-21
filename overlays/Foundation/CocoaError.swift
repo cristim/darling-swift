@@ -45,6 +45,13 @@ public struct CocoaError : _BridgedStoredNSError {
 }
 
 extension CocoaError.Code {
+  /// `NSFormattingError`, 2048 in Darling's own FoundationErrors.h. Added because
+  /// swift-foundation's format-parsing helpers throw it; upstream Foundation declares it too.
+  @available(macOS, introduced: 10.0) @available(iOS, introduced: 2.0)
+  public static var formatting: CocoaError.Code {
+    return CocoaError.Code(rawValue: 2048)
+  }
+
   @available(macOS, introduced: 10.7) @available(iOS, introduced: 5.0)
   public static var fileWriteFileExists: CocoaError.Code {
     return CocoaError.Code(rawValue: 516)
@@ -52,6 +59,12 @@ extension CocoaError.Code {
 }
 
 extension CocoaError {
+  /// `NSFormattingError`; mirrored here as well as on `Code`, the way upstream Foundation does.
+  @available(macOS, introduced: 10.0) @available(iOS, introduced: 2.0)
+  public static var formatting: CocoaError.Code {
+    return CocoaError.Code(rawValue: 2048)
+  }
+
   @available(macOS, introduced: 10.7) @available(iOS, introduced: 5.0)
   public static var fileWriteFileExists: CocoaError.Code {
     return CocoaError.Code(rawValue: 516)
