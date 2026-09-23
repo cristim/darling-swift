@@ -1,9 +1,9 @@
 # Darling changes to vendored upstream sources
 
 `build.sh` fetches [apple/swift-foundation](https://github.com/apple/swift-foundation) at a pinned
-commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 45 files
-from it in place. Those 45 are byte-identical to upstream, so they are not vendored here. Six of
-the 51 swift-foundation files this overlay uses are not taken from the checkout, because they
+commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 49 files
+from it in place. Those 49 are byte-identical to upstream, so they are not vendored here. Six of
+the 55 swift-foundation files this overlay uses are not taken from the checkout, because they
 diverge; those live in `Foundation/` and each one's reason is below, measured rather than assumed.
 [apple/swift-collections](https://github.com/apple/swift-collections) is fetched the same way, at
 `c11818f3cae0780656baa430b49e7f163f08dffd` (tag `1.1.6`), and nothing of it is vendored.
@@ -35,7 +35,7 @@ The other files in `Foundation/` come from the Swift 5.4 Darwin overlay and pred
 
 ## Which files are swift-foundation's, and how to check
 
-The count of 51 is a provenance claim, and provenance cannot be settled by diffing against
+The count of 55 is a provenance claim, and provenance cannot be settled by diffing against
 swift-foundation alone: this overlay's other lineage is the Swift 5.4 Darwin overlay, and both
 descend from the same original code, so a file being close to swift-foundation proves nothing.
 Diffing against **both** lineages does settle it. Against
@@ -53,7 +53,7 @@ One file is genuinely undetermined and is flagged rather than assumed: `DateInte
 closer to swift-foundation (57 changed lines) than to 5.4 (87), while `README.md` attributes it to
 the 5.4 overlay. It is identical to neither, so it is adapted, and this file does not claim to know
 from which. Anyone recounting should run the two-way diff rather than a one-way one, and should
-expect to reach 51 only if they use the same provenance list.
+expect to reach 55 only if they use the same provenance list.
 
 ## The swift-foundation files that are not taken from the checkout
 
@@ -179,8 +179,9 @@ point at a shared or read-only tree.
 ## ICU-backed format styles
 
 `Date.FormatStyle` (with `Date.FormatStyle.Attributed`, `Date.AttributedStyle` and its
-`DiscreteFormatStyle` conformance), `Date.VerbatimFormatStyle` and `Date.ParseStrategy` are built
-from swift-foundation's `FoundationInternationalization`, over the ICU Darling already ships, and
+`DiscreteFormatStyle` conformance), `Date.VerbatimFormatStyle`, `Date.ParseStrategy`,
+`Date.RelativeFormatStyle` and `Date.AnchoredRelativeFormatStyle` are built from swift-foundation's
+`FoundationInternationalization`, over the ICU Darling already ships, and
 `Date.ComponentsFormatStyle` is written over the same ICU (below).
 
 - **`shims/FoundationICU.h` is Darling's ICU under swift-foundation's module name.** Upstream's
@@ -191,8 +192,9 @@ from swift-foundation's `FoundationInternationalization`, over the ICU Darling a
   `libicucore.A.dylib` into `libswiftFoundation`. The import is `internal`, so the module never
   appears in the Foundation interface apps compile against. Every call the fetched date files make
   exists in ICU 66, `udat_formatForFields` and `udat_patternCharToDateFormatField` included.
-- **Fetched unmodified** (the `UPSTREAM_INTL_FILES` list in `build.sh`): `Date+ICU.swift`,
-  `DateFieldSymbol.swift`, `DateFormatString.swift`, `Date+VerbatimFormatStyle.swift`,
+- **Fetched unmodified** (the `UPSTREAM_INTL_FILES` list in `build.sh`): `BinaryFloatingPoint.swift`,
+  `Date+ICU.swift`, `Date+AnchoredRelativeFormatStyle.swift`, `Date+RelativeFormatStyle.swift`,
+  `ICURelativeDateFormatter.swift`, `DateFieldSymbol.swift`, `DateFormatString.swift`, `Date+VerbatimFormatStyle.swift`,
   `DateFormatStyle.swift`, `DateParseStrategy.swift`, `ICUDateFormatter.swift`,
   `ICU+FieldPositer.swift` and `ICU+Foundation.swift`, plus `FoundationEssentials`'
   `Formatting/FormatterCache.swift`.
