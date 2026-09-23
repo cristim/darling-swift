@@ -3,6 +3,7 @@
 #include <unicode/utypes.h>
 #include <unicode/uloc.h>
 #include <unicode/unumsys.h>
+#include <unicode/uameasureformat.h>
 #include <unicode/uatimeunitformat.h>
 #include <unicode/ucal.h>
 #include <unicode/udat.h>
