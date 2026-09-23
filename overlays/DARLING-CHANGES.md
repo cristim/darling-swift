@@ -1,9 +1,9 @@
 # Darling changes to vendored upstream sources
 
 `build.sh` fetches [apple/swift-foundation](https://github.com/apple/swift-foundation) at a pinned
-commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 49 files
-from it in place. Those 49 are byte-identical to upstream, so they are not vendored here. Six of
-the 55 swift-foundation files this overlay uses are not taken from the checkout, because they
+commit (`dbacc67779dc0a41ddc9493acbaa332d76c9fb03`, tag `swift-6.3.3-RELEASE`) and compiles 67 files
+from it in place. Those 67 are byte-identical to upstream, so they are not vendored here. Nine of
+the 76 swift-foundation files this overlay uses are not taken from the checkout, because they
 diverge; those live in `Foundation/` and each one's reason is below, measured rather than assumed.
 [apple/swift-collections](https://github.com/apple/swift-collections) is fetched the same way, at
 `c11818f3cae0780656baa430b49e7f163f08dffd` (tag `1.1.6`), and nothing of it is vendored.
@@ -35,7 +35,7 @@ The other files in `Foundation/` come from the Swift 5.4 Darwin overlay and pred
 
 ## Which files are swift-foundation's, and how to check
 
-The count of 55 is a provenance claim, and provenance cannot be settled by diffing against
+The count of 76 is a provenance claim, and provenance cannot be settled by diffing against
 swift-foundation alone: this overlay's other lineage is the Swift 5.4 Darwin overlay, and both
 descend from the same original code, so a file being close to swift-foundation proves nothing.
 Diffing against **both** lineages does settle it. Against
@@ -47,18 +47,18 @@ counting changed lines:
   swift-foundation by 2, 7, 11 and 38 lines. They look like near-pristine swift-foundation files and
   are not; they are 5.4's.
 - `Codable.swift` is closer to 5.4 (52 changed lines against 66).
-- The six files kept here have **no 5.4 counterpart at all**, which is what fixes their lineage.
+- The nine files kept here have **no 5.4 counterpart at all**, which is what fixes their lineage.
 
 One file is genuinely undetermined and is flagged rather than assumed: `DateInterval.swift` is
 closer to swift-foundation (57 changed lines) than to 5.4 (87), while `README.md` attributes it to
 the 5.4 overlay. It is identical to neither, so it is adapted, and this file does not claim to know
 from which. Anyone recounting should run the two-way diff rather than a one-way one, and should
-expect to reach 55 only if they use the same provenance list.
+expect to reach 76 only if they use the same provenance list.
 
 ## The swift-foundation files that are not taken from the checkout
 
-Six files: three described here, `Locale+Components.swift` under the `Locale` entries below, and
-the two ICU files under "ICU-backed format styles".
+Nine files: three described here, `Locale+Components.swift` under the `Locale` entries below, and
+the five under "ICU-backed format styles".
 
 ### Why these are override files rather than patches
 
@@ -175,26 +175,40 @@ point at a shared or read-only tree.
   `libicucore.A.dylib` into `libswiftFoundation`. The import is `internal`, so the module never
   appears in the Foundation interface apps compile against. Every call the fetched date files make
   exists in ICU 66, `udat_formatForFields` and `udat_patternCharToDateFormatField` included.
-- **Fetched unmodified** (the `UPSTREAM_INTL_FILES` list in `build.sh`): `BinaryFloatingPoint.swift`,
-  `Date+ICU.swift`, `Date+AnchoredRelativeFormatStyle.swift`, `Date+RelativeFormatStyle.swift`,
-  `ICURelativeDateFormatter.swift`, `DateFieldSymbol.swift`, `DateFormatString.swift`, `Date+VerbatimFormatStyle.swift`,
-  `DateFormatStyle.swift`, `DateParseStrategy.swift`, `ICUDateFormatter.swift`,
-  `ICU+FieldPositer.swift` and `ICU+Foundation.swift`, plus `FoundationEssentials`'
-  `Formatting/FormatterCache.swift`.
-- **Two override files, each a departure from the patch rule** (lines the repository carries,
+- **Fetched unmodified**: the whole `UPSTREAM_INTL_FILES` list in `build.sh` (the date, number,
+  byte-count and duration styles and their ICU plumbing), plus `FoundationEssentials`'
+  `Formatting/FormatterCache.swift`, `Formatting/BinaryInteger+NumericStringRepresentation.swift`
+  and `String/BidirectionalCollection.swift`. `NumberFormatStyleConfiguration.swift` is fetched
+  whole, so it now supplies `FormatStyleCapitalizationContext`, which had been kept separately.
+- **Five override files, each a departure from the patch rule** (lines the repository carries,
   counted as above; the patch column is raw `diff -u`):
 
   | file | patch | file | smaller |
   |---|---|---|---|
   | `ICU+Enums.swift` | 27 lines | 253 lines | patch |
   | `ICUPatternGenerator.swift` | 41 lines | 103 lines | patch |
+  | `Decimal+FormatStyle.swift` | 20 lines | 456 lines | patch |
+  | `Decimal+ParseStrategy.swift` | 29 lines | 151 lines | patch |
+  | `Duration+UnitsFormatStyle.swift` | 54 lines | 789 lines | patch |
 
-  Both are kept as override files for the one-mechanism reason given for the four above.
+  All are kept as override files for the one-mechanism reason given for the four above.
   `ICU+Enums.swift` drops the aliases for `UDAT_NARROW_QUARTERS`, `UDAT_STANDALONE_NARROW_QUARTERS`
   (ICU 70) and `UDateFormatHourCycle` (ICU 67). `ICUPatternGenerator.swift` replaces
   `defaultHourCycle`, which calls `udatpg_getDefaultHourCycle` (ICU 67), with the hour field in the
   pattern skeleton `j` resolves to. CLDR defines `j` as the locale's preferred hour format, which is
   the datum that call reports.
+  The two `Decimal` files name the `FoundationEssentials` module in their non-framework branches;
+  here they name `Foundation`, the module they build into. `Duration+UnitsFormatStyle.swift`
+  stores its width as an internal copy of the `Measurement<UnitDuration>.FormatStyle.UnitWidth`
+  value swift-foundation's stub declares, since this overlay has no `Measurement` and the macOS
+  `Measurement.FormatStyle` is not open source; and its attributed format finds the `{0}`
+  placeholder with `BidirectionalCollection._range(of:anchored:backwards:)`, because
+  `AttributedString.range(of:options:)` is omitted here (above).
+- **`Decimal` is VibeDarling/darling-swift#63's**, `NSDecimal` imported as `Decimal` through
+  darling-foundation#58's API notes. The number styles only need it to spell rounding increments
+  and scales in ICU skeletons (percent formatting and `.increment` precision), and at run time
+  those need darling-foundation#57's `NSDecimalString`; without it they crash in Darling's
+  float-based fallback.
 - **`Foundation/FormattingSupport.swift` is written for Darling.** The fetched files reach into
   internals of swift-foundation's own `Locale` and `Calendar`, which this overlay's `NSLocale`- and
   `NSCalendar`-backed types do not have. It supplies them under the same names, copying upstream
@@ -237,6 +251,11 @@ point at a shared or read-only tree.
   Week counts are always 0 under Darling today, a CoreFoundation bug tracked in
   VibeDarling/darling#858, so with automatic fields ten days read "10 days" rather than a week and
   three days.
+- **Known divergence: zero integer digits.** `.precision(.integerLength(0))` (or an integer range
+  of `0...0`) asks ICU for the `integer-width/*` skeleton. ICU 66's skeleton parser has no option
+  that truncates every integer digit, so such a style falls back to upstream's unformatted
+  description of the value, and a `Duration.UnitsFormatStyle` with a value length of 0 traps on
+  upstream's force-unwrapped formatter.
 - **Known divergence: CLDR data.** ICU 66 carries CLDR 36. Output follows that data, so for example
   en_US puts a plain space before the day period, where CLDR 42 and later use U+202F.
 
@@ -267,7 +286,8 @@ tree:
   `AttributedString(NSAttributedString)` live. That mode needs the Clang modules `MachO.dyld`,
   `ReflectionInternal`, `CollectionsInternal` and `Foundation_Private.NSAttributedString`, none of
   which Darling has.
-- The ICU-backed `FormatStyle` implementations other than the date styles below, and
+- The ICU-backed `FormatStyle` implementations other than the date, number, byte-count and
+  duration styles below (for example `ListFormatStyle` and `Measurement.FormatStyle`), and
   `AttributedString(localized:)`.
 - `AttributedString(markdown:)` and `MarkdownParsingOptions`, which need swift-cmark.
 - `InlinePresentationIntent`. It is not declared anywhere in swift-foundation, and

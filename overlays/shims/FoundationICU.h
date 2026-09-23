@@ -12,5 +12,6 @@
 #include <unicode/uloc.h>
 #include <unicode/ulocdata.h>
 #include <unicode/unum.h>
+#include <unicode/unumberformatter.h>
 #include <unicode/ureldatefmt.h>
 #include <unicode/uscript.h>
