@@ -199,6 +199,7 @@ AttributedString/String.Index+ABI.swift
 CodableWithConfiguration.swift
 Formatting/DiscreteFormatStyle.swift
 Formatting/FormatStyle.swift
+Formatting/FormatterCache.swift
 Formatting/ParseStrategy.swift
 Formatting/ParseableFormatStyle.swift
 Locale/Locale+Language.swift
@@ -206,10 +207,27 @@ LockedState.swift
 String/StringBlocks.swift
 UPSTREAM_FILES
 
+# ICU-backed format styles, unmodified, over Darling's ICU 66 as `_FoundationICU` (shims/FoundationICU.h);
+# Foundation/FormattingSupport.swift supplies the Locale and Calendar internals (see DARLING-CHANGES.md).
+while IFS= read -r rel; do
+	[ -n "$rel" ] || continue
+	printf '%s\n' "$foundation_src/Sources/FoundationInternationalization/$rel" >> "$out/foundation-upstream.list"
+done <<'UPSTREAM_INTL_FILES'
+Date+ICU.swift
+Formatting/Date/DateFieldSymbol.swift
+Formatting/Date/DateFormatString.swift
+Formatting/Date/Date+VerbatimFormatStyle.swift
+Formatting/Date/DateFormatStyle.swift
+Formatting/Date/DateParseStrategy.swift
+Formatting/Date/ICUDateFormatter.swift
+ICU/ICU+FieldPositer.swift
+ICU/ICU+Foundation.swift
+UPSTREAM_INTL_FILES
+
 # Intentionally partial: String, Array, Dictionary and Set bridging, plus AttributedString and
 # the FormatStyle protocols (see README).
 foundation="$DARLING_ROOT/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation"
-build_module Foundation "$here"/Foundation/*.swift --sources-from "$out/foundation-upstream.list" -- -package-name swift-foundation --link -unexported_symbols_list "$out/unexported.txt" "$out/obj/_RopeModule.o" "$out/obj/InternalCollectionsUtilities.o" "$foundation" "$corefoundation" -lswiftDarwin -lswiftObjectiveC -lswiftCoreFoundation -lswiftDispatch
+build_module Foundation "$here"/Foundation/*.swift --sources-from "$out/foundation-upstream.list" -- -package-name swift-foundation --link -unexported_symbols_list "$out/unexported.txt" "$out/obj/_RopeModule.o" "$out/obj/InternalCollectionsUtilities.o" "$foundation" "$corefoundation" "$DARLING_ROOT/usr/lib/libicucore.A.dylib" -lswiftDarwin -lswiftObjectiveC -lswiftCoreFoundation -lswiftDispatch
 
 coregraphics="$DARLING_ROOT/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics"
 build_module CoreGraphics "$here"/CoreGraphics/*.swift -- -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$coregraphics" "$corefoundation" -lswiftCoreFoundation -lswiftDarwin
