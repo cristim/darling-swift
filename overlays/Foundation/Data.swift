@@ -589,7 +589,7 @@ internal class __NSSwiftData : NSData {
         return _range.upperBound - _range.lowerBound
     }
 
-    @objc override var bytes: UnsafeRawPointer? {
+    @objc override var bytes: UnsafeRawPointer {
         // NSData's byte pointer methods are not annotated for nullability correctly
         // (but assume non-null by the wrapping macro guards). This placeholder value
         // is to work-around this bug. Any indirection to the underlying bytes of an NSData
