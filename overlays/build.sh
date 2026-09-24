@@ -253,12 +253,12 @@ build_module SceneKit "$here/SceneKit/SceneKit.swift" -- -Xcc -fmodule-map-file=
 # -I "$out/modules-combine" explicitly.
 #
 # OpenCombine is fetched rather than vendored, for the same reason swift-collections is above.
-# The fork adds functional Merge and MergeMany publishers; the Darwin-specific adaptations
-# remain in Combine/patches/, applied below.
+# The fork adds functional Merge and MergeMany publishers and the CombineLatest publishers; the
+# Darwin-specific adaptations remain in Combine/patches/, applied below.
 #
 # Pinned BY COMMIT on purpose: a branch reference would make this build non-reproducible.
-# This commit is on cristim/OpenCombine's feature/darling-merge-publishers branch and is
-# proposed upstream as OpenCombine PR #258.
+# This commit is the head of cristim/OpenCombine's darling/merge-and-combine-latest branch: the
+# changes proposed upstream as OpenCombine PRs #258 (Merge) and #259 (CombineLatest), stacked.
 # OPENCOMBINE_SRC can point at an already-fetched checkout, the way SWIFT_COLLECTIONS_SRC does
 # above, so an offline build needs no network. Nothing verifies that checkout, so point it at the
 # pinned commit.
@@ -270,7 +270,7 @@ cp "$out/libswiftUniformTypeIdentifiers.dylib" "$repo/libswiftUniformTypeIdentif
 echo "updated libswiftUniformTypeIdentifiers.dylib: $(llvm-lipo -archs "$repo/libswiftUniformTypeIdentifiers.dylib")"
 
 OPENCOMBINE_URL=${OPENCOMBINE_URL:-https://github.com/cristim/OpenCombine.git}
-OPENCOMBINE_COMMIT=${OPENCOMBINE_COMMIT:-10df981a64800643559490d72174f43438562e73}
+OPENCOMBINE_COMMIT=${OPENCOMBINE_COMMIT:-a0f18f0b4c11b15d2e03bc19a26e26bda5b537fa}
 opencombine_src=${OPENCOMBINE_SRC:-$out/OpenCombine}
 if [ -z "${OPENCOMBINE_SRC:-}" ]; then
 	if [ ! -d "$opencombine_src/.git" ]; then

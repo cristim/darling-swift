@@ -117,4 +117,39 @@ manyA.send(10)
 manyC.send(30)
 check(manyValues == [20, 10, 30], "MergeMany forwards every upstream")
 
+// CombineLatest waits for a value from every upstream, then pairs each new value with the latest others.
+let latestA = PassthroughSubject<Int, Never>()
+let latestB = PassthroughSubject<String, Never>()
+var pairs: [String] = []
+var latestFinished = false
+latestA.combineLatest(latestB)
+    .sink(receiveCompletion: { if case .finished = $0 { latestFinished = true } },
+          receiveValue: { pairs.append("\($0.0)\($0.1)") })
+    .store(in: &cancellables)
+latestA.send(1)
+check(pairs.isEmpty, "CombineLatest waits for every upstream")
+latestB.send("a")
+latestA.send(2)
+latestB.send("b")
+check(pairs == ["1a", "2a", "2b"], "CombineLatest pairs each value with the latest of the other")
+latestA.send(completion: .finished)
+check(!latestFinished, "CombineLatest waits for both publishers to finish")
+latestB.send(completion: .finished)
+check(latestFinished, "CombineLatest finishes after both upstreams finish")
+
+// CombineLatest4 through the transform overload, as OpenSwiftUI's ProgressView uses it.
+let q1 = CurrentValueSubject<Int, Never>(1)
+let q2 = CurrentValueSubject<Int, Never>(2)
+let q3 = CurrentValueSubject<Int, Never>(3)
+let q4 = CurrentValueSubject<Int, Never>(4)
+var sums: [Int] = []
+q1.combineLatest(q2, q3, q4) { $0 + $1 + $2 + $3 }
+    .sink { sums.append($0) }
+    .store(in: &cancellables)
+q3.send(30)
+check(sums == [10, 37], "CombineLatest4 transform sees the latest of all four")
+let _: Publishers.CombineLatest4<CurrentValueSubject<Int, Never>, CurrentValueSubject<Int, Never>,
+                                 CurrentValueSubject<Int, Never>, CurrentValueSubject<Int, Never>>
+    = Publishers.CombineLatest4(q1, q2, q3, q4)
+
 print(failures == 0 ? "ALL PASSED" : "\(failures) FAILED")
