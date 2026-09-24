@@ -41,19 +41,19 @@ public struct URLResourceValues {
     }
 
     public var isRegularFile: Bool? {
-        return _number(URLResourceKey(rawValue: NSURLIsRegularFileKey))?.boolValue()
+        return _number(URLResourceKey(rawValue: NSURLIsRegularFileKey))?.boolValue
     }
 
     public var isDirectory: Bool? {
-        return _number(URLResourceKey(rawValue: NSURLIsDirectoryKey))?.boolValue()
+        return _number(URLResourceKey(rawValue: NSURLIsDirectoryKey))?.boolValue
     }
 
     public var isSymbolicLink: Bool? {
-        return _number(URLResourceKey(rawValue: NSURLIsSymbolicLinkKey))?.boolValue()
+        return _number(URLResourceKey(rawValue: NSURLIsSymbolicLinkKey))?.boolValue
     }
 
     public var fileSize: Int? {
-        return _number(URLResourceKey(rawValue: NSURLFileSizeKey))?.integerValue()
+        return _number(URLResourceKey(rawValue: NSURLFileSizeKey))?.integerValue
     }
 }
 
