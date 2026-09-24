@@ -333,7 +333,7 @@ mkdir -p "$out/modules-groupactivities"
 	-module-name GroupActivities \
 	-enable-library-evolution -parse-as-library -O \
 	-I "$out/modules-combine" \
-	-Xcc -fmodule-map-file="$here/Combine/include/module.modulemap" \
+	-Xcc -fmodule-map-file="$opencombine_src/Sources/COpenCombineHelpers/include/module.modulemap" \
 	-emit-module-path "$out/modules-groupactivities/GroupActivities.swiftmodule" \
 	-o "$out/obj/GroupActivities.o"
 
