@@ -87,9 +87,10 @@ Per file, that gives a split answer:
 | `FoundationAttributes.swift` | 88 lines | 964 lines | patch |
 
 The patch column is raw `diff -u` output; a committed patch file would also carry a short header
-saying why it exists, which adds a handful of lines to that side and changes none of the five
-directions. All five are kept as override files anyway, so that this overlay has one mechanism rather than two
-for a saving of 57 lines on one file. That is a deliberate departure from the rule and is recorded
+saying why it exists, which adds a handful of lines to that side and changes none of the nine
+directions. All nine are kept as override files anyway, so that this overlay has one mechanism rather than two;
+the four conversion files alone would save about 1,130 lines as patches, so they strengthen the case for a
+patch step. That is a deliberate departure from the rule and is recorded
 here rather than left to look like the rule endorsing it. If a patch step is ever added,
 `Locale+Components.swift` is the strongest candidate by a factor of ninety, and the patch must be
 applied to a copy of the checkout, never to the checkout itself, since `SWIFT_FOUNDATION_SRC` can
