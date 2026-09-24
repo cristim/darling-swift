@@ -47,26 +47,16 @@ if(DYLIBS)
 	install(FILES ${DYLIBS} DESTINATION libexec/darling/usr/lib/swift)
 endif()
 
-# Combine is a Swift framework, not a /usr/lib/swift overlay dylib, so it installs into the
-# framework layout rather than through the glob above. Built by overlays/build.sh. The binary is
-# arm64 only, unlike the fat dylibs above, so it is skipped on roots without an arm64 slice.
+# These Swift frameworks install into the framework layout rather than through the glob above. Built
+# by overlays/build.sh. The binaries are arm64 only, unlike the fat dylibs above, so they are skipped
+# on roots without an arm64 slice.
 if (TARGET_ARM64)
 	include(InstallSymlink)
-	set(COMBINE_FRAMEWORK_DIR "libexec/darling/System/Library/Frameworks/Combine.framework")
-	install(PROGRAMS Combine.framework/Versions/A/Combine
-		DESTINATION "${COMBINE_FRAMEWORK_DIR}/Versions/A")
-	InstallSymlink(A "${CMAKE_INSTALL_PREFIX}/${COMBINE_FRAMEWORK_DIR}/Versions/Current")
-	InstallSymlink(Versions/Current/Combine "${CMAKE_INSTALL_PREFIX}/${COMBINE_FRAMEWORK_DIR}/Combine")
-
-	set(CRYPTOKIT_FRAMEWORK_DIR "libexec/darling/System/Library/Frameworks/CryptoKit.framework")
-	install(PROGRAMS CryptoKit.framework/Versions/A/CryptoKit
-		DESTINATION "${CRYPTOKIT_FRAMEWORK_DIR}/Versions/A")
-	InstallSymlink(A "${CMAKE_INSTALL_PREFIX}/${CRYPTOKIT_FRAMEWORK_DIR}/Versions/Current")
-	InstallSymlink(Versions/Current/CryptoKit "${CMAKE_INSTALL_PREFIX}/${CRYPTOKIT_FRAMEWORK_DIR}/CryptoKit")
-
-	set(GROUPACTIVITIES_FRAMEWORK_DIR "libexec/darling/System/Library/Frameworks/GroupActivities.framework")
-	install(PROGRAMS GroupActivities.framework/Versions/A/GroupActivities
-		DESTINATION "${GROUPACTIVITIES_FRAMEWORK_DIR}/Versions/A")
-	InstallSymlink(A "${CMAKE_INSTALL_PREFIX}/${GROUPACTIVITIES_FRAMEWORK_DIR}/Versions/Current")
-	InstallSymlink(Versions/Current/GroupActivities "${CMAKE_INSTALL_PREFIX}/${GROUPACTIVITIES_FRAMEWORK_DIR}/GroupActivities")
+	foreach(framework Combine CryptoKit GroupActivities SwiftUI)
+		set(framework_dir "libexec/darling/System/Library/Frameworks/${framework}.framework")
+		install(PROGRAMS ${framework}.framework/Versions/A/${framework}
+			DESTINATION "${framework_dir}/Versions/A")
+		InstallSymlink(A "${CMAKE_INSTALL_PREFIX}/${framework_dir}/Versions/Current")
+		InstallSymlink(Versions/Current/${framework} "${CMAKE_INSTALL_PREFIX}/${framework_dir}/${framework}")
+	endforeach()
 endif()
