@@ -415,9 +415,37 @@ the 1-based argument position. `String.LocalizationValue` gains the `AttributedS
 `AttributedSubstring` interpolations and, like `LocalizedStringResource`, `Equatable`. The
 `LocalizationOptions` forms are not provided.
 
+## Morphology, from swift-corelibs-foundation
+
+swift-foundation has no `Morphology`; `Foundation/Morphology.swift` is swift-corelibs-foundation's
+`Sources/Foundation/Morphology.swift` at tag `swift-6.3.3-RELEASE`
+(`6da8413b9a088eb59badcf0665aa73116db51edf`), Apache License v2.0 with the Runtime Library Exception,
+header kept. It is an override file rather than a fetch because it differs in two ways (a 28-line
+`diff -u` against a 338-line file):
+
+- its `NSAttributedString.Key` constants (`morphology`, `inflectionRule`, `inflectionAlternative`,
+  `language`) are dropped; on macOS they come from Foundation's Objective-C headers, and declaring
+  them in Swift here would clash once darling-foundation declares them;
+- `CustomPronoun`'s validation is fixed (see "Fixes worth sending upstream").
+
+That gives `Morphology` with its macOS 12 members (`grammaticalGender`, `partOfSpeech`, `number`,
+custom pronouns), `InflectionRule` (`canInflect` answers false: Darling has no inflection engine), and
+the `Codable` forms. `FoundationAttributes.swift` ungates `morphology` and `MorphologyAttribute`
+with its unavailable `Sendable` extension; its `name` is `"NSMorphology"`, the value
+swift-corelibs-foundation gives the key. `CocoaError.swift` gains the `keyValueValidation` (1024) and
+`coderInvalidValue` (4866) codes the file throws. Not provided: the macOS 14 members
+(`grammaticalCase`, `grammaticalPerson`, `pronounType`, `determination`, `definiteness`,
+`Morphology.Pronoun`), `isUnspecified`, `Morphology.user`, the `inflect` and
+`inflectionAlternative` attributes, and bridging to `NSMorphology`, which darling-foundation does
+not declare.
+
 ## Fixes worth sending upstream
 None. Nothing in these two files needed correcting; the only changes are the exclusion above, which
 is a statement about Darling's `Calendar` and `TimeZone`, not about swift-foundation.
+
+swift-corelibs-foundation's `Morphology.CustomPronoun.validate(forLanguage:)` assigns each required
+form to `Any?`, which wraps a nil `String?` as a non-nil value, so `setCustomPronoun` never rejects
+an incomplete pronoun. `Foundation/Morphology.swift` checks the `String?` itself.
 
 ## Reproducibility
 

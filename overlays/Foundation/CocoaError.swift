@@ -54,6 +54,14 @@ extension CocoaError.Code {
   public static var fileWriteFileExists: CocoaError.Code {
     return CocoaError.Code(rawValue: 516)
   }
+
+  public static var keyValueValidation: CocoaError.Code {
+    return CocoaError.Code(rawValue: 1024)
+  }
+
+  public static var coderInvalidValue: CocoaError.Code {
+    return CocoaError.Code(rawValue: 4866)
+  }
 }
 
 extension CocoaError {
@@ -65,5 +73,13 @@ extension CocoaError {
   @available(macOS, introduced: 10.7) @available(iOS, introduced: 5.0)
   public static var fileWriteFileExists: CocoaError.Code {
     return CocoaError.Code(rawValue: 516)
+  }
+
+  public static var keyValueValidation: CocoaError.Code {
+    return CocoaError.Code(rawValue: 1024)
+  }
+
+  public static var coderInvalidValue: CocoaError.Code {
+    return CocoaError.Code(rawValue: 4866)
   }
 }

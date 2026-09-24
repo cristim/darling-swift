@@ -64,7 +64,9 @@ extension AttributeScopes {
         public let localizedStringArgumentAttributes: LocalizedStringArgumentAttributes
         
         public let inflectionAlternative: InflectionAlternativeAttribute
+#endif // FOUNDATION_FRAMEWORK
         public let morphology: MorphologyAttribute
+#if FOUNDATION_FRAMEWORK
         public let inflect: InflectionRuleAttribute
         @_spi(AutomaticGrammaticalAgreement)
         @available(macOS 13, iOS 16, tvOS 16, watchOS 9, *)
@@ -145,13 +147,18 @@ extension AttributeScopes.FoundationAttributes {
         public static let markdownName = "agreeWithArgument"
     }
     
+#endif // FOUNDATION_FRAMEWORK
+
     @frozen
     @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
     public enum MorphologyAttribute : CodableAttributedStringKey, MarkdownDecodableAttributedStringKey {
         public typealias Value = Morphology
-        public static let name = NSAttributedString.Key.morphology.rawValue
+        // darling-foundation declares no NSMorphology key; the value is swift-corelibs-foundation's.
+        public static let name = "NSMorphology"
         public static let markdownName = "morphology"
     }
+
+#if FOUNDATION_FRAMEWORK
     
     @frozen
     @available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
@@ -739,12 +746,16 @@ extension AttributeScopes.FoundationAttributes.AgreementConceptAttribute : Senda
 @available(*, unavailable)
 extension AttributeScopes.FoundationAttributes.AgreementArgumentAttribute : Sendable {}
 
+#endif // FOUNDATION_FRAMEWORK
+
 @available(macOS, unavailable, introduced: 12.0)
 @available(iOS, unavailable, introduced: 15.0)
 @available(tvOS, unavailable, introduced: 15.0)
 @available(watchOS, unavailable, introduced: 8.0)
 @available(*, unavailable)
 extension AttributeScopes.FoundationAttributes.MorphologyAttribute : Sendable {}
+
+#if FOUNDATION_FRAMEWORK
 
 @available(macOS, unavailable, introduced: 12.0)
 @available(iOS, unavailable, introduced: 15.0)
