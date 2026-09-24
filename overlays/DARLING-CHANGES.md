@@ -81,15 +81,25 @@ Per file, that gives a split answer:
 | `String+Comparison.swift` | 775 lines | 21 lines | override |
 | `AttributedStringProtocol.swift` | 57 lines | 271 lines | patch |
 | `Locale+Components.swift` | 23 lines | 2,086 lines | patch |
+| `FoundationAttributes.swift` | 88 lines | 964 lines | patch |
 
 The patch column is raw `diff -u` output; a committed patch file would also carry a short header
-saying why it exists, which adds a handful of lines to that side and changes none of the four
-directions. All four are kept as override files anyway, so that this overlay has one mechanism rather than two
+saying why it exists, which adds a handful of lines to that side and changes none of the five
+directions. All five are kept as override files anyway, so that this overlay has one mechanism rather than two
 for a saving of 57 lines on one file. That is a deliberate departure from the rule and is recorded
 here rather than left to look like the rule endorsing it. If a patch step is ever added,
 `Locale+Components.swift` is the strongest candidate by a factor of ninety, and the patch must be
 applied to a copy of the checkout, never to the checkout itself, since `SWIFT_FOUNDATION_SRC` can
 point at a shared or read-only tree.
+
+- **`FoundationAttributes.swift`, with `inlinePresentationIntent` moved out of `#if
+  FOUNDATION_FRAMEWORK`.** The stored property, `InlinePresentationIntentAttribute` and its
+  unavailable `Sendable` extension are compiled; the attribute drops its
+  `ObjectiveCConvertibleAttributedStringKey` conformance, which lives in the guarded half of
+  `Conversion.swift`. `InlinePresentationIntent` itself is the Clang import of darling-foundation's
+  `NSInlinePresentationIntent`, as on macOS; the file adds its `Hashable` and `Codable` conformances
+  (Apple documents both; the Clang importer declares neither for an option set), implemented by
+  `RawRepresentable`'s defaults.
 
 - **`CodableUtilities.swift`, reduced to two declarations.** Only `EmptyCodingKeys` and
   `DefaultAssociatedValueCodingKeys1` are kept, which is all that `AttributedString`'s
@@ -331,9 +341,6 @@ tree:
   duration styles below (for example `ListFormatStyle` and `Measurement.FormatStyle`), and
   `AttributedString(localized:)`.
 - `AttributedString(markdown:)` and `MarkdownParsingOptions`, which need swift-cmark.
-- `InlinePresentationIntent`. It is not declared anywhere in swift-foundation, and
-  `NSInlinePresentationIntent` is absent from darling-foundation's headers, so there is nothing to
-  take. It is not invented here.
 
 ## Fixes worth sending upstream
 None. Nothing in these two files needed correcting; the only changes are the exclusion above, which
