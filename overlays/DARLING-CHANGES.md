@@ -353,6 +353,27 @@ tree:
   `AttributedString(localized:)`.
 - `AttributedString(markdown:)` and `MarkdownParsingOptions`, which need swift-cmark.
 
+## Localized attributed strings, written for Darling
+
+`AttributedString(localized:)` (the `String.LocalizationValue`, `StaticString` + `defaultValue` and
+`LocalizedStringResource` forms, with `FormattingOptions`) is in
+`Foundation/AttributedString+Localized.swift`, written from Apple's documentation and the SDK's
+`Foundation.swiftinterface`. The format comes from `Bundle.localizedString(forKey:value:table:)`, so
+from NSBundle and CFBundle's strings tables, and is parsed as inline Markdown
+(`.inlineOnlyPreservingWhitespace`, extended attributes allowed). Before parsing, each `%` specifier
+is swapped for a private-use scalar the format does not contain, so Markdown cannot read a `*`
+width as emphasis; afterwards each is replaced by its argument: an interpolated `AttributedString`
+keeps its attributes and takes the specifier's unless `.insertAttributesWithoutMerging`; other
+arguments are formatted with `String(format:locale:)` and take the specifier's attributes.
+Positional values and widths (`%2$@`, `%2$*1$d`) are supported. A specifier naming an argument the
+value does not have stays as literal text rather than reading past the arguments. Arguments are
+substituted only into text, not into link destinations or extended-attribute values, and a
+translation that spells a plane-15 private-use character as a character reference (`&#xF0000;`)
+would be read as a specifier. `.applyReplacementIndexAttribute` sets `replacementIndex` to
+the 1-based argument position. `String.LocalizationValue` gains the `AttributedString` and
+`AttributedSubstring` interpolations and, like `LocalizedStringResource`, `Equatable`. The
+`LocalizationOptions` forms are not provided.
+
 ## Fixes worth sending upstream
 None. Nothing in these two files needed correcting; the only changes are the exclusion above, which
 is a statement about Darling's `Calendar` and `TimeZone`, not about swift-foundation.
