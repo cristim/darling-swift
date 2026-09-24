@@ -422,6 +422,42 @@ mkdir -p "$repo/CryptoKit.framework/Versions/A"
 	-o "$repo/CryptoKit.framework/Versions/A/CryptoKit"
 echo "updated CryptoKit.framework: $(llvm-lipo -archs "$repo/CryptoKit.framework/Versions/A/CryptoKit")"
 
+# SwiftUI: OpenSwiftUI compiled as ONE library-evolution module named SwiftUI, so its mangled names
+# match what apps bind (VibeDarling/darling#988). DRAFT: blocked until OpenSwiftUI builds unstubbed.
+# Dependencies (OpenAttributeGraph, OpenRenderBox, OpenObservation, swift-log and the C shims) are
+# built by SwiftPM from the pinned checkout with OpenRenderBox and Darling's Combine, then the two
+# Swift targets are staged as one module by the fork's Darling/stage-as-swiftui.py.
+OPENSWIFTUI_URL=${OPENSWIFTUI_URL:-https://github.com/cristim/OpenSwiftUI.git}
+OPENSWIFTUI_COMMIT=${OPENSWIFTUI_COMMIT:?pin OpenSwiftUI by commit once it builds unstubbed}
+openswiftui_src=${OPENSWIFTUI_SRC:-$out/swiftui/OpenSwiftUI}
+if [ -z "${OPENSWIFTUI_SRC:-}" ]; then
+	[ -d "$openswiftui_src/.git" ] || git clone --quiet --filter=blob:none "$OPENSWIFTUI_URL" "$openswiftui_src"
+	git -C "$openswiftui_src" fetch --quiet origin "$OPENSWIFTUI_COMMIT" || git -C "$openswiftui_src" fetch --quiet origin
+	git -C "$openswiftui_src" checkout --quiet --detach "$OPENSWIFTUI_COMMIT"
+fi
+# The sibling packages (OpenAttributeGraph, OpenRenderBox, OpenObservation, DarwinPrivateFrameworks)
+# are fetched next to it the same way, each pinned by commit: TODO with the first real build.
+swiftui_env="OPENSWIFTUI_USE_LOCAL_DEPS=1 OPENSWIFTUI_BUILD_FOR_DARWIN_PLATFORM=1 OPENSWIFTUI_RENDERBOX=0
+	OPENRENDERBOX_RENDERBOX=0 OPENSWIFTUI_OPENCOMBINE=0 OPENSWIFTUI_SWIFT_LOG=1 OPENSWIFTUI_LIBRARY_EVOLUTION=0
+	OPENSWIFTUI_LINK_COREUI=0 OPENSWIFTUI_LINK_CORESVG=0 OPENSWIFTUI_LINK_SFSYMBOLS=0
+	OPENSWIFTUI_LINK_FEATUREFLAGS=0 OPENSWIFTUI_LINK_BACKLIGHTSERVICES=0 OPENSWIFTUI_LINK_GESTURES=0"
+# shellcheck disable=SC2086
+env $swiftui_env "$SWIFT_TOOLCHAIN/bin/swift" build --package-path "$openswiftui_src" \
+	--build-path "$out/swiftui/spm" --triple arm64-apple-macosx26.0 --sdk "$DARLING_SDK" \
+	--target OpenSwiftUI_SPI --target COpenSwiftUI --target OpenAttributeGraphShims \
+	--target OpenRenderBoxShims --target OpenObservation --target Logging \
+	-Xswiftc -resource-dir -Xswiftc "$SWIFT_RESOURCE_DIR" -Xswiftc -I -Xswiftc "$out/modules" \
+	-Xswiftc -I -Xswiftc "$out/modules-combine" -Xcc -DOPENSWIFTUI_SWIFTUI_ABI=1
+python3 "$openswiftui_src/Darling/stage-as-swiftui.py" "$openswiftui_src/Sources" "$out/swiftui/stage"
+collect_sources "$out/swiftui/stage" "$out/SwiftUI.sources"
+# Compile with the OpenSwiftUI target's flags from Package.swift (defines, availability macros,
+# upcoming features) plus: -module-name SwiftUI -enable-library-evolution -D OPENSWIFTUI_SWIFTUI_ABI
+# -Xcc -DOPENSWIFTUI_SWIFTUI_ABI=1, -I "$out/modules-combine" and the COpenCombineHelpers module map.
+# Link like Combine above, adding the SwiftPM objects of the dependencies with
+# -unexported_symbols_list for their symbols, libc++, and the overlay dylibs and frameworks listed in
+# the plan (Foundation, AppKit, CoreGraphics, QuartzCore, CoreText, IOSurface, Combine.framework).
+# TODO: flags and link line with the first unstubbed build.
+
 for module in Darwin ObjectiveC CoreFoundation Dispatch os XPC Foundation CoreGraphics AppKit QuartzCore SceneKit; do
 	dylib="libswift$module.dylib"
 	llvm-lipo -thin x86_64 "$repo/$dylib" -output "$out/$dylib.x86_64" 2>/dev/null || cp "$repo/$dylib" "$out/$dylib.x86_64"
