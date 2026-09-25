@@ -153,7 +153,13 @@ build_module CoreGraphics "$here"/CoreGraphics/*.swift -- -Xcc -fmodule-map-file
 
 # Minimal clean-room AppKit overlay (see README).
 appkit="$DARLING_ROOT/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit"
-build_module AppKit "$here/AppKit/AppKit.swift" -- -Xcc -fmodule-map-file="$here/AppKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$appkit" "$foundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
+# The older local overlay imported NSCompositingOperation as a typealias (`a` in
+# the mangling). Its value ABI matches the SDK's named enum (`V`), so keep those
+# older entry points available while exporting the SDK spelling.
+build_module AppKit "$here/AppKit/AppKit.swift" -- -Xcc -fmodule-map-file="$here/AppKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link \
+    -alias '_$sSo6CGRectV6AppKitE4fill5usingySo22NSCompositingOperationV_tF' '_$sSo6CGRectV6AppKitE4fill5usingySo22NSCompositingOperationa_tF' \
+    -alias '_$sSo6CGRectV6AppKitE5frame9withWidth5usingy12CoreGraphics7CGFloatV_So22NSCompositingOperationVtF' '_$sSo6CGRectV6AppKitE5frame9withWidth5usingy12CoreGraphics7CGFloatV_So22NSCompositingOperationatF' \
+    "$appkit" "$foundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
 
 # Minimal clean-room QuartzCore overlay (see README).
 build_module QuartzCore "$here/QuartzCore/QuartzCore.swift" -- -Xcc -fmodule-map-file="$here/QuartzCore/shims/module.modulemap"
