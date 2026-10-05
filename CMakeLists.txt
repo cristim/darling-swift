@@ -42,6 +42,30 @@ set_property(TARGET swift_errno APPEND_STRING PROPERTY
 	LINK_FLAGS " -Wl,-reexport_library,${CMAKE_CURRENT_SOURCE_DIR}/libswiftDarwin.dylib")
 install(TARGETS swift_errno DESTINATION libexec/darling/usr/lib/swift)
 
+# Overlays that Darwin ships and this repository does not carry a binary for. Apps link each
+# one and bind exactly one symbol from it, __swift_FORCE_LOAD_$_swift<Name>, which the Swift
+# linker emits so the overlay is loaded at startup; it is a marker, not a call, so nothing in
+# these libraries is ever entered and satisfying it is the whole of the load. dyld aborts on a
+# dependency named in LC_LOAD_DYLIB that is absent, so without these files the apps that link
+# them cannot start at all. Measured with llvm-nm -u over both slices of every imported app:
+# no other symbol is referenced from any of these five.
+#
+# Built from source rather than shipped as a binary because *.dylib is LFS-tracked here, and an
+# LFS object that cannot be fetched installs as a 130-byte pointer file, which is the
+# "libswiftCore.dylib: file too short" failure this repository has already hit once.
+foreach(SWIFT_OVERLAY OSLog Spatial CoreMIDI QuickLookUI MLCompute)
+	set(DYLIB_INSTALL_NAME "/usr/lib/swift/libswift${SWIFT_OVERLAY}.dylib")
+	add_darling_library(swift_${SWIFT_OVERLAY}_overlay SHARED
+		swift_${SWIFT_OVERLAY}_overlay.c
+	)
+	target_link_libraries(swift_${SWIFT_OVERLAY}_overlay system)
+	set_target_properties(swift_${SWIFT_OVERLAY}_overlay PROPERTIES
+		LINKER_LANGUAGE C
+		OUTPUT_NAME "swift${SWIFT_OVERLAY}"
+	)
+	install(TARGETS swift_${SWIFT_OVERLAY}_overlay DESTINATION libexec/darling/usr/lib/swift)
+endforeach()
+
 file(GLOB DYLIBS "*.dylib")
 if(DYLIBS)
 	install(FILES ${DYLIBS} DESTINATION libexec/darling/usr/lib/swift)
