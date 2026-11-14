@@ -86,8 +86,13 @@ static const NSToolbarItemVisibilityPriority NSToolbarItemVisibilityPriorityUser
 
 // Classes the suggestions API names. Only their identity matters to Swift.
 @interface NSResponder : NSObject
+- (void)invalidateRestorableState;
 @end
 @interface NSView : NSResponder
+@property BOOL needsLayout;
+@property BOOL needsDisplay;
+@property BOOL needsUpdateConstraints;
+- (void)invalidateIntrinsicContentSize;
 @end
 @interface NSControl : NSView
 @property (copy) NSString *stringValue;
