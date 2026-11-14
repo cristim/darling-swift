@@ -73,6 +73,17 @@ typedef enum NSBezelStyle : NSUInteger {
 @property (nullable, readonly, copy) NSString *charactersIgnoringModifiers;
 @end
 
+// Classes the suggestions API names. Only their identity matters to Swift.
+@interface NSResponder : NSObject
+@end
+@interface NSView : NSResponder
+@end
+@interface NSControl : NSView
+@property (copy) NSString *stringValue;
+@end
+@interface NSTextField : NSControl
+@end
+
 void NSRectFillUsingOperation(NSRect rect, NSCompositingOperation operation);
 void NSFrameRectWithWidthUsingOperation(NSRect rect, CGFloat frameWidth, NSCompositingOperation operation);
 void NSBeep(void);
