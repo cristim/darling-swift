@@ -74,6 +74,25 @@ typedef enum NSBezelStyle : NSUInteger {
 @end
 @interface NSTextField : NSControl
 @end
+// The classes the diffable data sources name. Only identity and the few members used matter to Swift; dataSource and
+// delegate are untyped, as Darling's NSCollectionView and NSTableView declare them.
+@protocol NSCollectionViewElement <NSObject>
+@end
+@interface NSViewController : NSResponder
+@end
+@interface NSCollectionViewItem : NSViewController
+@end
+@interface NSCollectionView : NSView
+@property (nullable, assign) id dataSource;
+- (void)reloadData;
+@end
+@interface NSTableColumn : NSObject
+@end
+@interface NSTableView : NSControl
+@property (nullable, assign) id dataSource;
+@property (nullable, assign) id delegate;
+- (void)reloadData;
+@end
 
 void NSRectFillUsingOperation(NSRect rect, NSCompositingOperation operation);
 void NSFrameRectWithWidthUsingOperation(NSRect rect, CGFloat frameWidth, NSCompositingOperation operation);
