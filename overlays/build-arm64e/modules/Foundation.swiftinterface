@@ -1,0 +1,3524 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Swift version 6.3.3 (swift-6.3.3-RELEASE)
+// swift-module-flags: -target arm64-apple-macosx26.0 -module-name Foundation -module-link-name swiftFoundation -autolink-force-load -enable-library-evolution -O -swift-version 5
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
+import CoreFoundation
+import Darwin
+@_exported import Foundation
+import ObjectiveC
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+extension Swift.Array : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSArray
+  public static func _forceBridgeFromObjectiveC(_ source: Foundation.NSArray, result: inout Swift.Array<Element>?)
+  public static func _conditionallyBridgeFromObjectiveC(_ source: Foundation.NSArray, result: inout Swift.Array<Element>?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSArray?) -> Swift.Array<Element>
+  public typealias _ObjectiveCType = Foundation.NSArray
+}
+public struct Calendar : Swift.Hashable, Swift.Equatable, Foundation.ReferenceConvertible {
+  public typealias ReferenceType = Foundation.NSCalendar
+  public enum Identifier {
+    case gregorian
+    case buddhist
+    case chinese
+    case coptic
+    case ethiopicAmeteMihret
+    case ethiopicAmeteAlem
+    case hebrew
+    case iso8601
+    case indian
+    case islamic
+    case islamicCivil
+    case japanese
+    case persian
+    case republicOfChina
+    @available(macOS 10.10, iOS 8.0, *)
+    case islamicTabular
+    @available(macOS 10.10, iOS 8.0, *)
+    case islamicUmmAlQura
+    public static func == (a: Foundation.Calendar.Identifier, b: Foundation.Calendar.Identifier) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Component {
+    case era
+    case year
+    case month
+    case day
+    case hour
+    case minute
+    case second
+    case weekday
+    case weekdayOrdinal
+    case quarter
+    case weekOfMonth
+    case weekOfYear
+    case yearForWeekOfYear
+    case nanosecond
+    case calendar
+    case timeZone
+    public static func == (a: Foundation.Calendar.Component, b: Foundation.Calendar.Component) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static var current: Foundation.Calendar {
+    get
+  }
+  public static var autoupdatingCurrent: Foundation.Calendar {
+    get
+  }
+  public init(identifier: __shared Foundation.Calendar.Identifier)
+  public var identifier: Foundation.Calendar.Identifier {
+    get
+  }
+  public var locale: Foundation.Locale? {
+    get
+    set
+  }
+  public var timeZone: Foundation.TimeZone {
+    get
+    set
+  }
+  public var firstWeekday: Swift.Int {
+    get
+    set
+  }
+  public var minimumDaysInFirstWeek: Swift.Int {
+    get
+    set
+  }
+  public var eraSymbols: [Swift.String] {
+    get
+  }
+  public var longEraSymbols: [Swift.String] {
+    get
+  }
+  public var monthSymbols: [Swift.String] {
+    get
+  }
+  public var shortMonthSymbols: [Swift.String] {
+    get
+  }
+  public var veryShortMonthSymbols: [Swift.String] {
+    get
+  }
+  public var standaloneMonthSymbols: [Swift.String] {
+    get
+  }
+  public var shortStandaloneMonthSymbols: [Swift.String] {
+    get
+  }
+  public var veryShortStandaloneMonthSymbols: [Swift.String] {
+    get
+  }
+  public var weekdaySymbols: [Swift.String] {
+    get
+  }
+  public var shortWeekdaySymbols: [Swift.String] {
+    get
+  }
+  public var veryShortWeekdaySymbols: [Swift.String] {
+    get
+  }
+  public var standaloneWeekdaySymbols: [Swift.String] {
+    get
+  }
+  public var shortStandaloneWeekdaySymbols: [Swift.String] {
+    get
+  }
+  public var veryShortStandaloneWeekdaySymbols: [Swift.String] {
+    get
+  }
+  public var quarterSymbols: [Swift.String] {
+    get
+  }
+  public var shortQuarterSymbols: [Swift.String] {
+    get
+  }
+  public var standaloneQuarterSymbols: [Swift.String] {
+    get
+  }
+  public var shortStandaloneQuarterSymbols: [Swift.String] {
+    get
+  }
+  public var amSymbol: Swift.String {
+    get
+  }
+  public var pmSymbol: Swift.String {
+    get
+  }
+  public func minimumRange(of component: Foundation.Calendar.Component) -> Swift.Range<Swift.Int>?
+  public func maximumRange(of component: Foundation.Calendar.Component) -> Swift.Range<Swift.Int>?
+  public func range(of smaller: Foundation.Calendar.Component, in larger: Foundation.Calendar.Component, for date: Foundation.Date) -> Swift.Range<Swift.Int>?
+  public func dateInterval(of component: Foundation.Calendar.Component, start: inout Foundation.Date, interval: inout Foundation.TimeInterval, for date: Foundation.Date) -> Swift.Bool
+  @available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
+  public func dateInterval(of component: Foundation.Calendar.Component, for date: Foundation.Date) -> Foundation.DateInterval?
+  public func ordinality(of smaller: Foundation.Calendar.Component, in larger: Foundation.Calendar.Component, for date: Foundation.Date) -> Swift.Int?
+  public func date(byAdding components: Foundation.DateComponents, to date: Foundation.Date, wrappingComponents: Swift.Bool = false) -> Foundation.Date?
+  @available(iOS 8.0, *)
+  public func date(byAdding component: Foundation.Calendar.Component, value: Swift.Int, to date: Foundation.Date, wrappingComponents: Swift.Bool = false) -> Foundation.Date?
+  public func date(from components: Foundation.DateComponents) -> Foundation.Date?
+  public func dateComponents(_ components: Swift.Set<Foundation.Calendar.Component>, from date: Foundation.Date) -> Foundation.DateComponents
+  @available(iOS 8.0, *)
+  public func dateComponents(in timeZone: Foundation.TimeZone, from date: Foundation.Date) -> Foundation.DateComponents
+  public func dateComponents(_ components: Swift.Set<Foundation.Calendar.Component>, from start: Foundation.Date, to end: Foundation.Date) -> Foundation.DateComponents
+  @available(iOS 8.0, *)
+  public func dateComponents(_ components: Swift.Set<Foundation.Calendar.Component>, from start: Foundation.DateComponents, to end: Foundation.DateComponents) -> Foundation.DateComponents
+  @available(iOS 8.0, *)
+  public func component(_ component: Foundation.Calendar.Component, from date: Foundation.Date) -> Swift.Int
+  @available(iOS 8.0, *)
+  public func startOfDay(for date: Foundation.Date) -> Foundation.Date
+  @available(iOS 8.0, *)
+  public func compare(_ date1: Foundation.Date, to date2: Foundation.Date, toGranularity component: Foundation.Calendar.Component) -> Foundation.ComparisonResult
+  @available(iOS 8.0, *)
+  public func isDate(_ date1: Foundation.Date, equalTo date2: Foundation.Date, toGranularity component: Foundation.Calendar.Component) -> Swift.Bool
+  @available(iOS 8.0, *)
+  public func isDate(_ date1: Foundation.Date, inSameDayAs date2: Foundation.Date) -> Swift.Bool
+  @available(iOS 8.0, *)
+  public func isDateInToday(_ date: Foundation.Date) -> Swift.Bool
+  @available(iOS 8.0, *)
+  public func isDateInYesterday(_ date: Foundation.Date) -> Swift.Bool
+  @available(iOS 8.0, *)
+  public func isDateInTomorrow(_ date: Foundation.Date) -> Swift.Bool
+  @available(iOS 8.0, *)
+  public func isDateInWeekend(_ date: Foundation.Date) -> Swift.Bool
+  public enum SearchDirection {
+    case forward
+    case backward
+    public static func == (a: Foundation.Calendar.SearchDirection, b: Foundation.Calendar.SearchDirection) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum RepeatedTimePolicy {
+    case first
+    case last
+    public static func == (a: Foundation.Calendar.RepeatedTimePolicy, b: Foundation.Calendar.RepeatedTimePolicy) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum MatchingPolicy {
+    case nextTime
+    case nextTimePreservingSmallerComponents
+    case previousTimePreservingSmallerComponents
+    case strict
+    public static func == (a: Foundation.Calendar.MatchingPolicy, b: Foundation.Calendar.MatchingPolicy) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @available(iOS 8.0, *)
+  public func enumerateDates(startingAfter start: Foundation.Date, matching components: Foundation.DateComponents, matchingPolicy: Foundation.Calendar.MatchingPolicy, repeatedTimePolicy: Foundation.Calendar.RepeatedTimePolicy = .first, direction: Foundation.Calendar.SearchDirection = .forward, using block: (_ result: Foundation.Date?, _ exactMatch: Swift.Bool, _ stop: inout Swift.Bool) -> Swift.Void)
+  @available(iOS 8.0, *)
+  public func nextDate(after date: Foundation.Date, matching components: Foundation.DateComponents, matchingPolicy: Foundation.Calendar.MatchingPolicy, repeatedTimePolicy: Foundation.Calendar.RepeatedTimePolicy = .first, direction: Foundation.Calendar.SearchDirection = .forward) -> Foundation.Date?
+  @available(iOS 8.0, *)
+  public func date(bySetting component: Foundation.Calendar.Component, value: Swift.Int, of date: Foundation.Date) -> Foundation.Date?
+  @available(iOS 8.0, *)
+  public func date(bySettingHour hour: Swift.Int, minute: Swift.Int, second: Swift.Int, of date: Foundation.Date, matchingPolicy: Foundation.Calendar.MatchingPolicy = .nextTime, repeatedTimePolicy: Foundation.Calendar.RepeatedTimePolicy = .first, direction: Foundation.Calendar.SearchDirection = .forward) -> Foundation.Date?
+  @available(iOS 8.0, *)
+  public func date(_ date: Foundation.Date, matchesComponents components: Foundation.DateComponents) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: Foundation.Calendar, rhs: Foundation.Calendar) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Calendar : Swift.CustomDebugStringConvertible, Swift.CustomStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.Calendar : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSCalendar
+  public static func _forceBridgeFromObjectiveC(_ input: Foundation.NSCalendar, result: inout Foundation.Calendar?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSCalendar, result: inout Foundation.Calendar?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSCalendar?) -> Foundation.Calendar
+  public typealias _ObjectiveCType = Foundation.NSCalendar
+}
+extension Foundation.NSCalendar : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.Calendar : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct CharacterSet : Foundation.ReferenceConvertible, Swift.Equatable, Swift.Hashable, Swift.SetAlgebra {
+  public typealias ReferenceType = Foundation.NSCharacterSet
+  public init()
+  public init(charactersIn range: Swift.Range<Swift.Unicode.Scalar>)
+  public init(charactersIn range: Swift.ClosedRange<Swift.Unicode.Scalar>)
+  public init(charactersIn string: __shared Swift.String)
+  public init(bitmapRepresentation data: __shared Foundation.Data)
+  public init?(contentsOfFile file: __shared Swift.String)
+  public static var controlCharacters: Foundation.CharacterSet {
+    get
+  }
+  public static var whitespaces: Foundation.CharacterSet {
+    get
+  }
+  public static var whitespacesAndNewlines: Foundation.CharacterSet {
+    get
+  }
+  public static var decimalDigits: Foundation.CharacterSet {
+    get
+  }
+  public static var letters: Foundation.CharacterSet {
+    get
+  }
+  public static var lowercaseLetters: Foundation.CharacterSet {
+    get
+  }
+  public static var uppercaseLetters: Foundation.CharacterSet {
+    get
+  }
+  public static var nonBaseCharacters: Foundation.CharacterSet {
+    get
+  }
+  public static var alphanumerics: Foundation.CharacterSet {
+    get
+  }
+  public static var decomposables: Foundation.CharacterSet {
+    get
+  }
+  public static var illegalCharacters: Foundation.CharacterSet {
+    get
+  }
+  @available(*, unavailable, renamed: "punctuationCharacters")
+  public static var punctuation: Foundation.CharacterSet {
+    get
+  }
+  public static var punctuationCharacters: Foundation.CharacterSet {
+    get
+  }
+  public static var capitalizedLetters: Foundation.CharacterSet {
+    get
+  }
+  public static var symbols: Foundation.CharacterSet {
+    get
+  }
+  public static var newlines: Foundation.CharacterSet {
+    get
+  }
+  public static var urlUserAllowed: Foundation.CharacterSet {
+    get
+  }
+  public static var urlPasswordAllowed: Foundation.CharacterSet {
+    get
+  }
+  public static var urlHostAllowed: Foundation.CharacterSet {
+    get
+  }
+  public static var urlPathAllowed: Foundation.CharacterSet {
+    get
+  }
+  public static var urlQueryAllowed: Foundation.CharacterSet {
+    get
+  }
+  public static var urlFragmentAllowed: Foundation.CharacterSet {
+    get
+  }
+  @nonobjc public var bitmapRepresentation: Foundation.Data {
+    get
+  }
+  @nonobjc public var inverted: Foundation.CharacterSet {
+    get
+  }
+  public func hasMember(inPlane plane: Swift.UInt8) -> Swift.Bool
+  public mutating func insert(charactersIn range: Swift.Range<Swift.Unicode.Scalar>)
+  public mutating func insert(charactersIn range: Swift.ClosedRange<Swift.Unicode.Scalar>)
+  public mutating func remove(charactersIn range: Swift.Range<Swift.Unicode.Scalar>)
+  public mutating func remove(charactersIn range: Swift.ClosedRange<Swift.Unicode.Scalar>)
+  public mutating func insert(charactersIn string: Swift.String)
+  public mutating func remove(charactersIn string: Swift.String)
+  public mutating func invert()
+  @discardableResult
+  public mutating func insert(_ character: Swift.Unicode.Scalar) -> (inserted: Swift.Bool, memberAfterInsert: Swift.Unicode.Scalar)
+  @discardableResult
+  public mutating func update(with character: Swift.Unicode.Scalar) -> Swift.Unicode.Scalar?
+  @discardableResult
+  public mutating func remove(_ character: Swift.Unicode.Scalar) -> Swift.Unicode.Scalar?
+  public func contains(_ member: Swift.Unicode.Scalar) -> Swift.Bool
+  public func union(_ other: Foundation.CharacterSet) -> Foundation.CharacterSet
+  public mutating func formUnion(_ other: Foundation.CharacterSet)
+  public func intersection(_ other: Foundation.CharacterSet) -> Foundation.CharacterSet
+  public mutating func formIntersection(_ other: Foundation.CharacterSet)
+  public func subtracting(_ other: Foundation.CharacterSet) -> Foundation.CharacterSet
+  public mutating func subtract(_ other: Foundation.CharacterSet)
+  public func symmetricDifference(_ other: Foundation.CharacterSet) -> Foundation.CharacterSet
+  public mutating func formSymmetricDifference(_ other: Foundation.CharacterSet)
+  public func isSuperset(of other: Foundation.CharacterSet) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: Foundation.CharacterSet, rhs: Foundation.CharacterSet) -> Swift.Bool
+  public typealias ArrayLiteralElement = Swift.Unicode.Scalar
+  public typealias Element = Swift.Unicode.Scalar
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.CharacterSet : Swift._ObjectiveCBridgeable {
+  public static func _getObjectiveCType() -> any Any.Type
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSCharacterSet
+  public static func _forceBridgeFromObjectiveC(_ input: Foundation.NSCharacterSet, result: inout Foundation.CharacterSet?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSCharacterSet, result: inout Foundation.CharacterSet?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSCharacterSet?) -> Foundation.CharacterSet
+  public typealias _ObjectiveCType = Foundation.NSCharacterSet
+}
+extension Foundation.CharacterSet : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Foundation.NSCharacterSet : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.CharacterSet : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension Swift.Array : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public var regions: Swift.CollectionOfOne<Swift.Array<Swift.UInt8>> {
+    get
+  }
+  public typealias Regions = Swift.CollectionOfOne<Swift.Array<Swift.UInt8>>
+}
+extension Swift.ArraySlice : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public var regions: Swift.CollectionOfOne<Swift.ArraySlice<Swift.UInt8>> {
+    get
+  }
+  public typealias Regions = Swift.CollectionOfOne<Swift.ArraySlice<Swift.UInt8>>
+}
+extension Swift.ContiguousArray : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public var regions: Swift.CollectionOfOne<Swift.ContiguousArray<Swift.UInt8>> {
+    get
+  }
+  public typealias Regions = Swift.CollectionOfOne<Swift.ContiguousArray<Swift.UInt8>>
+}
+extension Swift.EmptyCollection : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public var regions: Swift.EmptyCollection<Foundation.Data> {
+    get
+  }
+  public typealias Regions = Swift.EmptyCollection<Foundation.Data>
+}
+extension Swift.Repeated : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public typealias Regions = Swift.Repeated<Foundation.Data>
+  public var regions: Swift.Repeated<Foundation.Data> {
+    get
+  }
+}
+extension Swift.Array : Foundation.MutableDataProtocol where Element == Swift.UInt8 {
+}
+extension Swift.ContiguousArray : Foundation.MutableDataProtocol where Element == Swift.UInt8 {
+}
+public protocol ContiguousBytes {
+  func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R
+}
+extension Swift.Array : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+}
+extension Swift.ArraySlice : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+}
+extension Swift.ContiguousArray : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+}
+extension Swift.UnsafeRawBufferPointer : Foundation.ContiguousBytes {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        return try body(self)
+    }
+}
+extension Swift.UnsafeMutableRawBufferPointer : Foundation.ContiguousBytes {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        return try body(UnsafeRawBufferPointer(self))
+    }
+}
+extension Swift.UnsafeBufferPointer : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        return try body(UnsafeRawBufferPointer(self))
+    }
+}
+extension Swift.UnsafeMutableBufferPointer : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        return try body(UnsafeRawBufferPointer(self))
+    }
+}
+extension Swift.EmptyCollection : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        return try body(UnsafeRawBufferPointer(start: nil, count: 0))
+    }
+}
+extension Swift.CollectionOfOne : Foundation.ContiguousBytes where Element == Swift.UInt8 {
+  @inlinable public func withUnsafeBytes<R>(_ body: (Swift.UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        let element = self.first!
+        return try Swift.withUnsafeBytes(of: element) {
+            return try body($0)
+        }
+    }
+}
+extension Swift.Slice : Foundation.ContiguousBytes where Base : Foundation.ContiguousBytes {
+  public func withUnsafeBytes<ResultType>(_ body: (Swift.UnsafeRawBufferPointer) throws -> ResultType) rethrows -> ResultType
+}
+public protocol DataProtocol : Swift.RandomAccessCollection where Self.Element == Swift.UInt8, Self.SubSequence : Foundation.DataProtocol {
+  associatedtype Regions : Swift.BidirectionalCollection where Self.Regions.Element : Foundation.ContiguousBytes, Self.Regions.Element : Foundation.DataProtocol, Self.Regions.Element.SubSequence : Foundation.ContiguousBytes
+  var regions: Self.Regions { get }
+  func firstRange<D, R>(of: D, in: R) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol, R : Swift.RangeExpression, Self.Index == R.Bound
+  func lastRange<D, R>(of: D, in: R) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol, R : Swift.RangeExpression, Self.Index == R.Bound
+  @discardableResult
+  func copyBytes(to: Swift.UnsafeMutableRawBufferPointer, count: Swift.Int) -> Swift.Int
+  @discardableResult
+  func copyBytes<DestinationType>(to: Swift.UnsafeMutableBufferPointer<DestinationType>, count: Swift.Int) -> Swift.Int
+  @discardableResult
+  func copyBytes<R>(to: Swift.UnsafeMutableRawBufferPointer, from: R) -> Swift.Int where R : Swift.RangeExpression, Self.Index == R.Bound
+  @discardableResult
+  func copyBytes<DestinationType, R>(to: Swift.UnsafeMutableBufferPointer<DestinationType>, from: R) -> Swift.Int where R : Swift.RangeExpression, Self.Index == R.Bound
+}
+public protocol MutableDataProtocol : Foundation.DataProtocol, Swift.MutableCollection, Swift.RangeReplaceableCollection {
+  mutating func resetBytes<R>(in range: R) where R : Swift.RangeExpression, Self.Index == R.Bound
+}
+extension Foundation.DataProtocol {
+  public func firstRange<D>(of data: D) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol
+  public func lastRange<D>(of data: D) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol
+  @discardableResult
+  public func copyBytes(to ptr: Swift.UnsafeMutableRawBufferPointer) -> Swift.Int
+  @discardableResult
+  public func copyBytes<DestinationType>(to ptr: Swift.UnsafeMutableBufferPointer<DestinationType>) -> Swift.Int
+  @discardableResult
+  public func copyBytes(to ptr: Swift.UnsafeMutableRawBufferPointer, count: Swift.Int) -> Swift.Int
+  @discardableResult
+  public func copyBytes<DestinationType>(to ptr: Swift.UnsafeMutableBufferPointer<DestinationType>, count: Swift.Int) -> Swift.Int
+  @discardableResult
+  public func copyBytes<R>(to ptr: Swift.UnsafeMutableRawBufferPointer, from range: R) -> Swift.Int where R : Swift.RangeExpression, Self.Index == R.Bound
+  @discardableResult
+  public func copyBytes<DestinationType, R>(to ptr: Swift.UnsafeMutableBufferPointer<DestinationType>, from range: R) -> Swift.Int where R : Swift.RangeExpression, Self.Index == R.Bound
+  public func firstRange<D, R>(of data: D, in range: R) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol, R : Swift.RangeExpression, Self.Index == R.Bound
+  public func lastRange<D, R>(of data: D, in range: R) -> Swift.Range<Self.Index>? where D : Foundation.DataProtocol, R : Swift.RangeExpression, Self.Index == R.Bound
+}
+extension Foundation.DataProtocol where Self : Foundation.ContiguousBytes {
+  public func copyBytes<DestinationType, R>(to ptr: Swift.UnsafeMutableBufferPointer<DestinationType>, from range: R) where R : Swift.RangeExpression, Self.Index == R.Bound
+}
+extension Foundation.MutableDataProtocol {
+  public mutating func resetBytes<R>(in range: R) where R : Swift.RangeExpression, Self.Index == R.Bound
+}
+extension Swift.Slice : Foundation.DataProtocol where Base : Foundation.DataProtocol {
+  public typealias Regions = [Base.Regions.Element.SubSequence]
+  public var regions: [Base.Regions.Element.SubSequence] {
+    get
+  }
+}
+@_alwaysEmitIntoClient internal func _withStackOrHeapBuffer(capacity: Swift.Int, _ body: (Swift.UnsafeMutableBufferPointer<Swift.UInt8>) -> Swift.Void) {
+    guard capacity > 0 else {
+        body(UnsafeMutableBufferPointer(start: nil, count: 0))
+        return
+    }
+    typealias InlineBuffer = (  
+        UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+        UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+        UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+        UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8
+    )
+    let inlineCount = MemoryLayout<InlineBuffer>.size
+    if capacity <= inlineCount {
+        var buffer: InlineBuffer = (
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+        )
+        withUnsafeMutableBytes(of: &buffer) { buffer in
+            assert(buffer.count == inlineCount)
+            let start = buffer.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            body(UnsafeMutableBufferPointer(start: start, count: capacity))
+        }
+        return
+    }
+
+    let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: capacity)
+    defer { buffer.deallocate() }
+    body(buffer)
+}
+@usableFromInline
+final internal class __DataStorage {
+  @usableFromInline
+  internal static let maxSize: Swift.Int
+  @usableFromInline
+  internal static let vmOpsThreshold: Swift.Int
+  @inlinable internal static func allocate(_ size: Swift.Int, _ clear: Swift.Bool) -> Swift.UnsafeMutableRawPointer? {
+        if clear {
+            return calloc(1, size)
+        } else {
+            return malloc(size)
+        }
+    }
+  @usableFromInline
+  internal static func move(_ dest_: Swift.UnsafeMutableRawPointer, _ source_: Swift.UnsafeRawPointer?, _ num_: Swift.Int)
+  @inlinable internal static func shouldAllocateCleared(_ size: Swift.Int) -> Swift.Bool {
+        return (size > (128 * 1024))
+    }
+  @usableFromInline
+  final internal var _bytes: Swift.UnsafeMutableRawPointer?
+  @usableFromInline
+  final internal var _length: Swift.Int
+  @usableFromInline
+  final internal var _capacity: Swift.Int
+  @usableFromInline
+  final internal var _offset: Swift.Int
+  @usableFromInline
+  final internal var _deallocator: ((Swift.UnsafeMutableRawPointer, Swift.Int) -> Swift.Void)?
+  @usableFromInline
+  final internal var _needToZero: Swift.Bool
+  @inlinable final internal var bytes: Swift.UnsafeRawPointer? {
+    get {
+        return UnsafeRawPointer(_bytes)?.advanced(by: -_offset)
+    }
+  }
+  @discardableResult
+  @inlinable final internal func withUnsafeBytes<Result>(in range: Swift.Range<Swift.Int>, apply: (Swift.UnsafeRawBufferPointer) throws -> Result) rethrows -> Result {
+        return try apply(UnsafeRawBufferPointer(start: _bytes?.advanced(by: range.lowerBound - _offset), count: Swift.min(range.upperBound - range.lowerBound, _length)))
+    }
+  @discardableResult
+  @inlinable final internal func withUnsafeMutableBytes<Result>(in range: Swift.Range<Swift.Int>, apply: (Swift.UnsafeMutableRawBufferPointer) throws -> Result) rethrows -> Result {
+        return try apply(UnsafeMutableRawBufferPointer(start: _bytes!.advanced(by:range.lowerBound - _offset), count: Swift.min(range.upperBound - range.lowerBound, _length)))
+    }
+  @inlinable final internal var mutableBytes: Swift.UnsafeMutableRawPointer? {
+    get {
+        return _bytes?.advanced(by: -_offset)
+    }
+  }
+  @inlinable final internal var capacity: Swift.Int {
+    get {
+        return _capacity
+    }
+  }
+  @inlinable final internal var length: Swift.Int {
+    get {
+            return _length
+        }
+    set {
+            setLength(newValue)
+        }
+  }
+  @inlinable final internal var isExternallyOwned: Swift.Bool {
+    get {
+         
+         
+        return _capacity == 0
+    }
+  }
+  @usableFromInline
+  final internal func ensureUniqueBufferReference(growingTo newLength: Swift.Int = 0, clear: Swift.Bool = false)
+  @inlinable final internal func _freeBytes() {
+        if let bytes = _bytes {
+            if let dealloc = _deallocator {
+                dealloc(bytes, length)
+            } else {
+                free(bytes)
+            }
+        }
+        _deallocator = nil
+    }
+  @inlinable final internal func enumerateBytes(in range: Swift.Range<Swift.Int>, _ block: (_ buffer: Swift.UnsafeBufferPointer<Swift.UInt8>, _ byteIndex: Foundation.Data.Index, _ stop: inout Swift.Bool) -> Swift.Void) {
+        var stopv: Bool = false
+        block(UnsafeBufferPointer<UInt8>(start: _bytes?.advanced(by: range.lowerBound - _offset).assumingMemoryBound(to: UInt8.self), count: Swift.min(range.upperBound - range.lowerBound, _length)), 0, &stopv)
+    }
+  @inlinable final internal func setLength(_ length: Swift.Int) {
+        let origLength = _length
+        let newLength = length
+        if _capacity < newLength || _bytes == nil {
+            ensureUniqueBufferReference(growingTo: newLength, clear: true)
+        } else if origLength < newLength && _needToZero {
+            memset(_bytes! + origLength, 0, newLength - origLength)
+        } else if newLength < origLength {
+            _needToZero = true
+        }
+        _length = newLength
+    }
+  @inlinable final internal func append(_ bytes: Swift.UnsafeRawPointer, length: Swift.Int) {
+        precondition(length >= 0, "Length of appending bytes must not be negative")
+        let origLength = _length
+        let newLength = origLength + length
+        if _capacity < newLength || _bytes == nil {
+            ensureUniqueBufferReference(growingTo: newLength, clear: false)
+        }
+        _length = newLength
+        __DataStorage.move(_bytes!.advanced(by: origLength), bytes, length)
+    }
+  @inlinable final internal func get(_ index: Swift.Int) -> Swift.UInt8 {
+        return _bytes!.advanced(by: index - _offset).assumingMemoryBound(to: UInt8.self).pointee
+    }
+  @inlinable final internal func set(_ index: Swift.Int, to value: Swift.UInt8) {
+        ensureUniqueBufferReference()
+        _bytes!.advanced(by: index - _offset).assumingMemoryBound(to: UInt8.self).pointee = value
+    }
+  @inlinable final internal func copyBytes(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+        let offsetPointer = UnsafeRawBufferPointer(start: _bytes?.advanced(by: range.lowerBound - _offset), count: Swift.min(range.upperBound - range.lowerBound, _length))
+        UnsafeMutableRawBufferPointer(start: pointer, count: range.upperBound - range.lowerBound).copyMemory(from: offsetPointer)
+    }
+  @usableFromInline
+  final internal func replaceBytes(in range_: Foundation.NSRange, with replacementBytes: Swift.UnsafeRawPointer?, length replacementLength: Swift.Int)
+  @usableFromInline
+  final internal func resetBytes(in range_: Swift.Range<Swift.Int>)
+  @usableFromInline
+  internal init(length: Swift.Int)
+  @usableFromInline
+  internal init(capacity capacity_: Swift.Int = 0)
+  @usableFromInline
+  internal init(bytes: Swift.UnsafeRawPointer?, length: Swift.Int)
+  @usableFromInline
+  internal init(bytes: Swift.UnsafeMutableRawPointer?, length: Swift.Int, copy: Swift.Bool, deallocator: ((Swift.UnsafeMutableRawPointer, Swift.Int) -> Swift.Void)?, offset: Swift.Int)
+  @usableFromInline
+  internal init(immutableReference: Foundation.NSData, offset: Swift.Int)
+  @usableFromInline
+  internal init(mutableReference: Foundation.NSMutableData, offset: Swift.Int)
+  @usableFromInline
+  internal init(customReference: Foundation.NSData, offset: Swift.Int)
+  @usableFromInline
+  internal init(customMutableReference: Foundation.NSMutableData, offset: Swift.Int)
+  @objc deinit
+  @inlinable final internal func mutableCopy(_ range: Swift.Range<Swift.Int>) -> Foundation.__DataStorage {
+        return __DataStorage(bytes: _bytes?.advanced(by: range.lowerBound - _offset), length: range.upperBound - range.lowerBound, copy: true, deallocator: nil, offset: range.lowerBound)
+    }
+  @inlinable final internal func withInteriorPointerReference<T>(_ range: Swift.Range<Swift.Int>, _ work: (Foundation.NSData) throws -> T) rethrows -> T {
+        if range.isEmpty {
+            return try work(NSData())  
+        }
+        return try work(NSData(bytesNoCopy: _bytes!.advanced(by: range.lowerBound - _offset), length: range.upperBound - range.lowerBound, freeWhenDone: false))
+    }
+  @usableFromInline
+  @inline(never) final internal func bridgedReference(_ range: Swift.Range<Swift.Int>) -> Foundation.NSData
+}
+@frozen public struct Data : Foundation.ReferenceConvertible, Swift.Equatable, Swift.Hashable, Swift.RandomAccessCollection, Swift.MutableCollection, Swift.RangeReplaceableCollection, Foundation.MutableDataProtocol, Foundation.ContiguousBytes {
+  public typealias ReferenceType = Foundation.NSData
+  public typealias ReadingOptions = Foundation.NSDataReadingOptions
+  public typealias WritingOptions = Foundation.NSDataWritingOptions
+  public typealias SearchOptions = Foundation.NSDataSearchOptions
+  public typealias Base64EncodingOptions = Foundation.NSDataBase64EncodingOptions
+  public typealias Base64DecodingOptions = Foundation.NSDataBase64DecodingOptions
+  public typealias Index = Swift.Int
+  public typealias Indices = Swift.Range<Swift.Int>
+  @usableFromInline
+  @frozen internal struct InlineData {
+    @usableFromInline
+    internal typealias Buffer = (Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8)
+    @usableFromInline
+    internal var bytes: Foundation.Data.InlineData.Buffer
+    @usableFromInline
+    internal var length: Swift.UInt8
+    @inlinable internal static func canStore(count: Swift.Int) -> Swift.Bool {
+            return count <= MemoryLayout<Buffer>.size
+        }
+    @inlinable internal init(_ srcBuffer: Swift.UnsafeRawBufferPointer) {
+            self.init(count: srcBuffer.count)
+            if !srcBuffer.isEmpty {
+                Swift.withUnsafeMutableBytes(of: &bytes) { dstBuffer in
+                    dstBuffer.baseAddress?.copyMemory(from: srcBuffer.baseAddress!, byteCount: srcBuffer.count)
+                }
+            }
+        }
+    @inlinable internal init(count: Swift.Int = 0) {
+            assert(count <= MemoryLayout<Buffer>.size)
+            bytes = (UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0))
+            length = UInt8(count)
+        }
+    @inlinable internal init(_ slice: Foundation.Data.InlineSlice, count: Swift.Int) {
+            self.init(count: count)
+            Swift.withUnsafeMutableBytes(of: &bytes) { dstBuffer in
+                slice.withUnsafeBytes { srcBuffer in
+                    dstBuffer.copyMemory(from: UnsafeRawBufferPointer(start: srcBuffer.baseAddress, count: count))
+                }
+            }
+        }
+    @inlinable internal init(_ slice: Foundation.Data.LargeSlice, count: Swift.Int) {
+            self.init(count: count)
+            Swift.withUnsafeMutableBytes(of: &bytes) { dstBuffer in
+                slice.withUnsafeBytes { srcBuffer in
+                    dstBuffer.copyMemory(from: UnsafeRawBufferPointer(start: srcBuffer.baseAddress, count: count))
+                }
+            }
+        }
+    @inlinable internal var capacity: Swift.Int {
+      get {
+            return MemoryLayout<Buffer>.size
+        }
+    }
+    @inlinable internal var count: Swift.Int {
+      get {
+                return Int(length)
+            }
+      set(newValue) {
+                assert(newValue <= MemoryLayout<Buffer>.size)
+                length = UInt8(newValue)
+            }
+    }
+    @inlinable internal var startIndex: Swift.Int {
+      get {
+            return 0
+        }
+    }
+    @inlinable internal var endIndex: Swift.Int {
+      get {
+            return count
+        }
+    }
+    @inlinable internal func withUnsafeBytes<Result>(_ apply: (Swift.UnsafeRawBufferPointer) throws -> Result) rethrows -> Result {
+            let count = Int(length)
+            return try Swift.withUnsafeBytes(of: bytes) { (rawBuffer) throws -> Result in
+                return try apply(UnsafeRawBufferPointer(start: rawBuffer.baseAddress, count: count))
+            }
+        }
+    @inlinable internal mutating func withUnsafeMutableBytes<Result>(_ apply: (Swift.UnsafeMutableRawBufferPointer) throws -> Result) rethrows -> Result {
+            let count = Int(length)
+            return try Swift.withUnsafeMutableBytes(of: &bytes) { (rawBuffer) throws -> Result in
+                return try apply(UnsafeMutableRawBufferPointer(start: rawBuffer.baseAddress, count: count))
+            }
+        }
+    @inlinable internal mutating func append(byte: Swift.UInt8) {
+            let count = self.count
+            assert(count + 1 <= MemoryLayout<Buffer>.size)
+            Swift.withUnsafeMutableBytes(of: &bytes) { $0[count] = byte }
+            self.length += 1
+        }
+    @inlinable internal mutating func append(contentsOf buffer: Swift.UnsafeRawBufferPointer) {
+            guard !buffer.isEmpty else { return }
+            assert(count + buffer.count <= MemoryLayout<Buffer>.size)
+            let cnt = count
+            _ = Swift.withUnsafeMutableBytes(of: &bytes) { rawBuffer in
+                rawBuffer.baseAddress?.advanced(by: cnt).copyMemory(from: buffer.baseAddress!, byteCount: buffer.count)
+            }
+
+            length += UInt8(buffer.count)
+        }
+    @inlinable internal subscript(index: Foundation.Data.Index) -> Swift.UInt8 {
+      get {
+                assert(index <= MemoryLayout<Buffer>.size)
+                precondition(index < length, "index \(index) is out of bounds of 0..<\(length)")
+                return Swift.withUnsafeBytes(of: bytes) { rawBuffer -> UInt8 in
+                    return rawBuffer[index]
+                }
+            }
+      set(newValue) {
+                assert(index <= MemoryLayout<Buffer>.size)
+                precondition(index < length, "index \(index) is out of bounds of 0..<\(length)")
+                Swift.withUnsafeMutableBytes(of: &bytes) { rawBuffer in
+                    rawBuffer[index] = newValue
+                }
+            }
+    }
+    @inlinable internal mutating func resetBytes(in range: Swift.Range<Foundation.Data.Index>) {
+            assert(range.lowerBound <= MemoryLayout<Buffer>.size)
+            assert(range.upperBound <= MemoryLayout<Buffer>.size)
+            precondition(range.lowerBound <= length, "index \(range.lowerBound) is out of bounds of 0..<\(length)")
+            if count < range.upperBound {
+                count = range.upperBound
+            }
+
+            let _ = Swift.withUnsafeMutableBytes(of: &bytes) { rawBuffer in
+              memset(rawBuffer.baseAddress?.advanced(by: range.lowerBound), 0, range.upperBound - range.lowerBound)
+            }
+        }
+    @usableFromInline
+    internal mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with replacementBytes: Swift.UnsafeRawPointer?, count replacementLength: Swift.Int)
+    @inlinable internal func copyBytes(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+            precondition(startIndex <= range.lowerBound, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(startIndex <= range.upperBound, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.upperBound <= endIndex, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+
+            Swift.withUnsafeBytes(of: bytes) {
+                let cnt = Swift.min($0.count, range.upperBound - range.lowerBound)
+                guard cnt > 0 else { return }
+                pointer.copyMemory(from: $0.baseAddress!.advanced(by: range.lowerBound), byteCount: cnt)
+            }
+        }
+  }
+  @usableFromInline
+  internal typealias HalfInt = Swift.Int32
+  @usableFromInline
+  @frozen internal struct InlineSlice {
+    @usableFromInline
+    internal var slice: Swift.Range<Foundation.Data.HalfInt>
+    @usableFromInline
+    internal var storage: Foundation.__DataStorage
+    @inlinable internal static func canStore(count: Swift.Int) -> Swift.Bool {
+            return count < HalfInt.max
+        }
+    @inlinable internal init(_ buffer: Swift.UnsafeRawBufferPointer) {
+            assert(buffer.count < HalfInt.max)
+            self.init(__DataStorage(bytes: buffer.baseAddress, length: buffer.count), count: buffer.count)
+        }
+    @inlinable internal init(capacity: Swift.Int) {
+            assert(capacity < HalfInt.max)
+            self.init(__DataStorage(capacity: capacity), count: 0)
+        }
+    @inlinable internal init(count: Swift.Int) {
+            assert(count < HalfInt.max)
+            self.init(__DataStorage(length: count), count: count)
+        }
+    @inlinable internal init(_ inline: Foundation.Data.InlineData) {
+            assert(inline.count < HalfInt.max)
+            self.init(inline.withUnsafeBytes { return __DataStorage(bytes: $0.baseAddress, length: $0.count) }, count: inline.count)
+        }
+    @inlinable internal init(_ inline: Foundation.Data.InlineData, range: Swift.Range<Swift.Int>) {
+            assert(range.lowerBound < HalfInt.max)
+            assert(range.upperBound < HalfInt.max)
+            self.init(inline.withUnsafeBytes { return __DataStorage(bytes: $0.baseAddress, length: $0.count) }, range: range)
+        }
+    @inlinable internal init(_ large: Foundation.Data.LargeSlice) {
+            assert(large.range.lowerBound < HalfInt.max)
+            assert(large.range.upperBound < HalfInt.max)
+            self.init(large.storage, range: large.range)
+        }
+    @inlinable internal init(_ large: Foundation.Data.LargeSlice, range: Swift.Range<Swift.Int>) {
+            assert(range.lowerBound < HalfInt.max)
+            assert(range.upperBound < HalfInt.max)
+            self.init(large.storage, range: range)
+        }
+    @inlinable internal init(_ storage: Foundation.__DataStorage, count: Swift.Int) {
+            assert(count < HalfInt.max)
+            self.storage = storage
+            slice = 0..<HalfInt(count)
+        }
+    @inlinable internal init(_ storage: Foundation.__DataStorage, range: Swift.Range<Swift.Int>) {
+            assert(range.lowerBound < HalfInt.max)
+            assert(range.upperBound < HalfInt.max)
+            self.storage = storage
+            slice = HalfInt(range.lowerBound)..<HalfInt(range.upperBound)
+        }
+    @inlinable internal mutating func ensureUniqueReference() {
+            if !isKnownUniquelyReferenced(&storage) {
+                storage = storage.mutableCopy(self.range)
+            }
+        }
+    @inlinable internal var startIndex: Swift.Int {
+      get {
+            return Int(slice.lowerBound)
+        }
+    }
+    @inlinable internal var endIndex: Swift.Int {
+      get {
+            return Int(slice.upperBound)
+        }
+    }
+    @inlinable internal var capacity: Swift.Int {
+      get {
+            return storage.capacity
+        }
+    }
+    @inlinable internal mutating func reserveCapacity(_ minimumCapacity: Swift.Int) {
+            ensureUniqueReference()
+             
+            storage.ensureUniqueBufferReference(growingTo: Swift.max(minimumCapacity, count))
+        }
+    @inlinable internal var count: Swift.Int {
+      get {
+                return Int(slice.upperBound - slice.lowerBound)
+            }
+      set(newValue) {
+                assert(newValue < HalfInt.max)
+                ensureUniqueReference()
+                storage.length = newValue
+                slice = slice.lowerBound..<(slice.lowerBound + HalfInt(newValue))
+            }
+    }
+    @inlinable internal var range: Swift.Range<Swift.Int> {
+      get {
+                return Int(slice.lowerBound)..<Int(slice.upperBound)
+            }
+      set(newValue) {
+                assert(newValue.lowerBound < HalfInt.max)
+                assert(newValue.upperBound < HalfInt.max)
+                slice = HalfInt(newValue.lowerBound)..<HalfInt(newValue.upperBound)
+            }
+    }
+    @inlinable internal func withUnsafeBytes<Result>(_ apply: (Swift.UnsafeRawBufferPointer) throws -> Result) rethrows -> Result {
+            return try storage.withUnsafeBytes(in: range, apply: apply)
+        }
+    @inlinable internal mutating func withUnsafeMutableBytes<Result>(_ apply: (Swift.UnsafeMutableRawBufferPointer) throws -> Result) rethrows -> Result {
+            ensureUniqueReference()
+            return try storage.withUnsafeMutableBytes(in: range, apply: apply)
+        }
+    @inlinable internal mutating func append(contentsOf buffer: Swift.UnsafeRawBufferPointer) {
+            assert(endIndex + buffer.count < HalfInt.max)
+            ensureUniqueReference()
+            storage.replaceBytes(in: NSRange(location: range.upperBound, length: storage.length - (range.upperBound - storage._offset)), with: buffer.baseAddress, length: buffer.count)
+            slice = slice.lowerBound..<HalfInt(Int(slice.upperBound) + buffer.count)
+        }
+    @inlinable internal subscript(index: Foundation.Data.Index) -> Swift.UInt8 {
+      get {
+                assert(index < HalfInt.max)
+                precondition(startIndex <= index, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                precondition(index < endIndex, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                return storage.get(index)
+            }
+      set(newValue) {
+                assert(index < HalfInt.max)
+                precondition(startIndex <= index, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                precondition(index < endIndex, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                ensureUniqueReference()
+                storage.set(index, to: newValue)
+            }
+    }
+    @inlinable internal func bridgedReference() -> Foundation.NSData {
+            return storage.bridgedReference(self.range)
+        }
+    @inlinable internal mutating func resetBytes(in range: Swift.Range<Foundation.Data.Index>) {
+            assert(range.lowerBound < HalfInt.max)
+            assert(range.upperBound < HalfInt.max)
+            precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            ensureUniqueReference()
+            storage.resetBytes(in: range)
+            if slice.upperBound < range.upperBound {
+                slice = slice.lowerBound..<HalfInt(range.upperBound)
+            }
+        }
+    @inlinable internal mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with bytes: Swift.UnsafeRawPointer?, count cnt: Swift.Int) {
+            precondition(startIndex <= subrange.lowerBound, "index \(subrange.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(subrange.lowerBound <= endIndex, "index \(subrange.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(startIndex <= subrange.upperBound, "index \(subrange.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(subrange.upperBound <= endIndex, "index \(subrange.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+
+            let nsRange = NSRange(location: subrange.lowerBound, length: subrange.upperBound - subrange.lowerBound)
+            ensureUniqueReference()
+            let upper = range.upperBound
+            storage.replaceBytes(in: nsRange, with: bytes, length: cnt)
+            let resultingUpper = upper - nsRange.length + cnt
+            slice = slice.lowerBound..<HalfInt(resultingUpper)
+        }
+    @inlinable internal func copyBytes(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+            precondition(startIndex <= range.lowerBound, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(startIndex <= range.upperBound, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.upperBound <= endIndex, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            storage.copyBytes(to: pointer, from: range)
+        }
+  }
+  @usableFromInline
+  @_fixed_layout final internal class RangeReference {
+    @usableFromInline
+    final internal var range: Swift.Range<Swift.Int>
+    @inlinable @inline(__always) final internal var lowerBound: Swift.Int {
+      get {
+            return range.lowerBound
+        }
+    }
+    @inlinable @inline(__always) final internal var upperBound: Swift.Int {
+      get {
+            return range.upperBound
+        }
+    }
+    @inlinable @inline(__always) final internal var count: Swift.Int {
+      get {
+            return range.upperBound - range.lowerBound
+        }
+    }
+    @inlinable @inline(__always) internal init(_ range: Swift.Range<Swift.Int>) {
+            self.range = range
+        }
+    @objc @usableFromInline
+    deinit
+  }
+  @usableFromInline
+  @frozen internal struct LargeSlice {
+    @usableFromInline
+    internal var slice: Foundation.Data.RangeReference
+    @usableFromInline
+    internal var storage: Foundation.__DataStorage
+    @inlinable internal init(_ buffer: Swift.UnsafeRawBufferPointer) {
+            self.init(__DataStorage(bytes: buffer.baseAddress, length: buffer.count), count: buffer.count)
+        }
+    @inlinable internal init(capacity: Swift.Int) {
+            self.init(__DataStorage(capacity: capacity), count: 0)
+        }
+    @inlinable internal init(count: Swift.Int) {
+            self.init(__DataStorage(length: count), count: count)
+        }
+    @inlinable internal init(_ inline: Foundation.Data.InlineData) {
+            let storage = inline.withUnsafeBytes { return __DataStorage(bytes: $0.baseAddress, length: $0.count) }
+            self.init(storage, count: inline.count)
+        }
+    @inlinable internal init(_ slice: Foundation.Data.InlineSlice) {
+            self.storage = slice.storage
+            self.slice = RangeReference(slice.range)
+        }
+    @inlinable internal init(_ storage: Foundation.__DataStorage, count: Swift.Int) {
+            self.storage = storage
+            self.slice = RangeReference(0..<count)
+        }
+    @inlinable internal mutating func ensureUniqueReference() {
+            if !isKnownUniquelyReferenced(&storage) {
+                storage = storage.mutableCopy(range)
+            }
+            if !isKnownUniquelyReferenced(&slice) {
+                slice = RangeReference(range)
+            }
+        }
+    @inlinable internal var startIndex: Swift.Int {
+      get {
+            return slice.range.lowerBound
+        }
+    }
+    @inlinable internal var endIndex: Swift.Int {
+      get {
+          return slice.range.upperBound
+        }
+    }
+    @inlinable internal var capacity: Swift.Int {
+      get {
+            return storage.capacity
+        }
+    }
+    @inlinable internal mutating func reserveCapacity(_ minimumCapacity: Swift.Int) {
+            ensureUniqueReference()
+             
+            storage.ensureUniqueBufferReference(growingTo: Swift.max(minimumCapacity, count))
+        }
+    @inlinable internal var count: Swift.Int {
+      get {
+                return slice.count
+            }
+      set(newValue) {
+                ensureUniqueReference()
+                storage.length = newValue
+                slice.range = slice.range.lowerBound..<(slice.range.lowerBound + newValue)
+            }
+    }
+    @inlinable internal var range: Swift.Range<Swift.Int> {
+      get {
+            return slice.range
+        }
+    }
+    @inlinable internal func withUnsafeBytes<Result>(_ apply: (Swift.UnsafeRawBufferPointer) throws -> Result) rethrows -> Result {
+            return try storage.withUnsafeBytes(in: range, apply: apply)
+        }
+    @inlinable internal mutating func withUnsafeMutableBytes<Result>(_ apply: (Swift.UnsafeMutableRawBufferPointer) throws -> Result) rethrows -> Result {
+            ensureUniqueReference()
+            return try storage.withUnsafeMutableBytes(in: range, apply: apply)
+        }
+    @inlinable internal mutating func append(contentsOf buffer: Swift.UnsafeRawBufferPointer) {
+            ensureUniqueReference()
+            storage.replaceBytes(in: NSRange(location: range.upperBound, length: storage.length - (range.upperBound - storage._offset)), with: buffer.baseAddress, length: buffer.count)
+            slice.range = slice.range.lowerBound..<slice.range.upperBound + buffer.count
+        }
+    @inlinable internal subscript(index: Foundation.Data.Index) -> Swift.UInt8 {
+      get {
+                precondition(startIndex <= index, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                precondition(index < endIndex, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                return storage.get(index)
+            }
+      set(newValue) {
+                precondition(startIndex <= index, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                precondition(index < endIndex, "index \(index) is out of bounds of \(startIndex)..<\(endIndex)")
+                ensureUniqueReference()
+                storage.set(index, to: newValue)
+            }
+    }
+    @inlinable internal func bridgedReference() -> Foundation.NSData {
+            return storage.bridgedReference(self.range)
+        }
+    @inlinable internal mutating func resetBytes(in range: Swift.Range<Swift.Int>) {
+            precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            ensureUniqueReference()
+            storage.resetBytes(in: range)
+            if slice.range.upperBound < range.upperBound {
+                slice.range = slice.range.lowerBound..<range.upperBound
+            }
+        }
+    @inlinable internal mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with bytes: Swift.UnsafeRawPointer?, count cnt: Swift.Int) {
+            precondition(startIndex <= subrange.lowerBound, "index \(subrange.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(subrange.lowerBound <= endIndex, "index \(subrange.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(startIndex <= subrange.upperBound, "index \(subrange.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(subrange.upperBound <= endIndex, "index \(subrange.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+
+            let nsRange = NSRange(location: subrange.lowerBound, length: subrange.upperBound - subrange.lowerBound)
+            ensureUniqueReference()
+            let upper = range.upperBound
+            storage.replaceBytes(in: nsRange, with: bytes, length: cnt)
+            let resultingUpper = upper - nsRange.length + cnt
+            slice.range = slice.range.lowerBound..<resultingUpper
+        }
+    @inlinable internal func copyBytes(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+            precondition(startIndex <= range.lowerBound, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(startIndex <= range.upperBound, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            precondition(range.upperBound <= endIndex, "index \(range.upperBound) is out of bounds of \(startIndex)..<\(endIndex)")
+            storage.copyBytes(to: pointer, from: range)
+        }
+  }
+  @usableFromInline
+  @frozen internal enum _Representation {
+    case empty
+    case inline(Foundation.Data.InlineData)
+    case slice(Foundation.Data.InlineSlice)
+    case large(Foundation.Data.LargeSlice)
+    @inlinable internal init(_ buffer: Swift.UnsafeRawBufferPointer) {
+            if buffer.isEmpty {
+                self = .empty
+            } else if InlineData.canStore(count: buffer.count) {
+                self = .inline(InlineData(buffer))
+            } else if InlineSlice.canStore(count: buffer.count) {
+                self = .slice(InlineSlice(buffer))
+            } else {
+                self = .large(LargeSlice(buffer))
+            }
+        }
+    @inlinable internal init(_ buffer: Swift.UnsafeRawBufferPointer, owner: Swift.AnyObject) {
+            if buffer.isEmpty {
+                self = .empty
+            } else if InlineData.canStore(count: buffer.count) {
+                self = .inline(InlineData(buffer))
+            } else {
+                let count = buffer.count
+                let storage = __DataStorage(bytes: UnsafeMutableRawPointer(mutating: buffer.baseAddress), length: count, copy: false, deallocator: { _, _ in
+                    _fixLifetime(owner)
+                }, offset: 0)
+                if InlineSlice.canStore(count: count) {
+                    self = .slice(InlineSlice(storage, count: count))
+                } else {
+                    self = .large(LargeSlice(storage, count: count))
+                }
+            }
+        }
+    @inlinable internal init(capacity: Swift.Int) {
+            if capacity == 0 {
+                self = .empty
+            } else if InlineData.canStore(count: capacity) {
+                self = .inline(InlineData())
+            } else if InlineSlice.canStore(count: capacity) {
+                self = .slice(InlineSlice(capacity: capacity))
+            } else {
+                self = .large(LargeSlice(capacity: capacity))
+            }
+        }
+    @inlinable internal init(count: Swift.Int) {
+            if count == 0 {
+                self = .empty
+            } else if InlineData.canStore(count: count) {
+                self = .inline(InlineData(count: count))
+            } else if InlineSlice.canStore(count: count) {
+                self = .slice(InlineSlice(count: count))
+            } else {
+                self = .large(LargeSlice(count: count))
+            }
+        }
+    @inlinable internal init(_ storage: Foundation.__DataStorage, count: Swift.Int) {
+            if count == 0 {
+                self = .empty
+            } else if InlineData.canStore(count: count) {
+                self = .inline(storage.withUnsafeBytes(in: 0..<count) { InlineData($0) })
+            } else if InlineSlice.canStore(count: count) {
+                self = .slice(InlineSlice(storage, count: count))
+            } else {
+                self = .large(LargeSlice(storage, count: count))
+            }
+        }
+    @usableFromInline
+    internal mutating func reserveCapacity(_ minimumCapacity: Swift.Int)
+    @inlinable internal var count: Swift.Int {
+      get {
+                switch self {
+                case .empty: return 0
+                case .inline(let inline): return inline.count
+                case .slice(let slice): return slice.count
+                case .large(let slice): return slice.count
+                }
+            }
+      set(newValue) {
+                 
+                 
+                @inline(__always)
+                func apply(_ representation: inout _Representation, _ newValue: Int) -> _Representation? {
+                    switch representation {
+                    case .empty:
+                        if newValue == 0 {
+                            return nil
+                        } else if InlineData.canStore(count: newValue) {
+                            return .inline(InlineData(count: newValue))
+                        } else if InlineSlice.canStore(count: newValue) {
+                            return .slice(InlineSlice(count: newValue))
+                        } else {
+                            return .large(LargeSlice(count: newValue))
+                        }
+                    case .inline(var inline):
+                        if newValue == 0 {
+                            return .empty
+                        } else if InlineData.canStore(count: newValue) {
+                            guard inline.count != newValue else { return nil }
+                            inline.count = newValue
+                            return .inline(inline)
+                        } else if InlineSlice.canStore(count: newValue) {
+                            var slice = InlineSlice(inline)
+                            slice.count = newValue
+                            return .slice(slice)
+                        } else {
+                            var slice = LargeSlice(inline)
+                            slice.count = newValue
+                            return .large(slice)
+                        }
+                    case .slice(var slice):
+                        if newValue == 0 && slice.startIndex == 0 {
+                            return .empty
+                        } else if slice.startIndex == 0 && InlineData.canStore(count: newValue) {
+                            return .inline(InlineData(slice, count: newValue))
+                        } else if InlineSlice.canStore(count: newValue + slice.startIndex) {
+                            guard slice.count != newValue else { return nil }
+                            representation = .empty  
+                            slice.count = newValue
+                            return .slice(slice)
+                        } else {
+                            var newSlice = LargeSlice(slice)
+                            newSlice.count = newValue
+                            return .large(newSlice)
+                        }
+                    case .large(var slice):
+                        if newValue == 0 && slice.startIndex == 0 {
+                            return .empty
+                        } else if slice.startIndex == 0 && InlineData.canStore(count: newValue) {
+                            return .inline(InlineData(slice, count: newValue))
+                        } else {
+                            guard slice.count != newValue else { return nil}
+                            representation = .empty  
+                            slice.count = newValue
+                            return .large(slice)
+                        }
+                    }
+                }
+
+                if let rep = apply(&self, newValue) {
+                    self = rep
+                }
+            }
+    }
+    @inlinable internal func withUnsafeBytes<Result>(_ apply: (Swift.UnsafeRawBufferPointer) throws -> Result) rethrows -> Result {
+            switch self {
+            case .empty:
+                let empty = InlineData()
+                return try empty.withUnsafeBytes(apply)
+            case .inline(let inline):
+                return try inline.withUnsafeBytes(apply)
+            case .slice(let slice):
+                return try slice.withUnsafeBytes(apply)
+            case .large(let slice):
+                return try slice.withUnsafeBytes(apply)
+            }
+        }
+    @inlinable internal mutating func withUnsafeMutableBytes<Result>(_ apply: (Swift.UnsafeMutableRawBufferPointer) throws -> Result) rethrows -> Result {
+            switch self {
+            case .empty:
+                var empty = InlineData()
+                return try empty.withUnsafeMutableBytes(apply)
+            case .inline(var inline):
+                defer { self = .inline(inline) }
+                return try inline.withUnsafeMutableBytes(apply)
+            case .slice(var slice):
+                self = .empty
+                defer { self = .slice(slice) }
+                return try slice.withUnsafeMutableBytes(apply)
+            case .large(var slice):
+                self = .empty
+                defer { self = .large(slice) }
+                return try slice.withUnsafeMutableBytes(apply)
+            }
+        }
+    @inlinable internal func withInteriorPointerReference<T>(_ work: (Foundation.NSData) throws -> T) rethrows -> T {
+            switch self {
+            case .empty:
+                return try work(NSData())
+            case .inline(let inline):
+                return try inline.withUnsafeBytes {
+                    return try work(NSData(bytesNoCopy: UnsafeMutableRawPointer(mutating: $0.baseAddress ?? UnsafeRawPointer(bitPattern: 0xBAD0)!), length: $0.count, freeWhenDone: false))
+                }
+            case .slice(let slice):
+                return try slice.storage.withInteriorPointerReference(slice.range, work)
+            case .large(let slice):
+                return try slice.storage.withInteriorPointerReference(slice.range, work)
+            }
+        }
+    @usableFromInline
+    internal func enumerateBytes(_ block: (_ buffer: Swift.UnsafeBufferPointer<Swift.UInt8>, _ byteIndex: Foundation.Data.Index, _ stop: inout Swift.Bool) -> Swift.Void)
+    @inlinable internal mutating func append(contentsOf buffer: Swift.UnsafeRawBufferPointer) {
+            switch self {
+            case .empty:
+                self = _Representation(buffer)
+            case .inline(var inline):
+                if InlineData.canStore(count: inline.count + buffer.count) {
+                    inline.append(contentsOf: buffer)
+                    self = .inline(inline)
+                } else if InlineSlice.canStore(count: inline.count + buffer.count) {
+                    var newSlice = InlineSlice(inline)
+                    newSlice.append(contentsOf: buffer)
+                    self = .slice(newSlice)
+                } else {
+                    var newSlice = LargeSlice(inline)
+                    newSlice.append(contentsOf: buffer)
+                    self = .large(newSlice)
+                }
+            case .slice(var slice):
+                if InlineSlice.canStore(count: slice.range.upperBound + buffer.count) {
+                    self = .empty
+                    defer { self = .slice(slice) }
+                    slice.append(contentsOf: buffer)
+                } else {
+                    self = .empty
+                    var newSlice = LargeSlice(slice)
+                    newSlice.append(contentsOf: buffer)
+                    self = .large(newSlice)
+                }
+            case .large(var slice):
+                self = .empty
+                defer { self = .large(slice) }
+                slice.append(contentsOf: buffer)
+            }
+        }
+    @inlinable internal mutating func resetBytes(in range: Swift.Range<Foundation.Data.Index>) {
+            switch self {
+            case .empty:
+                if range.upperBound == 0 {
+                    self = .empty
+                } else if InlineData.canStore(count: range.upperBound) {
+                    precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+                    self = .inline(InlineData(count: range.upperBound))
+                } else if InlineSlice.canStore(count: range.upperBound) {
+                    precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+                    self = .slice(InlineSlice(count: range.upperBound))
+                } else {
+                    precondition(range.lowerBound <= endIndex, "index \(range.lowerBound) is out of bounds of \(startIndex)..<\(endIndex)")
+                    self = .large(LargeSlice(count: range.upperBound))
+                }
+            case .inline(var inline):
+                if inline.count < range.upperBound {
+                    if InlineSlice.canStore(count: range.upperBound) {
+                        var slice = InlineSlice(inline)
+                        slice.resetBytes(in: range)
+                        self = .slice(slice)
+                    } else {
+                        var slice = LargeSlice(inline)
+                        slice.resetBytes(in: range)
+                        self = .large(slice)
+                    }
+                } else {
+                    inline.resetBytes(in: range)
+                    self = .inline(inline)
+                }
+            case .slice(var slice):
+                if InlineSlice.canStore(count: range.upperBound) {
+                    self = .empty
+                    slice.resetBytes(in: range)
+                    self = .slice(slice)
+                } else {
+                    self = .empty
+                    var newSlice = LargeSlice(slice)
+                    newSlice.resetBytes(in: range)
+                    self = .large(newSlice)
+                }
+            case .large(var slice):
+                self = .empty
+                slice.resetBytes(in: range)
+                self = .large(slice)
+            }
+        }
+    @usableFromInline
+    internal mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with bytes: Swift.UnsafeRawPointer?, count cnt: Swift.Int)
+    @inlinable internal subscript(index: Foundation.Data.Index) -> Swift.UInt8 {
+      get {
+                switch self {
+                case .empty: preconditionFailure("index \(index) out of range of 0")
+                case .inline(let inline): return inline[index]
+                case .slice(let slice): return slice[index]
+                case .large(let slice): return slice[index]
+                }
+            }
+      set(newValue) {
+                switch self {
+                case .empty: preconditionFailure("index \(index) out of range of 0")
+                case .inline(var inline):
+                    inline[index] = newValue
+                    self = .inline(inline)
+                case .slice(var slice):
+                    self = .empty
+                    slice[index] = newValue
+                    self = .slice(slice)
+                case .large(var slice):
+                    self = .empty
+                    slice[index] = newValue
+                    self = .large(slice)
+                }
+            }
+    }
+    @inlinable internal subscript(bounds: Swift.Range<Foundation.Data.Index>) -> Foundation.Data {
+      get {
+                switch self {
+                case .empty:
+                    precondition(bounds.lowerBound == 0 && (bounds.upperBound - bounds.lowerBound) == 0, "Range \(bounds) out of bounds 0..<0")
+                    return Data()
+                case .inline(let inline):
+                    precondition(bounds.upperBound <= inline.count, "Range \(bounds) out of bounds 0..<\(inline.count)")
+                    if bounds.lowerBound == 0 {
+                        var newInline = inline
+                        newInline.count = bounds.upperBound
+                        return Data(representation: .inline(newInline))
+                    } else {
+                        return Data(representation: .slice(InlineSlice(inline, range: bounds)))
+                    }
+                case .slice(let slice):
+                    precondition(slice.startIndex <= bounds.lowerBound, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(bounds.lowerBound <= slice.endIndex, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(slice.startIndex <= bounds.upperBound, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(bounds.upperBound <= slice.endIndex, "Range \(bounds) out of bounds \(slice.range)")
+                    if bounds.lowerBound == 0 && bounds.upperBound == 0 {
+                        return Data()
+                    } else if bounds.lowerBound == 0 && InlineData.canStore(count: bounds.count) {
+                        return Data(representation: .inline(InlineData(slice, count: bounds.count)))
+                    } else {
+                        var newSlice = slice
+                        newSlice.range = bounds
+                        return Data(representation: .slice(newSlice))
+                    }
+                case .large(let slice):
+                    precondition(slice.startIndex <= bounds.lowerBound, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(bounds.lowerBound <= slice.endIndex, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(slice.startIndex <= bounds.upperBound, "Range \(bounds) out of bounds \(slice.range)")
+                    precondition(bounds.upperBound <= slice.endIndex, "Range \(bounds) out of bounds \(slice.range)")
+                    if bounds.lowerBound == 0 && bounds.upperBound == 0 {
+                        return Data()
+                    } else if bounds.lowerBound == 0 && InlineData.canStore(count: bounds.upperBound) {
+                        return Data(representation: .inline(InlineData(slice, count: bounds.upperBound)))
+                    } else if InlineSlice.canStore(count: bounds.lowerBound) && InlineSlice.canStore(count: bounds.upperBound) {
+                        return Data(representation: .slice(InlineSlice(slice, range: bounds)))
+                    } else {
+                        var newSlice = slice
+                        newSlice.slice = RangeReference(bounds)
+                        return Data(representation: .large(newSlice))
+                    }
+                }
+            }
+    }
+    @inlinable internal var startIndex: Swift.Int {
+      get {
+            switch self {
+            case .empty: return 0
+            case .inline: return 0
+            case .slice(let slice): return slice.startIndex
+            case .large(let slice): return slice.startIndex
+            }
+        }
+    }
+    @inlinable internal var endIndex: Swift.Int {
+      get {
+            switch self {
+            case .empty: return 0
+            case .inline(let inline): return inline.count
+            case .slice(let slice): return slice.endIndex
+            case .large(let slice): return slice.endIndex
+            }
+        }
+    }
+    @inlinable internal func bridgedReference() -> Foundation.NSData {
+            switch self {
+            case .empty: return NSData()
+            case .inline(let inline):
+                return inline.withUnsafeBytes {
+                    return NSData(bytes: $0.baseAddress, length: $0.count)
+                }
+            case .slice(let slice):
+                return slice.bridgedReference()
+            case .large(let slice):
+                return slice.bridgedReference()
+            }
+        }
+    @inlinable internal func copyBytes(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+            switch self {
+            case .empty:
+                precondition(range.lowerBound == 0 && range.upperBound == 0, "Range \(range) out of bounds 0..<0")
+                return
+            case .inline(let inline):
+                inline.copyBytes(to: pointer, from: range)
+            case .slice(let slice):
+                slice.copyBytes(to: pointer, from: range)
+            case .large(let slice):
+                slice.copyBytes(to: pointer, from: range)
+            }
+        }
+  }
+  @usableFromInline
+  internal var _representation: Foundation.Data._Representation
+  public enum Deallocator {
+    case virtualMemory
+    case unmap
+    case free
+    case none
+    case custom((Swift.UnsafeMutableRawPointer, Swift.Int) -> Swift.Void)
+    @usableFromInline
+    internal var _deallocator: (Swift.UnsafeMutableRawPointer, Swift.Int) -> Swift.Void {
+      get
+    }
+  }
+  @inlinable public init(bytes: Swift.UnsafeRawPointer, count: Swift.Int) {
+        _representation = _Representation(UnsafeRawBufferPointer(start: bytes, count: count))
+    }
+  @inlinable public init<SourceType>(buffer: Swift.UnsafeBufferPointer<SourceType>) {
+        _representation = _Representation(UnsafeRawBufferPointer(buffer))
+    }
+  @inlinable public init<SourceType>(buffer: Swift.UnsafeMutableBufferPointer<SourceType>) {
+        _representation = _Representation(UnsafeRawBufferPointer(buffer))
+    }
+  @inlinable public init(repeating repeatedValue: Swift.UInt8, count: Swift.Int) {
+        self.init(count: count)
+        withUnsafeMutableBytes { (buffer: UnsafeMutableRawBufferPointer) -> Void in
+            memset(buffer.baseAddress, Int32(repeatedValue), buffer.count)
+        }
+    }
+  @inlinable public init(capacity: Swift.Int) {
+        _representation = _Representation(capacity: capacity)
+    }
+  @inlinable public init(count: Swift.Int) {
+        _representation = _Representation(count: count)
+    }
+  @inlinable public init() {
+        _representation = .empty
+    }
+  @inlinable public init(bytesNoCopy bytes: Swift.UnsafeMutableRawPointer, count: Swift.Int, deallocator: Foundation.Data.Deallocator) {
+        let whichDeallocator = deallocator._deallocator
+        if count == 0 {
+            deallocator._deallocator(bytes, count)
+            _representation = .empty
+        } else {
+            _representation = _Representation(__DataStorage(bytes: bytes, length: count, copy: false, deallocator: whichDeallocator, offset: 0), count: count)
+        }
+    }
+  @inlinable public init(contentsOf url: __shared Foundation.URL, options: Foundation.Data.ReadingOptions = Data.ReadingOptions(rawValue: 0)) throws {
+        let d = try NSData(contentsOf: url._bridgeToObjectiveC(), options: ReadingOptions(rawValue: options.rawValue))
+        self.init(referencing: d)
+    }
+  @inlinable public init?(base64Encoded base64String: __shared Swift.String, options: Foundation.Data.Base64DecodingOptions = Data.Base64DecodingOptions(rawValue: 0)) {
+        if let d = NSData(base64EncodedString: base64String, options: Base64DecodingOptions(rawValue: options.rawValue)) {
+            self.init(referencing: d)
+        } else {
+            return nil
+        }
+    }
+  @inlinable public init?(base64Encoded base64Data: __shared Foundation.Data, options: Foundation.Data.Base64DecodingOptions = Data.Base64DecodingOptions(rawValue: 0)) {
+        if let d = NSData(base64EncodedData: base64Data._bridgeToObjectiveC(), options: Base64DecodingOptions(rawValue: options.rawValue)) {
+            self.init(referencing: d)
+        } else {
+            return nil
+        }
+    }
+  public init(referencing reference: __shared Foundation.NSData)
+  @inlinable public init<S>(_ elements: S) where S : Swift.Sequence, S.Element == Swift.UInt8 {
+         
+        if let contiguous = elements as? ContiguousBytes {
+            _representation = contiguous.withUnsafeBytes { return _Representation($0) }
+            return
+        }
+
+         
+         
+        let representation = elements.withContiguousStorageIfAvailable {
+            _Representation(UnsafeRawBufferPointer($0))
+        }
+        if let representation = representation {
+            _representation = representation
+            return
+        }
+
+         
+        let underestimatedCount = elements.underestimatedCount
+        _representation = _Representation(count: underestimatedCount)
+        var (iter, endIndex): (S.Iterator, Int) = _representation.withUnsafeMutableBytes { buffer in
+            let start = buffer.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            let b = UnsafeMutableBufferPointer(start: start, count: buffer.count)
+            return elements._copyContents(initializing: b)
+        }
+        guard endIndex == _representation.count else {
+             
+             
+            _representation.replaceSubrange(endIndex ..< _representation.endIndex, with: nil, count: 0)
+            return
+        }
+
+         
+        var buffer = InlineData()
+        while let element = iter.next() {
+            buffer.append(byte: element)
+            if buffer.count == buffer.capacity {
+                buffer.withUnsafeBytes { _representation.append(contentsOf: $0) }
+                buffer.count = 0
+            }
+        }
+
+         
+        if buffer.count > 0 {
+            buffer.withUnsafeBytes { _representation.append(contentsOf: $0) }
+            buffer.count = 0
+        }
+    }
+  @available(swift 4.2)
+  @available(swift, deprecated: 5, message: "use `init(_:)` instead")
+  public init<S>(bytes elements: S) where S : Swift.Sequence, S.Element == Swift.UInt8
+  @available(swift, obsoleted: 4.2)
+  public init(bytes: Swift.Array<Swift.UInt8>)
+  @available(swift, obsoleted: 4.2)
+  public init(bytes: Swift.ArraySlice<Swift.UInt8>)
+  @inlinable internal init(representation: Foundation.Data._Representation) {
+        _representation = representation
+    }
+  @inlinable public mutating func reserveCapacity(_ minimumCapacity: Swift.Int) {
+        _representation.reserveCapacity(minimumCapacity)
+    }
+  @inlinable public var count: Swift.Int {
+    get {
+            return _representation.count
+        }
+    set(newValue) {
+            precondition(newValue >= 0, "count must not be negative")
+            _representation.count = newValue
+        }
+  }
+  @inlinable public var regions: Swift.CollectionOfOne<Foundation.Data> {
+    get {
+        return CollectionOfOne(self)
+    }
+  }
+  @available(swift, deprecated: 5, message: "use `withUnsafeBytes<R>(_: (UnsafeRawBufferPointer) throws -> R) rethrows -> R` instead")
+  public func withUnsafeBytes<ResultType, ContentType>(_ body: (Swift.UnsafePointer<ContentType>) throws -> ResultType) rethrows -> ResultType
+  @inlinable public func withUnsafeBytes<ResultType>(_ body: (Swift.UnsafeRawBufferPointer) throws -> ResultType) rethrows -> ResultType {
+        return try _representation.withUnsafeBytes(body)
+    }
+  @available(swift, deprecated: 5, message: "use `withUnsafeMutableBytes<R>(_: (UnsafeMutableRawBufferPointer) throws -> R) rethrows -> R` instead")
+  public mutating func withUnsafeMutableBytes<ResultType, ContentType>(_ body: (Swift.UnsafeMutablePointer<ContentType>) throws -> ResultType) rethrows -> ResultType
+  @inlinable public mutating func withUnsafeMutableBytes<ResultType>(_ body: (Swift.UnsafeMutableRawBufferPointer) throws -> ResultType) rethrows -> ResultType {
+        return try _representation.withUnsafeMutableBytes(body)
+    }
+  @inlinable public func copyBytes(to pointer: Swift.UnsafeMutablePointer<Swift.UInt8>, count: Swift.Int) {
+        precondition(count >= 0, "count of bytes to copy must not be negative")
+        if count == 0 { return }
+        _copyBytesHelper(to: UnsafeMutableRawPointer(pointer), from: startIndex..<(startIndex + count))
+    }
+  @inlinable internal func _copyBytesHelper(to pointer: Swift.UnsafeMutableRawPointer, from range: Swift.Range<Swift.Int>) {
+        if range.isEmpty { return }
+        _representation.copyBytes(to: pointer, from: range)
+    }
+  @inlinable public func copyBytes(to pointer: Swift.UnsafeMutablePointer<Swift.UInt8>, from range: Swift.Range<Foundation.Data.Index>) {
+        _copyBytesHelper(to: pointer, from: range)
+    }
+  @inlinable public func copyBytes<DestinationType>(to buffer: Swift.UnsafeMutableBufferPointer<DestinationType>, from range: Swift.Range<Foundation.Data.Index>? = nil) -> Swift.Int {
+        let cnt = count
+        guard cnt > 0 else { return 0 }
+        
+        let copyRange : Range<Index>
+        if let r = range {
+            guard !r.isEmpty else { return 0 }
+            copyRange = r.lowerBound..<(r.lowerBound + Swift.min(buffer.count * MemoryLayout<DestinationType>.stride, r.upperBound - r.lowerBound))
+        } else {
+            copyRange = 0..<Swift.min(buffer.count * MemoryLayout<DestinationType>.stride, cnt)
+        }
+        
+        guard !copyRange.isEmpty else { return 0 }
+        
+        _copyBytesHelper(to: buffer.baseAddress!, from: copyRange)
+        return copyRange.upperBound - copyRange.lowerBound
+    }
+  public func write(to url: Foundation.URL, options: Foundation.Data.WritingOptions = Data.WritingOptions(rawValue: 0)) throws
+  public func range(of dataToFind: Foundation.Data, options: Foundation.Data.SearchOptions = Data.SearchOptions(rawValue: 0), in range: Swift.Range<Foundation.Data.Index>? = nil) -> Swift.Range<Foundation.Data.Index>?
+  @available(swift, deprecated: 5, message: "use `regions` or `for-in` instead")
+  public func enumerateBytes(_ block: (_ buffer: Swift.UnsafeBufferPointer<Swift.UInt8>, _ byteIndex: Foundation.Data.Index, _ stop: inout Swift.Bool) -> Swift.Void)
+  @inlinable internal mutating func _append<SourceType>(_ buffer: Swift.UnsafeBufferPointer<SourceType>) {
+        if buffer.isEmpty { return }
+        _representation.append(contentsOf: UnsafeRawBufferPointer(buffer))
+    }
+  @inlinable public mutating func append(_ bytes: Swift.UnsafePointer<Swift.UInt8>, count: Swift.Int) {
+        if count == 0 { return }
+        _append(UnsafeBufferPointer(start: bytes, count: count))
+    }
+  public mutating func append(_ other: Foundation.Data)
+  @inlinable public mutating func append<SourceType>(_ buffer: Swift.UnsafeBufferPointer<SourceType>) {
+        _append(buffer)
+    }
+  @inlinable public mutating func append(contentsOf bytes: [Swift.UInt8]) {
+        bytes.withUnsafeBufferPointer { (buffer: UnsafeBufferPointer<UInt8>) -> Void in
+            _append(buffer)
+        }
+    }
+  @inlinable public mutating func append<S>(contentsOf elements: S) where S : Swift.Sequence, S.Element == Swift.UInt8 {
+         
+        if let contiguous = elements as? ContiguousBytes {
+            contiguous.withUnsafeBytes {
+                _representation.append(contentsOf: $0)
+            }
+
+            return
+        }
+
+         
+         
+        let appended: Void? = elements.withContiguousStorageIfAvailable {
+            _representation.append(contentsOf: UnsafeRawBufferPointer($0))
+        }
+        guard appended == nil else { return }
+
+         
+         
+        let underestimatedCount = elements.underestimatedCount
+        let originalCount = _representation.count
+        resetBytes(in: self.endIndex ..< self.endIndex + underestimatedCount)
+        var (iter, copiedCount): (S.Iterator, Int) = _representation.withUnsafeMutableBytes { buffer in
+            assert(buffer.count == originalCount + underestimatedCount)
+            let start = buffer.baseAddress!.assumingMemoryBound(to: UInt8.self) + originalCount
+            let b = UnsafeMutableBufferPointer(start: start, count: buffer.count - originalCount)
+            return elements._copyContents(initializing: b)
+        }
+        guard copiedCount == underestimatedCount else {
+             
+             
+            _representation.replaceSubrange(startIndex + originalCount + copiedCount ..< endIndex, with: nil, count: 0)
+            return
+        }
+
+         
+        var buffer = InlineData()
+        while let element = iter.next() {
+            buffer.append(byte: element)
+            if buffer.count == buffer.capacity {
+                buffer.withUnsafeBytes { _representation.append(contentsOf: $0) }
+                buffer.count = 0
+            }
+        }
+
+         
+        if buffer.count > 0 {
+            buffer.withUnsafeBytes { _representation.append(contentsOf: $0) }
+            buffer.count = 0
+        }
+    }
+  @inlinable public mutating func resetBytes(in range: Swift.Range<Foundation.Data.Index>) {
+         
+        precondition(range.lowerBound >= 0, "Ranges must not be negative bounds")
+        precondition(range.upperBound >= 0, "Ranges must not be negative bounds")
+        _representation.resetBytes(in: range)
+    }
+  @inlinable public mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with data: Foundation.Data) {
+        data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
+            _representation.replaceSubrange(subrange, with: buffer.baseAddress, count: buffer.count)
+        }
+    }
+  @inlinable public mutating func replaceSubrange<SourceType>(_ subrange: Swift.Range<Foundation.Data.Index>, with buffer: Swift.UnsafeBufferPointer<SourceType>) {
+        guard !buffer.isEmpty  else { return }
+        replaceSubrange(subrange, with: buffer.baseAddress!, count: buffer.count * MemoryLayout<SourceType>.stride)
+    }
+  @inlinable public mutating func replaceSubrange<ByteCollection>(_ subrange: Swift.Range<Foundation.Data.Index>, with newElements: ByteCollection) where ByteCollection : Swift.Collection, ByteCollection.Element == Swift.UInt8 {
+         
+        if let contiguous = newElements as? ContiguousBytes {
+            contiguous.withUnsafeBytes { buffer in
+                _representation.replaceSubrange(subrange, with: buffer.baseAddress, count: buffer.count)
+            }
+            return
+        }
+         
+         
+        let replaced: Void? = newElements.withContiguousStorageIfAvailable { buffer in
+            _representation.replaceSubrange(subrange, with: buffer.baseAddress, count: buffer.count)
+        }
+        guard replaced == nil else { return }
+
+        let totalCount = Int(newElements.count)
+        _withStackOrHeapBuffer(capacity: totalCount) { buffer in
+            var (iterator, index) = newElements._copyContents(initializing: buffer)
+            precondition(index == buffer.endIndex, "Collection has less elements than its count")
+            precondition(iterator.next() == nil, "Collection has more elements than its count")
+            _representation.replaceSubrange(subrange, with: buffer.baseAddress, count: totalCount)
+        }
+    }
+  @inlinable public mutating func replaceSubrange(_ subrange: Swift.Range<Foundation.Data.Index>, with bytes: Swift.UnsafeRawPointer, count cnt: Swift.Int) {
+        _representation.replaceSubrange(subrange, with: bytes, count: cnt)
+    }
+  public func subdata(in range: Swift.Range<Foundation.Data.Index>) -> Foundation.Data
+  @inlinable public func base64EncodedString(options: Foundation.Data.Base64EncodingOptions = Data.Base64EncodingOptions(rawValue: 0)) -> Swift.String {
+        return _representation.withInteriorPointerReference {
+            return $0.base64EncodedString(with: options)
+        }
+    }
+  @inlinable public func base64EncodedData(options: Foundation.Data.Base64EncodingOptions = Data.Base64EncodingOptions(rawValue: 0)) -> Foundation.Data {
+        return _representation.withInteriorPointerReference {
+            return Data(referencing: $0.base64EncodedData(with: options))
+        }
+    }
+  @inline(never) public func hash(into hasher: inout Swift.Hasher)
+  public func advanced(by amount: Swift.Int) -> Foundation.Data
+  @inlinable public subscript(index: Foundation.Data.Index) -> Swift.UInt8 {
+    get {
+            return _representation[index]
+        }
+    set(newValue) {
+            _representation[index] = newValue
+        }
+  }
+  @inlinable public subscript(bounds: Swift.Range<Foundation.Data.Index>) -> Foundation.Data {
+    get {
+            return _representation[bounds]
+        }
+    set {
+            replaceSubrange(bounds, with: newValue)
+        }
+  }
+  @inlinable public subscript<R>(rangeExpression: R) -> Foundation.Data where R : Swift.RangeExpression, R.Bound : Swift.FixedWidthInteger {
+    get {
+            let lower = R.Bound(startIndex)
+            let upper = R.Bound(endIndex)
+            let range = rangeExpression.relative(to: lower..<upper)
+            let start = Int(range.lowerBound)
+            let end = Int(range.upperBound)
+            let r: Range<Int> = start..<end
+            return _representation[r]
+        }
+    set {
+            let lower = R.Bound(startIndex)
+            let upper = R.Bound(endIndex)
+            let range = rangeExpression.relative(to: lower..<upper)
+            let start = Int(range.lowerBound)
+            let end = Int(range.upperBound)
+            let r: Range<Int> = start..<end
+            replaceSubrange(r, with: newValue)
+        }
+  }
+  @inlinable public var startIndex: Foundation.Data.Index {
+    get {
+            return _representation.startIndex
+        }
+  }
+  @inlinable public var endIndex: Foundation.Data.Index {
+    get {
+            return _representation.endIndex
+        }
+  }
+  @inlinable public func index(before i: Foundation.Data.Index) -> Foundation.Data.Index {
+        return i - 1
+    }
+  @inlinable public func index(after i: Foundation.Data.Index) -> Foundation.Data.Index {
+        return i + 1
+    }
+  @inlinable public var indices: Swift.Range<Swift.Int> {
+    get {
+            return startIndex..<endIndex
+        }
+  }
+  @inlinable public func _copyContents(initializing buffer: Swift.UnsafeMutableBufferPointer<Swift.UInt8>) -> (Foundation.Data.Iterator, Swift.UnsafeMutableBufferPointer<Swift.UInt8>.Index) {
+        guard !isEmpty else { return (makeIterator(), buffer.startIndex) }
+        let cnt = Swift.min(count, buffer.count)
+        
+        withUnsafeBytes { (bytes: UnsafeRawBufferPointer) in
+            _ = memcpy(UnsafeMutableRawPointer(buffer.baseAddress), bytes.baseAddress, cnt)
+        }
+        
+        return (Iterator(self, at: startIndex + cnt), buffer.index(buffer.startIndex, offsetBy: cnt))
+    }
+  @inlinable public func makeIterator() -> Foundation.Data.Iterator {
+        return Iterator(self, at: startIndex)
+    }
+  public struct Iterator : Swift.IteratorProtocol {
+    @usableFromInline
+    internal typealias Buffer = (Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8)
+    @usableFromInline
+    internal let _data: Foundation.Data
+    @usableFromInline
+    internal var _buffer: Foundation.Data.Iterator.Buffer
+    @usableFromInline
+    internal var _idx: Foundation.Data.Index
+    @usableFromInline
+    internal let _endIdx: Foundation.Data.Index
+    @usableFromInline
+    internal init(_ data: Foundation.Data, at loc: Foundation.Data.Index)
+    public mutating func next() -> Swift.UInt8?
+    public typealias Element = Swift.UInt8
+  }
+  @available(*, unavailable, renamed: "count")
+  public var length: Swift.Int {
+    get
+    set
+  }
+  @available(*, unavailable, message: "use withUnsafeBytes instead")
+  public var bytes: Swift.UnsafeRawPointer {
+    get
+  }
+  @available(*, unavailable, message: "use withUnsafeMutableBytes instead")
+  public var mutableBytes: Swift.UnsafeMutableRawPointer {
+    get
+  }
+  @inlinable public static func == (d1: Foundation.Data, d2: Foundation.Data) -> Swift.Bool {
+        let length1 = d1.count
+        if length1 != d2.count {
+            return false
+        }
+        if length1 > 0 {
+            return d1.withUnsafeBytes { (b1: UnsafeRawBufferPointer) in
+                return d2.withUnsafeBytes { (b2: UnsafeRawBufferPointer) in
+                    return memcmp(b1.baseAddress!, b2.baseAddress!, b2.count) == 0
+                }
+            }
+        }
+        return true
+    }
+  public typealias Element = Swift.UInt8
+  public typealias Regions = Swift.CollectionOfOne<Foundation.Data>
+  public typealias SubSequence = Foundation.Data
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Data : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.Data {
+  @available(*, unavailable, renamed: "copyBytes(to:count:)")
+  public func getBytes<UnsafeMutablePointerVoid>(_ buffer: UnsafeMutablePointerVoid, length: Swift.Int) where UnsafeMutablePointerVoid : Swift._Pointer
+  @available(*, unavailable, renamed: "copyBytes(to:from:)")
+  public func getBytes<UnsafeMutablePointerVoid>(_ buffer: UnsafeMutablePointerVoid, range: Foundation.NSRange) where UnsafeMutablePointerVoid : Swift._Pointer
+}
+extension Foundation.Data : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSData
+  public static func _forceBridgeFromObjectiveC(_ input: Foundation.NSData, result: inout Foundation.Data?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSData, result: inout Foundation.Data?) -> Swift.Bool
+  public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSData?) -> Foundation.Data
+  public typealias _ObjectiveCType = Foundation.NSData
+}
+extension Foundation.NSData : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.Data : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct DateComponents : Foundation.ReferenceConvertible, Swift.Hashable, Swift.Equatable {
+  public typealias ReferenceType = Foundation.NSDateComponents
+  public init(calendar: Foundation.Calendar? = nil, timeZone: Foundation.TimeZone? = nil, era: Swift.Int? = nil, year: Swift.Int? = nil, month: Swift.Int? = nil, day: Swift.Int? = nil, hour: Swift.Int? = nil, minute: Swift.Int? = nil, second: Swift.Int? = nil, nanosecond: Swift.Int? = nil, weekday: Swift.Int? = nil, weekdayOrdinal: Swift.Int? = nil, quarter: Swift.Int? = nil, weekOfMonth: Swift.Int? = nil, weekOfYear: Swift.Int? = nil, yearForWeekOfYear: Swift.Int? = nil)
+  public var calendar: Foundation.Calendar?
+  public var timeZone: Foundation.TimeZone?
+  public var era: Swift.Int?
+  public var year: Swift.Int?
+  public var month: Swift.Int?
+  public var day: Swift.Int?
+  public var hour: Swift.Int?
+  public var minute: Swift.Int?
+  public var second: Swift.Int?
+  public var nanosecond: Swift.Int?
+  public var weekday: Swift.Int?
+  public var weekdayOrdinal: Swift.Int?
+  public var quarter: Swift.Int?
+  public var weekOfMonth: Swift.Int?
+  public var weekOfYear: Swift.Int?
+  public var yearForWeekOfYear: Swift.Int?
+  public var isLeapMonth: Swift.Bool?
+  public var date: Foundation.Date? {
+    get
+  }
+  @available(macOS 10.9, iOS 8.0, *)
+  public mutating func setValue(_ value: Swift.Int?, for component: Foundation.Calendar.Component)
+  @available(macOS 10.9, iOS 8.0, *)
+  public func value(for component: Foundation.Calendar.Component) -> Swift.Int?
+  @available(macOS 10.9, iOS 8.0, *)
+  public var isValidDate: Swift.Bool {
+    get
+  }
+  @available(macOS 10.9, iOS 8.0, *)
+  public func isValidDate(in calendar: Foundation.Calendar) -> Swift.Bool
+  public static func == (a: Foundation.DateComponents, b: Foundation.DateComponents) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.DateComponents : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.DateComponents : Swift._ObjectiveCBridgeable {
+  public static func _getObjectiveCType() -> any Any.Type
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSDateComponents
+  public static func _forceBridgeFromObjectiveC(_ dateComponents: Foundation.NSDateComponents, result: inout Foundation.DateComponents?)
+  public static func _conditionallyBridgeFromObjectiveC(_ dateComponents: Foundation.NSDateComponents, result: inout Foundation.DateComponents?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSDateComponents?) -> Foundation.DateComponents
+  public typealias _ObjectiveCType = Foundation.NSDateComponents
+}
+extension Foundation.NSDateComponents : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.DateComponents : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+public struct DateInterval : Swift.Comparable, Swift.Hashable, Swift.Codable {
+  public var start: Foundation.Date
+  public var end: Foundation.Date {
+    get
+    set
+  }
+  public var duration: Foundation.TimeInterval {
+    get
+    set
+  }
+  public init()
+  public init(start: Foundation.Date, end: Foundation.Date)
+  public init(start: Foundation.Date, duration: Foundation.TimeInterval)
+  public func compare(_ dateInterval: Foundation.DateInterval) -> Foundation.ComparisonResult
+  public func intersects(_ dateInterval: Foundation.DateInterval) -> Swift.Bool
+  public func intersection(with dateInterval: Foundation.DateInterval) -> Foundation.DateInterval?
+  public func contains(_ date: Foundation.Date) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+  public static func == (lhs: Foundation.DateInterval, rhs: Foundation.DateInterval) -> Swift.Bool
+  @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+  public static func < (lhs: Foundation.DateInterval, rhs: Foundation.DateInterval) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+@available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+extension Foundation.DateInterval : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+public typealias TimeInterval = Foundation.NSTimeInterval
+public typealias ComparisonResult = Foundation.NSComparisonResult
+extension Foundation.NSComparisonResult {
+  public static var orderedAscending: Foundation.NSComparisonResult {
+    get
+  }
+  public static var orderedSame: Foundation.NSComparisonResult {
+    get
+  }
+  public static var orderedDescending: Foundation.NSComparisonResult {
+    get
+  }
+}
+public struct Date : Foundation.ReferenceConvertible, Swift.Comparable, Swift.Equatable {
+  public typealias ReferenceType = Foundation.NSDate
+  public static let timeIntervalBetween1970AndReferenceDate: Swift.Double
+  public static var timeIntervalSinceReferenceDate: Foundation.TimeInterval {
+    get
+  }
+  public init()
+  public init(timeIntervalSinceNow: Foundation.TimeInterval)
+  public init(timeIntervalSince1970: Foundation.TimeInterval)
+  public init(timeInterval: Foundation.TimeInterval, since date: Foundation.Date)
+  public init(timeIntervalSinceReferenceDate ti: Foundation.TimeInterval)
+  public static var now: Foundation.Date {
+    get
+  }
+  public var timeIntervalSinceReferenceDate: Foundation.TimeInterval {
+    get
+  }
+  public func timeIntervalSince(_ date: Foundation.Date) -> Foundation.TimeInterval
+  public var timeIntervalSinceNow: Foundation.TimeInterval {
+    get
+  }
+  public var timeIntervalSince1970: Foundation.TimeInterval {
+    get
+  }
+  public func addingTimeInterval(_ timeInterval: Foundation.TimeInterval) -> Foundation.Date
+  public mutating func addTimeInterval(_ timeInterval: Foundation.TimeInterval)
+  public func distance(to other: Foundation.Date) -> Foundation.TimeInterval
+  public func advanced(by n: Foundation.TimeInterval) -> Foundation.Date
+  public static let distantFuture: Foundation.Date
+  public static let distantPast: Foundation.Date
+  public func hash(into hasher: inout Swift.Hasher)
+  public func compare(_ other: Foundation.Date) -> Foundation.ComparisonResult
+  public static func == (lhs: Foundation.Date, rhs: Foundation.Date) -> Swift.Bool
+  public static func < (lhs: Foundation.Date, rhs: Foundation.Date) -> Swift.Bool
+  public static func > (lhs: Foundation.Date, rhs: Foundation.Date) -> Swift.Bool
+  public static func + (lhs: Foundation.Date, rhs: Foundation.TimeInterval) -> Foundation.Date
+  public static func - (lhs: Foundation.Date, rhs: Foundation.TimeInterval) -> Foundation.Date
+  public static func += (lhs: inout Foundation.Date, rhs: Foundation.TimeInterval)
+  public static func -= (lhs: inout Foundation.Date, rhs: Foundation.TimeInterval)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Date : Swift.CustomDebugStringConvertible, Swift.CustomStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.Date : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSDate
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSDate, result: inout Foundation.Date?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSDate, result: inout Foundation.Date?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSDate?) -> Foundation.Date
+  public typealias _ObjectiveCType = Foundation.NSDate
+}
+extension Foundation.NSDate : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.Date : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension Swift.Dictionary : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSDictionary
+  public static func _forceBridgeFromObjectiveC(_ d: Foundation.NSDictionary, result: inout Swift.Dictionary<Key, Value>?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSDictionary, result: inout Swift.Dictionary<Key, Value>?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ d: Foundation.NSDictionary?) -> Swift.Dictionary<Key, Value>
+  public typealias _ObjectiveCType = Foundation.NSDictionary
+}
+public var NSNotFound: Swift.Int {
+  get
+}
+public func NSLocalizedString(_ key: Swift.String, tableName: Swift.String? = nil, bundle: Foundation.NSBundle = NSBundle.main(), value: Swift.String = "", comment: Swift.String) -> Swift.String
+public func NSLog(_ format: Swift.String, _ args: any Swift.CVarArg...)
+extension Swift.AnyHashable : Swift._ObjectiveCBridgeable {
+  public func _bridgeToObjectiveC() -> ObjectiveC.NSObject
+  public static func _forceBridgeFromObjectiveC(_ x: ObjectiveC.NSObject, result: inout Swift.AnyHashable?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: ObjectiveC.NSObject, result: inout Swift.AnyHashable?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: ObjectiveC.NSObject?) -> Swift.AnyHashable
+  public typealias _ObjectiveCType = ObjectiveC.NSObject
+}
+extension Swift.CVarArg where Self : Swift._ObjectiveCBridgeable {
+  public var _cVarArgEncoding: [Swift.Int] {
+    get
+  }
+}
+extension Foundation.NSString : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.NSArray : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.NSDictionary : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.NSSet : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Swift.String : Swift.CVarArg {
+}
+extension Swift.Array : Swift.CVarArg {
+}
+extension Swift.Dictionary : Swift.CVarArg {
+}
+extension Swift.Set : Swift.CVarArg {
+}
+extension Swift.String {
+  public static func localizedStringWithFormat(_ format: Swift.String, _ arguments: any Swift.CVarArg...) -> Swift.String
+  public init(format: __shared Swift.String, _ arguments: any Swift.CVarArg...)
+  public init(format: __shared Swift.String, arguments: __shared [any Swift.CVarArg])
+}
+public struct IndexPath : Foundation.ReferenceConvertible, Swift.Equatable, Swift.Hashable, Swift.MutableCollection, Swift.RandomAccessCollection, Swift.Comparable, Swift.ExpressibleByArrayLiteral {
+  public typealias ReferenceType = Foundation.NSIndexPath
+  public typealias Element = Swift.Int
+  public typealias Index = Swift.Array<Swift.Int>.Index
+  public typealias Indices = Swift.DefaultIndices<Foundation.IndexPath>
+  public init()
+  public init<ElementSequence>(indexes: ElementSequence) where ElementSequence : Swift.Sequence, ElementSequence.Element == Swift.Int
+  public init(arrayLiteral indexes: Foundation.IndexPath.Element...)
+  public init(indexes: Swift.Array<Foundation.IndexPath.Element>)
+  public init(index: Foundation.IndexPath.Element)
+  public func dropLast() -> Foundation.IndexPath
+  public mutating func append(_ other: Foundation.IndexPath)
+  public mutating func append(_ other: Foundation.IndexPath.Element)
+  public mutating func append(_ other: Swift.Array<Foundation.IndexPath.Element>)
+  public func appending(_ other: Foundation.IndexPath.Element) -> Foundation.IndexPath
+  public func appending(_ other: Foundation.IndexPath) -> Foundation.IndexPath
+  public func appending(_ other: Swift.Array<Foundation.IndexPath.Element>) -> Foundation.IndexPath
+  public subscript(index: Foundation.IndexPath.Index) -> Foundation.IndexPath.Element {
+    get
+    set
+  }
+  public subscript(range: Swift.Range<Foundation.IndexPath.Index>) -> Foundation.IndexPath {
+    get
+    set
+  }
+  public func makeIterator() -> Swift.IndexingIterator<Foundation.IndexPath>
+  public var count: Swift.Int {
+    get
+  }
+  public var startIndex: Foundation.IndexPath.Index {
+    get
+  }
+  public var endIndex: Foundation.IndexPath.Index {
+    get
+  }
+  public func index(before i: Foundation.IndexPath.Index) -> Foundation.IndexPath.Index
+  public func index(after i: Foundation.IndexPath.Index) -> Foundation.IndexPath.Index
+  public func compare(_ other: Foundation.IndexPath) -> Foundation.ComparisonResult
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Swift.Bool
+  public static func + (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Foundation.IndexPath
+  public static func += (lhs: inout Foundation.IndexPath, rhs: Foundation.IndexPath)
+  public static func < (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Swift.Bool
+  public static func <= (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Swift.Bool
+  public static func > (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Swift.Bool
+  public static func >= (lhs: Foundation.IndexPath, rhs: Foundation.IndexPath) -> Swift.Bool
+  public typealias ArrayLiteralElement = Foundation.IndexPath.Element
+  public typealias Iterator = Swift.IndexingIterator<Foundation.IndexPath>
+  public typealias SubSequence = Foundation.IndexPath
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.IndexPath : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.IndexPath : Swift._ObjectiveCBridgeable {
+  public static func _getObjectiveCType() -> any Any.Type
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSIndexPath
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSIndexPath, result: inout Foundation.IndexPath?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSIndexPath, result: inout Foundation.IndexPath?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSIndexPath?) -> Foundation.IndexPath
+  public typealias _ObjectiveCType = Foundation.NSIndexPath
+}
+extension Foundation.NSIndexPath : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.IndexPath : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension Foundation.IndexSet.Index {
+  public static func == (lhs: Foundation.IndexSet.Index, rhs: Foundation.IndexSet.Index) -> Swift.Bool
+  public static func < (lhs: Foundation.IndexSet.Index, rhs: Foundation.IndexSet.Index) -> Swift.Bool
+  public static func <= (lhs: Foundation.IndexSet.Index, rhs: Foundation.IndexSet.Index) -> Swift.Bool
+  public static func > (lhs: Foundation.IndexSet.Index, rhs: Foundation.IndexSet.Index) -> Swift.Bool
+  public static func >= (lhs: Foundation.IndexSet.Index, rhs: Foundation.IndexSet.Index) -> Swift.Bool
+}
+extension Foundation.IndexSet.RangeView {
+  public static func == (lhs: Foundation.IndexSet.RangeView, rhs: Foundation.IndexSet.RangeView) -> Swift.Bool
+}
+public struct IndexSet : Foundation.ReferenceConvertible, Swift.Equatable, Swift.BidirectionalCollection, Swift.SetAlgebra {
+  public struct RangeView : Swift.Equatable, Swift.BidirectionalCollection {
+    public typealias Index = Swift.Int
+    public let startIndex: Foundation.IndexSet.RangeView.Index
+    public let endIndex: Foundation.IndexSet.RangeView.Index
+    public func makeIterator() -> Swift.IndexingIterator<Foundation.IndexSet.RangeView>
+    public subscript(index: Foundation.IndexSet.RangeView.Index) -> Swift.Range<Foundation.IndexSet.Element> {
+      get
+    }
+    public subscript(bounds: Swift.Range<Foundation.IndexSet.RangeView.Index>) -> Swift.Slice<Foundation.IndexSet.RangeView> {
+      get
+    }
+    public func index(after i: Foundation.IndexSet.RangeView.Index) -> Foundation.IndexSet.RangeView.Index
+    public func index(before i: Foundation.IndexSet.RangeView.Index) -> Foundation.IndexSet.RangeView.Index
+    public typealias Element = Swift.Range<Foundation.IndexSet.Element>
+    public typealias Indices = Swift.DefaultIndices<Foundation.IndexSet.RangeView>
+    public typealias Iterator = Swift.IndexingIterator<Foundation.IndexSet.RangeView>
+    public typealias SubSequence = Swift.Slice<Foundation.IndexSet.RangeView>
+  }
+  public struct Index : Swift.CustomStringConvertible, Swift.Comparable {
+    public var description: Swift.String {
+      get
+    }
+  }
+  public typealias ReferenceType = Foundation.NSIndexSet
+  public typealias Element = Swift.Int
+  public init(integersIn range: Swift.Range<Foundation.IndexSet.Element>)
+  public init<R>(integersIn range: R) where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public init(integer: Foundation.IndexSet.Element)
+  public init()
+  public func hash(into hasher: inout Swift.Hasher)
+  public var count: Swift.Int {
+    get
+  }
+  public func makeIterator() -> Swift.IndexingIterator<Foundation.IndexSet>
+  public var rangeView: Foundation.IndexSet.RangeView {
+    get
+  }
+  public func rangeView(of range: Swift.Range<Foundation.IndexSet.Element>) -> Foundation.IndexSet.RangeView
+  public func rangeView<R>(of range: R) -> Foundation.IndexSet.RangeView where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public var startIndex: Foundation.IndexSet.Index {
+    get
+  }
+  public var endIndex: Foundation.IndexSet.Index {
+    get
+  }
+  public subscript(index: Foundation.IndexSet.Index) -> Foundation.IndexSet.Element {
+    get
+  }
+  public subscript(bounds: Swift.Range<Foundation.IndexSet.Index>) -> Swift.Slice<Foundation.IndexSet> {
+    get
+  }
+  public var first: Foundation.IndexSet.Element? {
+    get
+  }
+  public var last: Foundation.IndexSet.Element? {
+    get
+  }
+  public func integerGreaterThan(_ integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  public func integerLessThan(_ integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  public func integerGreaterThanOrEqualTo(_ integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  public func integerLessThanOrEqualTo(_ integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  public func indexRange(in range: Swift.Range<Foundation.IndexSet.Element>) -> Swift.Range<Foundation.IndexSet.Index>
+  public func indexRange<R>(in range: R) -> Swift.Range<Foundation.IndexSet.Index> where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public func count(in range: Swift.Range<Foundation.IndexSet.Element>) -> Swift.Int
+  public func count<R>(in range: R) -> Swift.Int where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public func contains(_ integer: Foundation.IndexSet.Element) -> Swift.Bool
+  public func contains(integersIn range: Swift.Range<Foundation.IndexSet.Element>) -> Swift.Bool
+  public func contains<R>(integersIn range: R) -> Swift.Bool where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public func contains(integersIn indexSet: Foundation.IndexSet) -> Swift.Bool
+  public func intersects(integersIn range: Swift.Range<Foundation.IndexSet.Element>) -> Swift.Bool
+  public func intersects<R>(integersIn range: R) -> Swift.Bool where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public func index(after i: Foundation.IndexSet.Index) -> Foundation.IndexSet.Index
+  public func formIndex(after i: inout Foundation.IndexSet.Index)
+  public func index(before i: Foundation.IndexSet.Index) -> Foundation.IndexSet.Index
+  public func formIndex(before i: inout Foundation.IndexSet.Index)
+  public mutating func formUnion(_ other: Foundation.IndexSet)
+  public func union(_ other: Foundation.IndexSet) -> Foundation.IndexSet
+  public func symmetricDifference(_ other: Foundation.IndexSet) -> Foundation.IndexSet
+  public mutating func formSymmetricDifference(_ other: Foundation.IndexSet)
+  public func intersection(_ other: Foundation.IndexSet) -> Foundation.IndexSet
+  public mutating func formIntersection(_ other: Foundation.IndexSet)
+  @discardableResult
+  public mutating func insert(_ integer: Foundation.IndexSet.Element) -> (inserted: Swift.Bool, memberAfterInsert: Foundation.IndexSet.Element)
+  @discardableResult
+  public mutating func update(with integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  @discardableResult
+  public mutating func remove(_ integer: Foundation.IndexSet.Element) -> Foundation.IndexSet.Element?
+  public mutating func removeAll()
+  public mutating func insert(integersIn range: Swift.Range<Foundation.IndexSet.Element>)
+  public mutating func insert<R>(integersIn range: R) where R : Swift.RangeExpression, R.Bound == Swift.Int
+  public mutating func remove(integersIn range: Swift.Range<Foundation.IndexSet.Element>)
+  public mutating func remove(integersIn range: Swift.ClosedRange<Foundation.IndexSet.Element>)
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public func filteredIndexSet(in range: Swift.Range<Foundation.IndexSet.Element>, includeInteger: (Foundation.IndexSet.Element) throws -> Swift.Bool) rethrows -> Foundation.IndexSet
+  public func filteredIndexSet(in range: Swift.ClosedRange<Foundation.IndexSet.Element>, includeInteger: (Foundation.IndexSet.Element) throws -> Swift.Bool) rethrows -> Foundation.IndexSet
+  public func filteredIndexSet(includeInteger: (Foundation.IndexSet.Element) throws -> Swift.Bool) rethrows -> Foundation.IndexSet
+  public mutating func shift(startingAt integer: Foundation.IndexSet.Element, by delta: Swift.Int)
+  public typealias ArrayLiteralElement = Foundation.IndexSet.Element
+  public typealias Indices = Swift.DefaultIndices<Foundation.IndexSet>
+  public typealias Iterator = Swift.IndexingIterator<Foundation.IndexSet>
+  public typealias SubSequence = Swift.Slice<Foundation.IndexSet>
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.IndexSet : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.IndexSet {
+  public static func == (lhs: Foundation.IndexSet, rhs: Foundation.IndexSet) -> Swift.Bool
+}
+extension Foundation.IndexSet : Swift._ObjectiveCBridgeable {
+  public static func _getObjectiveCType() -> any Any.Type
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSIndexSet
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSIndexSet, result: inout Foundation.IndexSet?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSIndexSet, result: inout Foundation.IndexSet?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSIndexSet?) -> Foundation.IndexSet
+  public typealias _ObjectiveCType = Foundation.NSIndexSet
+}
+extension Foundation.NSIndexSet : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.IndexSet : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct Locale : Swift.Hashable, Swift.Equatable, Foundation.ReferenceConvertible {
+  public typealias ReferenceType = Foundation.NSLocale
+  public typealias LanguageDirection = Foundation.NSLocaleLanguageDirection
+  public static var autoupdatingCurrent: Foundation.Locale {
+    get
+  }
+  public static var current: Foundation.Locale {
+    get
+  }
+  public init(identifier: Swift.String)
+  public func localizedString(forIdentifier identifier: Swift.String) -> Swift.String?
+  public func localizedString(forLanguageCode languageCode: Swift.String) -> Swift.String?
+  public func localizedString(forRegionCode regionCode: Swift.String) -> Swift.String?
+  public func localizedString(forScriptCode scriptCode: Swift.String) -> Swift.String?
+  public func localizedString(forVariantCode variantCode: Swift.String) -> Swift.String?
+  public func localizedString(forCurrencyCode currencyCode: Swift.String) -> Swift.String?
+  public func localizedString(for calendarIdentifier: Foundation.Calendar.Identifier) -> Swift.String?
+  public func localizedString(forCollationIdentifier collationIdentifier: Swift.String) -> Swift.String?
+  public func localizedString(forCollatorIdentifier collatorIdentifier: Swift.String) -> Swift.String?
+  public var identifier: Swift.String {
+    get
+  }
+  public var languageCode: Swift.String? {
+    get
+  }
+  public var regionCode: Swift.String? {
+    get
+  }
+  public var scriptCode: Swift.String? {
+    get
+  }
+  public var variantCode: Swift.String? {
+    get
+  }
+  public var calendar: Foundation.Calendar {
+    get
+  }
+  public var exemplarCharacterSet: Foundation.CharacterSet? {
+    get
+  }
+  public var collationIdentifier: Swift.String? {
+    get
+  }
+  public var usesMetricSystem: Swift.Bool {
+    get
+  }
+  public var decimalSeparator: Swift.String? {
+    get
+  }
+  public var groupingSeparator: Swift.String? {
+    get
+  }
+  public var currencySymbol: Swift.String? {
+    get
+  }
+  public var currencyCode: Swift.String? {
+    get
+  }
+  public var collatorIdentifier: Swift.String? {
+    get
+  }
+  public var quotationBeginDelimiter: Swift.String? {
+    get
+  }
+  public var quotationEndDelimiter: Swift.String? {
+    get
+  }
+  public var alternateQuotationBeginDelimiter: Swift.String? {
+    get
+  }
+  public var alternateQuotationEndDelimiter: Swift.String? {
+    get
+  }
+  public static var availableIdentifiers: [Swift.String] {
+    get
+  }
+  public static var isoLanguageCodes: [Swift.String] {
+    get
+  }
+  public static var isoRegionCodes: [Swift.String] {
+    get
+  }
+  public static var isoCurrencyCodes: [Swift.String] {
+    get
+  }
+  public static var commonISOCurrencyCodes: [Swift.String] {
+    get
+  }
+  public static var preferredLanguages: [Swift.String] {
+    get
+  }
+  public static func components(fromIdentifier string: Swift.String) -> [Swift.String : Swift.String]
+  public static func identifier(fromComponents components: [Swift.String : Swift.String]) -> Swift.String
+  public static func canonicalIdentifier(from string: Swift.String) -> Swift.String
+  public static func canonicalLanguageIdentifier(from string: Swift.String) -> Swift.String
+  public static func identifier(fromWindowsLocaleCode code: Swift.Int) -> Swift.String?
+  public static func windowsLocaleCode(fromIdentifier identifier: Swift.String) -> Swift.Int?
+  public static func characterDirection(forLanguage isoLangCode: Swift.String) -> Foundation.Locale.LanguageDirection
+  public static func lineDirection(forLanguage isoLangCode: Swift.String) -> Foundation.Locale.LanguageDirection
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: Foundation.Locale, rhs: Foundation.Locale) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Locale : Swift.CustomDebugStringConvertible, Swift.CustomStringConvertible, Swift.CustomReflectable {
+  public var customMirror: Swift.Mirror {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Foundation.Locale : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSLocale
+  public static func _forceBridgeFromObjectiveC(_ input: Foundation.NSLocale, result: inout Foundation.Locale?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSLocale, result: inout Foundation.Locale?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSLocale?) -> Foundation.Locale
+  public typealias _ObjectiveCType = Foundation.NSLocale
+}
+extension Foundation.NSLocale : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.Locale : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct Notification : Foundation.ReferenceConvertible, Swift.Equatable, Swift.Hashable {
+  public typealias ReferenceType = Foundation.NSNotification
+  public var name: Foundation.Notification.Name
+  public var object: Any?
+  public var userInfo: [Swift.AnyHashable : Any]?
+  public init(name: Foundation.Notification.Name, object: Any? = nil, userInfo: [Swift.AnyHashable : Any]? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public typealias Name = Foundation.NSNotificationName
+  public static func == (lhs: Foundation.Notification, rhs: Foundation.Notification) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Notification : Swift.CustomReflectable {
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.Notification : Swift._ObjectiveCBridgeable {
+  public static func _getObjectiveCType() -> any Any.Type
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNotification
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNotification, result: inout Foundation.Notification?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNotification, result: inout Foundation.Notification?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNotification?) -> Foundation.Notification
+  public typealias _ObjectiveCType = Foundation.NSNotification
+}
+extension Foundation.NSNotification : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+public typealias NSErrorPointer = Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>?
+public typealias ErrorPointer = Foundation.NSErrorPointer
+public func _convertNSErrorToError(_ error: Foundation.NSError?) -> any Swift.Error
+public func _convertErrorToNSError(_ error: any Swift.Error) -> Foundation.NSError
+public protocol LocalizedError : Swift.Error {
+  var errorDescription: Swift.String? { get }
+  var failureReason: Swift.String? { get }
+  var recoverySuggestion: Swift.String? { get }
+  var helpAnchor: Swift.String? { get }
+}
+extension Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+  public var failureReason: Swift.String? {
+    get
+  }
+  public var recoverySuggestion: Swift.String? {
+    get
+  }
+  public var helpAnchor: Swift.String? {
+    get
+  }
+}
+public protocol RecoverableError : Swift.Error {
+  var recoveryOptions: [Swift.String] { get }
+  func attemptRecovery(optionIndex recoveryOptionIndex: Swift.Int, resultHandler handler: @escaping (_ recovered: Swift.Bool) -> Swift.Void)
+  func attemptRecovery(optionIndex recoveryOptionIndex: Swift.Int) -> Swift.Bool
+}
+extension Foundation.RecoverableError {
+  public func attemptRecovery(optionIndex recoveryOptionIndex: Swift.Int, resultHandler handler: @escaping (_ recovered: Swift.Bool) -> Swift.Void)
+}
+public protocol CustomNSError : Swift.Error {
+  static var errorDomain: Swift.String { get }
+  var errorCode: Swift.Int { get }
+  var errorUserInfo: [Swift.String : Any] { get }
+}
+extension Foundation.CustomNSError {
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+extension Foundation.CustomNSError where Self : Swift.RawRepresentable, Self.RawValue : Swift.FixedWidthInteger {
+  public var errorCode: Swift.Int {
+    get
+  }
+}
+extension Swift.Error where Self : Foundation.CustomNSError {
+  public var _domain: Swift.String {
+    get
+  }
+  public var _code: Swift.Int {
+    get
+  }
+}
+extension Swift.Error where Self : Foundation.CustomNSError, Self : Swift.RawRepresentable, Self.RawValue : Swift.FixedWidthInteger {
+  public var _code: Swift.Int {
+    get
+  }
+}
+extension Swift.Error {
+  public var localizedDescription: Swift.String {
+    get
+  }
+}
+public func _getErrorDefaultUserInfo<T>(_ error: T) -> Swift.AnyObject? where T : Swift.Error
+extension Foundation.NSError : Swift.Error {
+  @nonobjc public var _domain: Swift.String {
+    get
+  }
+  @nonobjc public var _code: Swift.Int {
+    get
+  }
+  @nonobjc public var _userInfo: Swift.AnyObject? {
+    get
+  }
+  @nonobjc public func _getEmbeddedNSError() -> Swift.AnyObject?
+}
+extension CoreFoundation.CFError : Swift.Error {
+  public var _domain: Swift.String {
+    get
+  }
+  public var _code: Swift.Int {
+    get
+  }
+  public var _userInfo: Swift.AnyObject? {
+    get
+  }
+  public func _getEmbeddedNSError() -> Swift.AnyObject?
+}
+public protocol _ObjectiveCBridgeableError : Swift.Error {
+  init?(_bridgedNSError: __shared Foundation.NSError)
+}
+public func _bridgeNSErrorToError<T>(_ error: Foundation.NSError, out: Swift.UnsafeMutablePointer<T>) -> Swift.Bool where T : Foundation._ObjectiveCBridgeableError
+public protocol _BridgedNSError : Foundation._ObjectiveCBridgeableError, Swift.Hashable, Swift.RawRepresentable where Self.RawValue : Swift.FixedWidthInteger {
+  static var _nsErrorDomain: Swift.String { get }
+}
+extension Foundation._BridgedNSError {
+  public var _domain: Swift.String {
+    get
+  }
+}
+extension Foundation._BridgedNSError {
+  public var _code: Swift.Int {
+    get
+  }
+  public init?(_bridgedNSError: __shared Foundation.NSError)
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol _BridgedStoredNSError : Foundation.CustomNSError, Foundation._ObjectiveCBridgeableError, Swift.Hashable {
+  associatedtype Code : Foundation._ErrorCodeProtocol, Swift.RawRepresentable where Self.Code.RawValue : Swift.FixedWidthInteger
+  var _nsError: Foundation.NSError { get }
+  init(_nsError error: Foundation.NSError)
+}
+extension Foundation._BridgedStoredNSError {
+  public var code: Self.Code {
+    get
+  }
+  public init(_ code: Self.Code, userInfo: [Swift.String : Any] = [:])
+  public var userInfo: [Swift.String : Any] {
+    get
+  }
+}
+extension Foundation._BridgedStoredNSError {
+  public init?(_bridgedNSError error: Foundation.NSError)
+}
+extension Foundation._BridgedStoredNSError {
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+extension Foundation._BridgedStoredNSError {
+  public func hash(into hasher: inout Swift.Hasher)
+  @_alwaysEmitIntoClient public var hashValue: Swift.Int {
+    get {
+    return _nsError.hashValue
+  }
+  }
+}
+public protocol _ErrorCodeProtocol : Swift.Equatable {
+  associatedtype _ErrorType : Foundation._BridgedStoredNSError where Self == Self._ErrorType.Code
+}
+extension Foundation._ErrorCodeProtocol {
+  public static func ~= (match: Self, error: any Swift.Error) -> Swift.Bool
+}
+extension Foundation._BridgedStoredNSError {
+  public func _getEmbeddedNSError() -> Swift.AnyObject?
+  public static func == (lhs: Self, rhs: Self) -> Swift.Bool
+}
+extension Swift._SwiftNewtypeWrapper where Self.RawValue == any Swift.Error {
+  @inlinable public func _bridgeToObjectiveC() -> Foundation.NSError {
+    return rawValue as NSError
+  }
+  @inlinable public static func _forceBridgeFromObjectiveC(_ source: Foundation.NSError, result: inout Self?) {
+    result = Self(rawValue: source)
+  }
+  @inlinable public static func _conditionallyBridgeFromObjectiveC(_ source: Foundation.NSError, result: inout Self?) -> Swift.Bool {
+    result = Self(rawValue: source)
+    return result != nil
+  }
+  @inlinable @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSError?) -> Self {
+    return Self(rawValue: _convertNSErrorToError(source))!
+  }
+}
+extension Swift.Int8 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int8?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int8?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Int8
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Int64 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int64?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int64?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Int64
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Int : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Int
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Double : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Double?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Double?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Double
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Bool : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Bool?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Bool?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Bool
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.UInt8 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt8?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt8?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.UInt8
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Int16 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int16?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int16?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Int16
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.UInt16 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt16?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt16?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.UInt16
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Int32 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int32?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Int32?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Int32
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.UInt32 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt32?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt32?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.UInt32
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.UInt64 : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt64?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt64?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.UInt64
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.UInt : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.UInt?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.UInt
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Swift.Float : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Float?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout Swift.Float?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> Swift.Float
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension CoreFoundation.CGFloat : Swift._ObjectiveCBridgeable {
+  @available(swift, deprecated: 4, renamed: "init(truncating:)")
+  public init(_ number: __shared Foundation.NSNumber)
+  public init(truncating number: __shared Foundation.NSNumber)
+  public init?(exactly number: __shared Foundation.NSNumber)
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSNumber
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout CoreFoundation.CGFloat?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSNumber, result: inout CoreFoundation.CGFloat?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSNumber?) -> CoreFoundation.CGFloat
+  @available(iOS 7.0, tvOS 9.0, watchOS 2.0, macOS 10.9, *)
+  public typealias _ObjectiveCType = Foundation.NSNumber
+}
+extension Foundation.NSNumber : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.NSNumber : Swift.ExpressibleByFloatLiteral, Swift.ExpressibleByIntegerLiteral, Swift.ExpressibleByBooleanLiteral {
+  @nonobjc required convenience public init(integerLiteral value: Swift.Int)
+  @nonobjc required convenience public init(floatLiteral value: Swift.Double)
+  @nonobjc required convenience public init(booleanLiteral value: Swift.Bool)
+  public typealias BooleanLiteralType = Swift.Bool
+  public typealias FloatLiteralType = Swift.Double
+  public typealias IntegerLiteralType = Swift.Int
+}
+public protocol _KeyValueCodingAndObserving {
+}
+extension ObjectiveC.NSObject : Foundation._KeyValueCodingAndObserving {
+}
+public struct NSKeyValueObservedChange<Value> {
+  public typealias Kind = Foundation.NSKeyValueChange
+  public let kind: Foundation.NSKeyValueObservedChange<Value>.Kind
+  public let newValue: Value?
+  public let oldValue: Value?
+  public let indexes: Foundation.IndexSet?
+  public let isPrior: Swift.Bool
+}
+public protocol NSKeyValueObservingCustomization : ObjectiveC.NSObjectProtocol {
+  static func keyPathsAffectingValue(for key: Swift.AnyKeyPath) -> Swift.Set<Swift.AnyKeyPath>
+  static func automaticallyNotifiesObservers(for key: Swift.AnyKeyPath) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers @objc(_NSKeyValueObservation) public class NSKeyValueObservation : ObjectiveC.NSObject {
+  @objc public func invalidate()
+  @objc deinit
+}
+extension Foundation._KeyValueCodingAndObserving {
+  public func observe<Value>(_ keyPath: Swift.KeyPath<Self, Value>, options: Foundation.NSKeyValueObservingOptions = NSKeyValueObservingOptions(rawValue: 0), changeHandler: @escaping (Self, Foundation.NSKeyValueObservedChange<Value>) -> Swift.Void) -> Foundation.NSKeyValueObservation
+  public func willChangeValue<Value>(for keyPath: __owned Swift.KeyPath<Self, Value>)
+  public func willChange<Value>(_ changeKind: Foundation.NSKeyValueChange, valuesAt indexes: Foundation.IndexSet, for keyPath: __owned Swift.KeyPath<Self, Value>)
+  public func willChangeValue<Value>(for keyPath: __owned Swift.KeyPath<Self, Value>, withSetMutation mutation: Foundation.NSKeyValueSetMutationKind, using set: Swift.Set<Value>) where Value : Swift.Hashable
+  public func didChangeValue<Value>(for keyPath: __owned Swift.KeyPath<Self, Value>)
+  public func didChange<Value>(_ changeKind: Foundation.NSKeyValueChange, valuesAt indexes: Foundation.IndexSet, for keyPath: __owned Swift.KeyPath<Self, Value>)
+  public func didChangeValue<Value>(for keyPath: __owned Swift.KeyPath<Self, Value>, withSetMutation mutation: Foundation.NSKeyValueSetMutationKind, using set: Swift.Set<Value>) where Value : Swift.Hashable
+}
+extension Swift.Range where Bound : Swift.BinaryInteger {
+  public init?(_ range: Foundation.NSRange)
+}
+extension Swift.Range where Bound == Swift.Int {
+  public init?(_ range: Foundation.NSRange)
+}
+extension Swift.Range where Bound == Swift.String.Index {
+  public init?(_ range: Foundation.NSRange, in string: __shared Swift.String)
+  public init?<S>(_ range: Foundation.NSRange, in string: __shared S) where S : Swift.StringProtocol
+}
+extension Swift.String {
+  public struct Encoding : Swift.RawRepresentable {
+    public var rawValue: Swift.UInt
+    public init(rawValue: Swift.UInt)
+    public static let ascii: Swift.String.Encoding
+    public static let nextstep: Swift.String.Encoding
+    public static let japaneseEUC: Swift.String.Encoding
+    public static let utf8: Swift.String.Encoding
+    public static let isoLatin1: Swift.String.Encoding
+    public static let symbol: Swift.String.Encoding
+    public static let nonLossyASCII: Swift.String.Encoding
+    public static let shiftJIS: Swift.String.Encoding
+    public static let isoLatin2: Swift.String.Encoding
+    public static let unicode: Swift.String.Encoding
+    public static let windowsCP1251: Swift.String.Encoding
+    public static let windowsCP1252: Swift.String.Encoding
+    public static let windowsCP1253: Swift.String.Encoding
+    public static let windowsCP1254: Swift.String.Encoding
+    public static let windowsCP1250: Swift.String.Encoding
+    public static let iso2022JP: Swift.String.Encoding
+    public static let macOSRoman: Swift.String.Encoding
+    public static let utf16: Swift.String.Encoding
+    public static let utf16BigEndian: Swift.String.Encoding
+    public static let utf16LittleEndian: Swift.String.Encoding
+    public static let utf32: Swift.String.Encoding
+    public static let utf32BigEndian: Swift.String.Encoding
+    public static let utf32LittleEndian: Swift.String.Encoding
+    public typealias RawValue = Swift.UInt
+  }
+  public typealias EnumerationOptions = Foundation.NSStringEnumerationOptions
+  public typealias CompareOptions = Foundation.NSStringCompareOptions
+}
+extension Swift.String.Encoding : Swift.Hashable {
+  public var hashValue: Swift.Int {
+    get
+  }
+  @_alwaysEmitIntoClient public func hash(into hasher: inout Swift.Hasher) {
+    hasher.combine(rawValue)
+  }
+  public static func == (lhs: Swift.String.Encoding, rhs: Swift.String.Encoding) -> Swift.Bool
+}
+extension Swift.String.Encoding : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension Swift.String {
+  public init?(data: __shared Foundation.Data, encoding: Swift.String.Encoding)
+  public func data(using encoding: Swift.String.Encoding, allowLossyConversion: Swift.Bool = false) -> Foundation.Data?
+}
+extension Swift.StringProtocol {
+  public var capitalized: Swift.String {
+    get
+  }
+  public var localizedCapitalized: Swift.String {
+    get
+  }
+  public var localizedLowercase: Swift.String {
+    get
+  }
+  public var localizedUppercase: Swift.String {
+    get
+  }
+  public func uppercased(with locale: Foundation.Locale?) -> Swift.String
+  public func caseInsensitiveCompare<T>(_ aString: T) -> Foundation.ComparisonResult where T : Swift.StringProtocol
+  public func localizedCaseInsensitiveCompare<T>(_ aString: T) -> Foundation.ComparisonResult where T : Swift.StringProtocol
+  public func localizedStandardCompare<T>(_ string: T) -> Foundation.ComparisonResult where T : Swift.StringProtocol
+  public func compare<T>(_ aString: T, options mask: Swift.String.CompareOptions = String.CompareOptions(rawValue: 0), range: Swift.Range<Swift.String.Index>? = nil, locale: Foundation.Locale? = nil) -> Foundation.ComparisonResult where T : Swift.StringProtocol
+  public func range<T>(of aString: T, options mask: Swift.String.CompareOptions = String.CompareOptions(rawValue: 0), range searchRange: Swift.Range<Swift.String.Index>? = nil, locale: Foundation.Locale? = nil) -> Swift.Range<Swift.String.Index>? where T : Swift.StringProtocol
+  public func localizedStandardRange<T>(of string: T) -> Swift.Range<Swift.String.Index>? where T : Swift.StringProtocol
+  public func contains<T>(_ other: T) -> Swift.Bool where T : Swift.StringProtocol
+  public func localizedCaseInsensitiveContains<T>(_ other: T) -> Swift.Bool where T : Swift.StringProtocol
+  public func localizedStandardContains<T>(_ string: T) -> Swift.Bool where T : Swift.StringProtocol
+  public func rangeOfCharacter(from aSet: Foundation.CharacterSet, options mask: Swift.String.CompareOptions = String.CompareOptions(rawValue: 0), range aRange: Swift.Range<Swift.String.Index>? = nil) -> Swift.Range<Swift.String.Index>?
+  public func components<T>(separatedBy separator: T) -> [Swift.String] where T : Swift.StringProtocol
+  public func components(separatedBy separator: Foundation.CharacterSet) -> [Swift.String]
+  public func trimmingCharacters(in set: Foundation.CharacterSet) -> Swift.String
+  public func replacingOccurrences<Target, Replacement>(of target: Target, with replacement: Replacement, options: Swift.String.CompareOptions = String.CompareOptions(rawValue: 0), range searchRange: Swift.Range<Swift.String.Index>? = nil) -> Swift.String where Target : Swift.StringProtocol, Replacement : Swift.StringProtocol
+  public func padding<T>(toLength newLength: Swift.Int, withPad padString: T, startingAt padIndex: Swift.Int) -> Swift.String where T : Swift.StringProtocol
+  public func enumerateSubstrings<R>(in range: R, options opts: Swift.String.EnumerationOptions = String.EnumerationOptions(rawValue: 0), _ body: @escaping (_ substring: Swift.String?, _ substringRange: Swift.Range<Swift.String.Index>, _ enclosingRange: Swift.Range<Swift.String.Index>, inout Swift.Bool) -> Swift.Void) where R : Swift.RangeExpression, R.Bound == Swift.String.Index
+  public var decomposedStringWithCompatibilityMapping: Swift.String {
+    get
+  }
+  public var hash: Swift.Int {
+    get
+  }
+  public func cString(using encoding: Swift.String.Encoding) -> [Swift.CChar]?
+  public func addingPercentEncoding(withAllowedCharacters allowedCharacters: Foundation.CharacterSet) -> Swift.String?
+  public var removingPercentEncoding: Swift.String? {
+    get
+  }
+  public func write(to url: Foundation.URL, atomically useAuxiliaryFile: Swift.Bool, encoding enc: Swift.String.Encoding) throws
+}
+extension Swift.UnsafeRawBufferPointer : Foundation.DataProtocol {
+  public var regions: Swift.CollectionOfOne<Swift.UnsafeRawBufferPointer> {
+    get
+  }
+  public typealias Regions = Swift.CollectionOfOne<Swift.UnsafeRawBufferPointer>
+}
+extension Swift.UnsafeBufferPointer : Foundation.DataProtocol where Element == Swift.UInt8 {
+  public var regions: Swift.CollectionOfOne<Swift.UnsafeBufferPointer<Swift.UInt8>> {
+    get
+  }
+  public typealias Regions = Swift.CollectionOfOne<Swift.UnsafeBufferPointer<Swift.UInt8>>
+}
+public protocol ReferenceConvertible : Swift.CustomDebugStringConvertible, Swift.CustomStringConvertible, Swift.Hashable, Swift._ObjectiveCBridgeable {
+  associatedtype ReferenceType : ObjectiveC.NSObject, Foundation.NSCopying
+}
+extension Swift.Set : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSSet
+  public static func _forceBridgeFromObjectiveC(_ s: Foundation.NSSet, result: inout Swift.Set<Element>?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSSet, result: inout Swift.Set<Element>?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ s: Foundation.NSSet?) -> Swift.Set<Element>
+  public typealias _ObjectiveCType = Foundation.NSSet
+}
+extension Swift.String {
+  public init(_ cocoaString: Foundation.NSString)
+}
+extension Swift.String : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSString
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSString, result: inout Swift.String?)
+  public static func _conditionallyBridgeFromObjectiveC(_ x: Foundation.NSString, result: inout Swift.String?) -> Swift.Bool
+  public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSString?) -> Swift.String
+  public typealias _ObjectiveCType = Foundation.NSString
+}
+public struct TimeZone : Swift.Hashable, Swift.Equatable, Foundation.ReferenceConvertible {
+  public typealias ReferenceType = Foundation.NSTimeZone
+  public static var current: Foundation.TimeZone {
+    get
+  }
+  public static var autoupdatingCurrent: Foundation.TimeZone {
+    get
+  }
+  public init?(identifier: __shared Swift.String)
+  public init?(secondsFromGMT seconds: Swift.Int)
+  public init?(abbreviation: __shared Swift.String)
+  public var identifier: Swift.String {
+    get
+  }
+  public func secondsFromGMT(for date: Foundation.Date = Date()) -> Swift.Int
+  public func abbreviation(for date: Foundation.Date = Date()) -> Swift.String?
+  public func isDaylightSavingTime(for date: Foundation.Date = Date()) -> Swift.Bool
+  public func daylightSavingTimeOffset(for date: Foundation.Date = Date()) -> Foundation.TimeInterval
+  public func nextDaylightSavingTimeTransition(after date: Foundation.Date) -> Foundation.Date?
+  public static var knownTimeZoneIdentifiers: [Swift.String] {
+    get
+  }
+  public static var abbreviationDictionary: [Swift.String : Swift.String] {
+    get
+    set
+  }
+  public static var timeZoneDataVersion: Swift.String {
+    get
+  }
+  public var nextDaylightSavingTimeTransition: Foundation.Date? {
+    get
+  }
+  public func localizedName(for style: Foundation.NSTimeZoneNameStyle, locale: Foundation.Locale?) -> Swift.String?
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: Foundation.TimeZone, rhs: Foundation.TimeZone) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.TimeZone : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var customMirror: Swift.Mirror {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Foundation.TimeZone : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSTimeZone
+  public static func _forceBridgeFromObjectiveC(_ input: Foundation.NSTimeZone, result: inout Foundation.TimeZone?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSTimeZone, result: inout Foundation.TimeZone?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSTimeZone?) -> Foundation.TimeZone
+  public typealias _ObjectiveCType = Foundation.NSTimeZone
+}
+extension Foundation.NSTimeZone : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.TimeZone : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct URLComponents : Swift.Hashable, Swift.Equatable {
+  public init()
+  public init?(string: __shared Swift.String)
+  public init?(url: __shared Foundation.URL, resolvingAgainstBaseURL resolve: Swift.Bool)
+  public var string: Swift.String? {
+    get
+  }
+  public var url: Foundation.URL? {
+    get
+  }
+  public func url(relativeTo base: Foundation.URL?) -> Foundation.URL?
+  public var scheme: Swift.String? {
+    get
+    set
+  }
+  public var user: Swift.String? {
+    get
+    set
+  }
+  public var password: Swift.String? {
+    get
+    set
+  }
+  public var host: Swift.String? {
+    get
+    set
+  }
+  public var port: Swift.Int? {
+    get
+    set
+  }
+  public var path: Swift.String {
+    get
+    set
+  }
+  public var query: Swift.String? {
+    get
+    set
+  }
+  public var fragment: Swift.String? {
+    get
+    set
+  }
+  public var percentEncodedUser: Swift.String? {
+    get
+    set
+  }
+  public var percentEncodedPassword: Swift.String? {
+    get
+    set
+  }
+  public var percentEncodedHost: Swift.String? {
+    get
+    set
+  }
+  public var percentEncodedPath: Swift.String {
+    get
+    set
+  }
+  public var percentEncodedQuery: Swift.String? {
+    get
+    set
+  }
+  public var percentEncodedFragment: Swift.String? {
+    get
+    set
+  }
+  public var queryItems: [Foundation.URLQueryItem]? {
+    get
+    set
+  }
+  public var percentEncodedQueryItems: [Foundation.URLQueryItem]? {
+    get
+    set
+  }
+  public static func == (a: Foundation.URLComponents, b: Foundation.URLComponents) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.URLComponents : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.URLComponents : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct URLQueryItem : Swift.Hashable, Swift.Equatable {
+  public var name: Swift.String
+  public var value: Swift.String?
+  public init(name: __shared Swift.String, value: __shared Swift.String?)
+  public static func == (a: Foundation.URLQueryItem, b: Foundation.URLQueryItem) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.URLQueryItem : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible, Swift.CustomReflectable {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+public struct URL : Foundation.ReferenceConvertible, Swift.Equatable {
+  public typealias ReferenceType = Foundation.NSURL
+  public init?(string: __shared Swift.String)
+  public init?(string: __shared Swift.String, relativeTo url: __shared Foundation.URL?)
+  public init(fileURLWithPath path: __shared Swift.String, isDirectory: Swift.Bool)
+  public init(fileURLWithPath path: __shared Swift.String)
+  public init(fileURLWithPath path: __shared Swift.String, relativeTo base: __shared Foundation.URL?)
+  public func hash(into hasher: inout Swift.Hasher)
+  public var absoluteString: Swift.String {
+    get
+  }
+  public var relativeString: Swift.String {
+    get
+  }
+  public var baseURL: Foundation.URL? {
+    get
+  }
+  public var absoluteURL: Foundation.URL {
+    get
+  }
+  public var scheme: Swift.String? {
+    get
+  }
+  public var isFileURL: Swift.Bool {
+    get
+  }
+  public var host: Swift.String? {
+    get
+  }
+  public var port: Swift.Int? {
+    get
+  }
+  public var user: Swift.String? {
+    get
+  }
+  public var password: Swift.String? {
+    get
+  }
+  public var path: Swift.String {
+    get
+  }
+  public var relativePath: Swift.String {
+    get
+  }
+  public func path(percentEncoded: Swift.Bool = true) -> Swift.String
+  public var fragment: Swift.String? {
+    get
+  }
+  public var query: Swift.String? {
+    get
+  }
+  public var hasDirectoryPath: Swift.Bool {
+    get
+  }
+  public func withUnsafeFileSystemRepresentation<ResultType>(_ block: (Swift.UnsafePointer<Swift.Int8>?) throws -> ResultType) rethrows -> ResultType
+  public var pathComponents: [Swift.String] {
+    get
+  }
+  public var lastPathComponent: Swift.String {
+    get
+  }
+  public var pathExtension: Swift.String {
+    get
+  }
+  public func appendingPathComponent(_ pathComponent: Swift.String, isDirectory: Swift.Bool) -> Foundation.URL
+  public func appendingPathComponent(_ pathComponent: Swift.String) -> Foundation.URL
+  public func deletingLastPathComponent() -> Foundation.URL
+  public func appendingPathExtension(_ pathExtension: Swift.String) -> Foundation.URL
+  public func deletingPathExtension() -> Foundation.URL
+  public mutating func appendPathComponent(_ pathComponent: Swift.String, isDirectory: Swift.Bool)
+  public mutating func appendPathComponent(_ pathComponent: Swift.String)
+  public mutating func appendPathExtension(_ pathExtension: Swift.String)
+  public mutating func deleteLastPathComponent()
+  public mutating func deletePathExtension()
+  public var standardized: Foundation.URL {
+    get
+  }
+  public mutating func standardize()
+  public func checkResourceIsReachable() throws -> Swift.Bool
+  public func startAccessingSecurityScopedResource() -> Swift.Bool
+  public func stopAccessingSecurityScopedResource()
+  public static func == (lhs: Foundation.URL, rhs: Foundation.URL) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.URL {
+  public enum DirectoryHint {
+    case isDirectory
+    case notDirectory
+    case inferFromPath
+    case checkFileSystem
+    public static func == (a: Foundation.URL.DirectoryHint, b: Foundation.URL.DirectoryHint) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public func appending<S>(path: S, directoryHint: Foundation.URL.DirectoryHint = .inferFromPath) -> Foundation.URL where S : Swift.StringProtocol
+  public func appending<S>(component: S, directoryHint: Foundation.URL.DirectoryHint = .inferFromPath) -> Foundation.URL where S : Swift.StringProtocol
+  public func appending<S>(components: S..., directoryHint: Foundation.URL.DirectoryHint = .inferFromPath) -> Foundation.URL where S : Swift.StringProtocol
+  public mutating func append<S>(path: S, directoryHint: Foundation.URL.DirectoryHint = .inferFromPath) where S : Swift.StringProtocol
+  public mutating func append<S>(component: S, directoryHint: Foundation.URL.DirectoryHint = .inferFromPath) where S : Swift.StringProtocol
+}
+extension Foundation.URL : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSURL
+  public static func _forceBridgeFromObjectiveC(_ source: Foundation.NSURL, result: inout Foundation.URL?)
+  public static func _conditionallyBridgeFromObjectiveC(_ source: Foundation.NSURL, result: inout Foundation.URL?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSURL?) -> Foundation.URL
+  public typealias _ObjectiveCType = Foundation.NSURL
+}
+extension Foundation.URL : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension Foundation.NSURL : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.URL : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct UUID : Foundation.ReferenceConvertible, Swift.Hashable, Swift.Equatable, Swift.CustomStringConvertible {
+  public typealias ReferenceType = Foundation.NSUUID
+  public var uuid: (Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8, Swift.UInt8) {
+    get
+  }
+  public init()
+  public init?(uuidString string: __shared Swift.String)
+  public init(uuid: Darwin.uuid_t)
+  public var uuidString: Swift.String {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+  public static func == (lhs: Foundation.UUID, rhs: Foundation.UUID) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.UUID : Swift.Comparable {
+  public static func < (lhs: Foundation.UUID, rhs: Foundation.UUID) -> Swift.Bool
+}
+extension Foundation.UUID : Swift.CustomReflectable {
+  public var customMirror: Swift.Mirror {
+    get
+  }
+}
+extension Foundation.UUID : Swift._ObjectiveCBridgeable {
+  @_semantics("convertToObjectiveC") public func _bridgeToObjectiveC() -> Foundation.NSUUID
+  public static func _forceBridgeFromObjectiveC(_ x: Foundation.NSUUID, result: inout Foundation.UUID?)
+  public static func _conditionallyBridgeFromObjectiveC(_ input: Foundation.NSUUID, result: inout Foundation.UUID?) -> Swift.Bool
+  @_effects(readonly) public static func _unconditionallyBridgeFromObjectiveC(_ source: Foundation.NSUUID?) -> Foundation.UUID
+  public typealias _ObjectiveCType = Foundation.NSUUID
+}
+extension Foundation.NSUUID : Swift._HasCustomAnyHashableRepresentation {
+  @nonobjc public func _toCustomAnyHashable() -> Swift.AnyHashable?
+}
+extension Foundation.UUID : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public protocol AttributedStringKey : Swift.SendableMetatype {
+  associatedtype Value : Swift.Hashable
+  static var name: Swift.String { get }
+}
+extension Foundation.AttributedStringKey {
+  public var description: Swift.String {
+    get
+  }
+}
+public protocol CodableAttributedStringKey : Foundation.AttributedStringKey where Self.Value : Swift.Decodable, Self.Value : Swift.Encodable {
+}
+public protocol AttributeScope : Swift.SendableMetatype {
+}
+@frozen public enum AttributeScopes {
+}
+extension Foundation.Calendar.Identifier : Swift.Equatable {}
+extension Foundation.Calendar.Identifier : Swift.Hashable {}
+extension Foundation.Calendar.Component : Swift.Equatable {}
+extension Foundation.Calendar.Component : Swift.Hashable {}
+extension Foundation.Calendar.SearchDirection : Swift.Equatable {}
+extension Foundation.Calendar.SearchDirection : Swift.Hashable {}
+extension Foundation.Calendar.RepeatedTimePolicy : Swift.Equatable {}
+extension Foundation.Calendar.RepeatedTimePolicy : Swift.Hashable {}
+extension Foundation.Calendar.MatchingPolicy : Swift.Equatable {}
+extension Foundation.Calendar.MatchingPolicy : Swift.Hashable {}
+extension Foundation.Data.InlineData : Swift.Sendable {}
+extension Foundation.Data.InlineData : Swift.BitwiseCopyable {}
+extension Foundation.URL.DirectoryHint : Swift.Equatable {}
+extension Foundation.URL.DirectoryHint : Swift.Hashable {}
+extension Foundation.AttributeScopes : Swift.Sendable {}
+extension Foundation.AttributeScopes : Swift.BitwiseCopyable {}
