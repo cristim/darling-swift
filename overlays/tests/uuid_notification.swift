@@ -37,9 +37,8 @@ let back = nsNote as Notification
 check(back.name == name && (back.object as AnyObject?) === sender, "NSNotification bridges back")
 check(back == note, "Notification equality after a round trip")
 
-// Darling's +defaultCenter returns id, and NSNotification has no SwiftBridge entry, so convert explicitly.
 var received: Notification?
-let center = NotificationCenter.defaultCenter() as! NotificationCenter
+let center = NotificationCenter.default
 let token = center.addObserver(forName: name.rawValue, object: nil as Any?, queue: nil as OperationQueue?) { (n: NSNotification?) in
     received = n.map { $0 as Notification }
 }

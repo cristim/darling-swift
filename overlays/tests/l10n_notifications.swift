@@ -51,7 +51,7 @@ if let bundle = Bundle(url: URL(fileURLWithPath: bundleDirectory)) {
 func describe<T : CustomStringConvertible>(_ value: T) -> String { return value.description }
 check(describe(NSObject()).hasPrefix("<NSObject: "), "NSObject is CustomStringConvertible (\(describe(NSObject())))")
 
-let center = NotificationCenter.defaultCenter() as! NotificationCenter
+let center = NotificationCenter.default
 let notificationName = NSNotificationName(rawValue: "org.darling.async-notification")
 let sender = NSObject()
 let notifications = center.notifications(named: notificationName, object: sender)
