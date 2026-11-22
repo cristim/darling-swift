@@ -146,15 +146,15 @@ extension Int : _ObjectiveCBridgeable {
 extension Double : _ObjectiveCBridgeable {
     @available(swift, deprecated: 4, renamed: "init(truncating:)")
     public init(_ number: __shared NSNumber) {
-        self = number.doubleValue()
+        self = number.doubleValue
     }
 
     public init(truncating number: __shared NSNumber) {
-        self = number.doubleValue()
+        self = number.doubleValue
     }
 
     public init?(exactly number: __shared NSNumber) {
-        let value = number.doubleValue()
+        let value = number.doubleValue
         guard NSNumber(value: value) == number else { return nil }
         self = value
     }
@@ -172,7 +172,7 @@ extension Double : _ObjectiveCBridgeable {
 
     public static func _conditionallyBridgeFromObjectiveC(_ x: NSNumber, result: inout Double?) -> Bool {
         // Any NSNumber converts to a Double (possibly losing precision), as in the 5.4 overlay's fallback.
-        result = x.doubleValue()
+        result = x.doubleValue
         return true
     }
 
@@ -545,7 +545,7 @@ extension Float : _ObjectiveCBridgeable {
             guard let result = Float(exactly: number.longLongValue()) else { return nil }
             self = result
         } else {
-            guard let result = Float(exactly: number.doubleValue()) else { return nil }
+            guard let result = Float(exactly: number.doubleValue) else { return nil }
             self = result
         }
     }
@@ -641,7 +641,7 @@ extension NSNumber : _HasCustomAnyHashableRepresentation {
         if NSNumber(value: int64Value) == self {
             return AnyHashable(int64Value)
         }
-        let doubleValue = doubleValue()
+        let doubleValue = doubleValue
         if NSNumber(value: doubleValue) == self {
             return AnyHashable(doubleValue)
         }

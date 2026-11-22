@@ -9,6 +9,7 @@
 #                       Darwin, ObjectiveC, Dispatch, os, CoreFoundation and the sys/cdefs.h default-platform fix
 #   DARLING_LD          Darling's ld64 (build/src/external/cctools-port/cctools/ld64/src/aarch64-apple-darwin20-ld)
 #   DARLING_LIBSYSTEM   Darling's built libSystem.B.dylib
+#   DARLING_LINK_SYSROOT  installed Darling root used to resolve dependent dylibs (defaults to DARLING_SDK)
 #   DARLING_ROOT        installed Darling root (libexec/darling): libobjc and CoreFoundation are linked from it
 # Optional:
 #   LD_EXTRA_FLAGS      extra ld64 flags, e.g. the -dylib_file mappings Darling's own executables link with
@@ -18,6 +19,7 @@ here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "$here/.." && pwd)
 : "${SWIFT_TOOLCHAIN:?}" "${SWIFT_RESOURCE_DIR:?}" "${DARLING_SDK:?}" "${DARLING_LD:?}" "${DARLING_LIBSYSTEM:?}" "${DARLING_ROOT:?}"
 LD_EXTRA_FLAGS=${LD_EXTRA_FLAGS:-}
+DARLING_LINK_SYSROOT=${DARLING_LINK_SYSROOT:-$DARLING_SDK}
 out="$here/build"
 mkdir -p "$out/modules" "$out/obj"
 
@@ -75,7 +77,7 @@ build_module() {
 		-o "$out/obj/$module.o" $swift_flags
 
 	# shellcheck disable=SC2086
-	"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_SDK" \
+	"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_LINK_SYSROOT" \
 		-install_name "/usr/lib/swift/libswift$module.dylib" \
 		-compatibility_version 1.0.0 -current_version 1.0.0 \
 		$LD_EXTRA_FLAGS \
@@ -153,7 +155,7 @@ collect_sources "$out/combine-src" "$out/Combine.sources"
 
 mkdir -p "$repo/Combine.framework/Versions/A"
 # shellcheck disable=SC2086
-"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_SDK" \
+"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_LINK_SYSROOT" \
 	-install_name "/System/Library/Frameworks/Combine.framework/Versions/A/Combine" \
 	-compatibility_version 1.0.0 -current_version 1.0.0 \
 	$LD_EXTRA_FLAGS \
@@ -358,43 +360,37 @@ if [ "${DARLING_SWIFT_FOUNDATION_ONLY:-0}" = 1 ]; then
 	exit 0
 fi
 
-coregraphics="$DARLING_ROOT/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics"
-build_module CoreGraphics "$here"/CoreGraphics/*.swift -- -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$coregraphics" "$corefoundation" -lswiftCoreFoundation -lswiftDarwin
-
-# The AppKit, QuartzCore and CoreText overlays re-export their Clang module, but only where the SDK ships one:
-# swift-darling's own SDK carries none of these frameworks, while an SDK built over Darling's in-tree headers
-# does. Without the re-export the Swift module shadows the Clang module and hides every Objective-C
-# type behind it; with it, against an SDK that has no such module, the import is a hard error.
 clang_module_flag() {
 	if [ -f "$DARLING_SDK/System/Library/Frameworks/$1.framework/Modules/module.modulemap" ]; then
 		printf -- '-D DARLING_%s_CLANG_MODULE' "$2"
 	fi
 }
 
-# Minimal clean-room AppKit overlay (see README).
-appkit="$DARLING_ROOT/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit"
-build_module AppKit "$here/AppKit/AppKit.swift" -- $(clang_module_flag AppKit APPKIT) -Xcc -fmodule-map-file="$here/AppKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$appkit" "$foundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
-
-# Minimal clean-room QuartzCore overlay (see README).
-build_module QuartzCore "$here/QuartzCore/QuartzCore.swift" -- $(clang_module_flag QuartzCore QUARTZCORE) -Xcc -fmodule-map-file="$here/QuartzCore/shims/module.modulemap"
-
-# Intentionally partial: the vector and matrix conversions and SCNBoundingVolume only (see README).
-scenekit="$DARLING_ROOT/System/Library/Frameworks/SceneKit.framework/Versions/A/SceneKit"
-build_module SceneKit "$here/SceneKit/SceneKit.swift" -- -Xcc -fmodule-map-file="$here/SceneKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$scenekit" "$foundation" "$corefoundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
-
-# UniformTypeIdentifiers is arm64-only: the x86_64 slice built from ../libswiftUniformTypeIdentifiers.S held
-# placeholder values, so there is nothing to merge with.
+# CoreGraphics imports Swift CoreText through its Clang dependencies, so build the
+# two smaller overlays first. CoreText itself uses the existing CoreGraphics dylib.
 uti="$DARLING_ROOT/System/Library/Frameworks/UniformTypeIdentifiers.framework/Versions/A/UniformTypeIdentifiers"
 build_module UniformTypeIdentifiers "$here/UniformTypeIdentifiers/UniformTypeIdentifiers.swift" -- $(clang_module_flag UniformTypeIdentifiers UNIFORMTYPEIDENTIFIERS) -Xcc -fmodule-map-file="$here/UniformTypeIdentifiers/shims/module.modulemap" --link "$uti" "$foundation" "$corefoundation" -lswiftFoundation -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
 cp "$out/libswiftUniformTypeIdentifiers.dylib" "$repo/libswiftUniformTypeIdentifiers.dylib"
 echo "updated libswiftUniformTypeIdentifiers.dylib: $(llvm-lipo -archs "$repo/libswiftUniformTypeIdentifiers.dylib")"
 
-# Intentionally partial: AttributedString.AdaptiveImageGlyph only (see README). arm64-only, like UniformTypeIdentifiers:
-# there is no x86_64 slice to merge with.
 coretext="$DARLING_ROOT/System/Library/Frameworks/CoreText.framework/Versions/A/CoreText"
 build_module CoreText "$here/CoreText/CoreText.swift" -- $(clang_module_flag CoreText CORETEXT) -package-name DarlingCoreText -Xcc -fmodule-map-file="$here/CoreText/shims/module.modulemap" -Xcc -fmodule-map-file="$here/UniformTypeIdentifiers/shims/module.modulemap" --link "$coretext" "$foundation" -lswiftUniformTypeIdentifiers -lswiftFoundation -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
 cp "$out/libswiftCoreText.dylib" "$repo/libswiftCoreText.dylib"
 echo "updated libswiftCoreText.dylib: $(llvm-lipo -archs "$repo/libswiftCoreText.dylib")"
+
+# CoreGraphics' installed framework imports the Swift QuartzCore overlay.
+build_module QuartzCore "$here/QuartzCore/QuartzCore.swift" -- $(clang_module_flag QuartzCore QUARTZCORE) -Xcc -fmodule-map-file="$here/QuartzCore/shims/module.modulemap"
+
+coregraphics="$DARLING_ROOT/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics"
+build_module CoreGraphics "$here"/CoreGraphics/*.swift -- -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$coregraphics" "$corefoundation" -lswiftCoreFoundation -lswiftDarwin
+
+# Minimal clean-room AppKit overlay (see README).
+appkit="$DARLING_ROOT/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit"
+build_module AppKit "$here/AppKit/AppKit.swift" -- $(clang_module_flag AppKit APPKIT) -Xcc -fmodule-map-file="$here/AppKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$appkit" "$foundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
+
+# Intentionally partial: the vector and matrix conversions and SCNBoundingVolume only (see README).
+scenekit="$DARLING_ROOT/System/Library/Frameworks/SceneKit.framework/Versions/A/SceneKit"
+build_module SceneKit "$here/SceneKit/SceneKit.swift" -- -Xcc -fmodule-map-file="$here/SceneKit/shims/module.modulemap" -Xcc -fmodule-map-file="$here/CoreGraphics/shims/module.modulemap" --link "$scenekit" "$foundation" "$corefoundation" -lswiftFoundation -lswiftCoreGraphics -lswiftCoreFoundation -lswiftObjectiveC -lswiftDarwin
 
 # GroupActivities: Apple's is closed source and pure Swift, with no open-source twin, so the source
 # here declares only the public API shape, which is what makes the mangled names match what apps
@@ -416,7 +412,7 @@ mkdir -p "$out/modules-groupactivities"
 
 mkdir -p "$repo/GroupActivities.framework/Versions/A"
 # shellcheck disable=SC2086
-"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_SDK" \
+"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_LINK_SYSROOT" \
 	-install_name "/System/Library/Frameworks/GroupActivities.framework/Versions/A/GroupActivities" \
 	-compatibility_version 1.0.0 -current_version 1.0.0 \
 	$LD_EXTRA_FLAGS \
@@ -488,7 +484,7 @@ mkdir -p "$out/modules-cryptokit"
 
 mkdir -p "$repo/CryptoKit.framework/Versions/A"
 # shellcheck disable=SC2086
-"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_SDK" \
+"$DARLING_LD" -dylib -arch arm64 -platform_version macos 26.0 26.0 -syslibroot "$DARLING_LINK_SYSROOT" \
 	-install_name "/System/Library/Frameworks/CryptoKit.framework/Versions/A/CryptoKit" \
 	-compatibility_version 1.0.0 -current_version 1.0.0 \
 	$LD_EXTRA_FLAGS \

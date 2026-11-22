@@ -107,7 +107,7 @@ internal enum _JSONSerialization {
                 }
                 appendFloatingPoint(float.description)
             case "d":
-                let double = number.doubleValue()
+                let double = number.doubleValue
                 guard double.isFinite else {
                     throw Error.invalidValue("Invalid number value (\(double)) in JSON write.")
                 }
